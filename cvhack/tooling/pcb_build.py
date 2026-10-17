@@ -22,6 +22,7 @@ route: Specctra DSN -> Freerouting -> SES -> zones refilled.
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -350,13 +351,33 @@ def place_incremental(fps, subs, prev, groups):
     return bw, bh, titles, new
 
 
+def _outline_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("outline", os.path.join(os.path.dirname(os.path.abspath(__file__)), "outline.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def add_outline_holes_title(board, job, w, h):
-    rect = pcbnew.PCB_SHAPE(board, pcbnew.SHAPE_T_RECT)
-    rect.SetStart(pcbnew.VECTOR2I(0, 0))
-    rect.SetEnd(pcbnew.VECTOR2I(MM(w), MM(h)))
-    rect.SetLayer(pcbnew.Edge_Cuts)
-    rect.SetWidth(MM(0.1))
-    board.Add(rect)
+    o = job.get("outline")
+    if o and o.get("kind", "rect") != "rect":
+        pts = _outline_module().points(o, w, h)  # custom shape: closed polygon on Edge.Cuts enclosing the parts
+        for i, (x0, y0) in enumerate(pts):
+            x1, y1 = pts[(i + 1) % len(pts)]
+            seg = pcbnew.PCB_SHAPE(board, pcbnew.SHAPE_T_SEGMENT)
+            seg.SetStart(pcbnew.VECTOR2I(MM(x0), MM(y0)))
+            seg.SetEnd(pcbnew.VECTOR2I(MM(x1), MM(y1)))
+            seg.SetLayer(pcbnew.Edge_Cuts)
+            seg.SetWidth(MM(0.1))
+            board.Add(seg)
+    else:
+        rect = pcbnew.PCB_SHAPE(board, pcbnew.SHAPE_T_RECT)
+        rect.SetStart(pcbnew.VECTOR2I(0, 0))
+        rect.SetEnd(pcbnew.VECTOR2I(MM(w), MM(h)))
+        rect.SetLayer(pcbnew.Edge_Cuts)
+        rect.SetWidth(MM(0.1))
+        board.Add(rect)
     hole = pcbnew.FootprintLoad(job["footprint_dir"] + "/MountingHole.pretty", "MountingHole_2.2mm_M2")
     if hole is not None:
         for i, (hx, hy) in enumerate(((2.5, 2.5), (w - 2.5, 2.5), (2.5, h - 2.5), (w - 2.5, h - 2.5))):

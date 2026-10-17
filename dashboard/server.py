@@ -186,6 +186,9 @@ def _place(run_id: str):
         raise HTTPException(404, "no design yet")
     if not pcb.available():
         raise HTTPException(503, "KiCad (kicad-cli, its Python and footprint libraries) is needed for the 3D board")
+    of = RUNS_DIR / rid / "outline.json"  # custom board shape chosen by the board-shape agent
+    if of.exists():
+        d.outline = json.loads(of.read_text())
     state_f = RUNS_DIR / rid / "board_state.json"
     with _board_lock:
         prev = json.loads(state_f.read_text()) if state_f.exists() else None

@@ -128,6 +128,37 @@ def del_custom(mpn: str):
     return {"ok": True}
 
 
+class ShapeIn(BaseModel):
+    text: str
+
+
+@router.post("/api/runs/{run_id}/shape")
+def set_shape(run_id: str, body: ShapeIn):
+    """The board-shape agent: read a request like 'round 35 mm', validate it, save it for this run's board."""
+    import json
+    from cvhack.contracts import AgentEvent
+    from cvhack.events import emit
+    from src import shape
+    if len(body.text.strip()) < 3:
+        raise HTTPException(400, "Describe the shape, e.g. 'round, 38 mm' or 'capsule wristband pod'.")
+    rd = run_dir(run_id)
+    aid = "board_shape:" + uuid.uuid4().hex[:4]
+    emit(AgentEvent(run_id=run_id, agent_id=aid, parent_id=None, kind="agent_spawned", payload={"role": "subsystem", "label": "board shape"}))
+    spec = shape.extract(body.text)
+    (rd / "outline.json").write_text(json.dumps(spec))
+    emit(AgentEvent(run_id=run_id, agent_id=aid, parent_id=None, kind="step", payload={"message": f"outline → {spec['kind']}: {spec['note']}"}))
+    emit(AgentEvent(run_id=run_id, agent_id=aid, parent_id=None, kind="agent_status", payload={"status": "done"}))
+    emit(AgentEvent(run_id=run_id, agent_id="mother", parent_id=None, kind="design_updated", payload={"design": _latest_design(run_id)}) ) if _latest_design(run_id) else None
+    return spec
+
+
+def _latest_design(run_id: str):
+    from cvhack.events import read_events
+    from cvhack.state import fold
+    evs, _ = read_events(run_id)
+    return fold(run_id, evs).design
+
+
 class StatusIn(BaseModel):
     status: str
 

@@ -14,7 +14,7 @@ SUBSYSTEMS = {
         "max_rail_v": 3.6,
         "allowed": {"afe", "analog", "opamp", "inst_amp", "adc", "light_sensor", "current_sense", "comparator",
                     "accelerometer", "temperature_sensor", "temp_humidity_sensor", "pressure_sensor",
-                    "capacitor", "resistor", "passive", "led", "inductor", "ferrite"},
+                    "capacitor", "resistor", "passive", "led", "inductor", "ferrite", "ldo"},
         "required_any": {"afe", "analog", "light_sensor", "opamp", "inst_amp", "adc"},
     },
     "mcu_comms": {

@@ -91,6 +91,7 @@ class Design(BaseModel):
     no_connects: list[Node] = Field(default_factory=list)  # pins intentionally left open
     # Nets powered from off-board (USB VBUS, battery, GND), like KiCad's PWR_FLAG.
     power_flags: list[str] = Field(default_factory=list)
+    outline: dict[str, Any] | None = None  # custom board shape: {"kind": "capsule", "corner_radius_mm": 3}
 
     def all_parts(self) -> list[PartInstance]:
         return [p for b in self.blocks for p in b.parts]

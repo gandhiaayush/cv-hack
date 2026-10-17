@@ -166,7 +166,7 @@ def _job(design: Design, parts: dict[str, Part], previous: dict | None) -> dict:
                               "subsystem": block.subsystem, "pads": pads.get(inst.ref, {})})
     power = sorted(n for n in kicad_sch.power_nets(design, parts) if n.upper() not in kicad_sch.GND_NAMES)
     return {"name": design.name, "footprint_dir": str(footprint_dir()), "gnd": "GND", "power_nets": power,
-            "parts": job_parts, "previous": previous}
+            "parts": job_parts, "previous": previous, "outline": design.outline}
 
 
 def _kpy(*args: str, timeout: int = 600) -> dict:
