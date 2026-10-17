@@ -11,6 +11,11 @@ from .spec import SUBSYSTEMS
 
 # parts whose voltage figure is not a limit the rail must stay under (TVS stand-off, diode Vf, ...)
 NO_RAIL_CHECK = {"tvs", "diode", "fuse", "led", "crystal", "oscillator", "inductor", "ferrite", "resistor"}
+# parts that draw real supply current; unknown power for these makes the power total a lower bound
+ACTIVE = {"ldo", "dcdc", "charger", "mcu", "rf_module", "afe", "analog", "opamp", "inst_amp", "adc",
+          "light_sensor", "accelerometer", "temperature_sensor", "temp_humidity_sensor", "pressure_sensor",
+          "current_sense", "comparator", "flash", "eeprom", "rtc", "isolator", "isolated_dcdc", "fuel_gauge",
+          "supervisor", "load_switch", "battery_protection", "power"}
 OUT_OF_STOCK: set[str] = set()  # set by the demo's constraint change; never touches data/parts.json
 
 
@@ -46,7 +51,7 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
     sub = SUBSYSTEMS[subsystem]
     parts = load_parts()
     errs: list[VerifierError] = []
-    cost, power, unknown_price, cats = 0.0, 0.0, [], set()
+    cost, power, unknown_price, unknown_power, cats = 0.0, 0.0, [], [], set()
     for it in items:
         mpn, qty = it["mpn"], int(it.get("qty", 1))
         p = parts.get(mpn)
@@ -59,6 +64,10 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
             errs.append(VerifierError(code="CATEGORY_MISMATCH", part=mpn, message=
                 f"{mpn} is category '{p.category}', not allowed in {subsystem} "
                 f"(allowed: {sorted(sub['allowed'])})."))
+        if not p.pins:
+            errs.append(VerifierError(code="PINOUT_UNKNOWN", part=mpn, message=
+                f"{mpn} has no known pinout, so it cannot be wired into the schematic. "
+                "Choose a part from search_parts with needs_pins=true."))
         if mpn in OUT_OF_STOCK or p.stock == 0:
             errs.append(VerifierError(code="OUT_OF_STOCK", part=mpn, message=f"{mpn} is out of stock."))
         elif p.stock is None:
@@ -81,6 +90,10 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
         else:
             cost += p.price_usd * qty
         power += (p.power_mw or 0.0) * qty
+        if p.category in ACTIVE and (p.ratings or {}).get("power_mw_known") is False:
+            unknown_power.append(mpn)
+            errs.append(VerifierError(code="POWER_UNKNOWN", part=mpn, severity="warning",
+                                      message=f"{mpn} has no power figure in the DB; power is a lower bound."))
     if not (sub["required_any"] & cats):
         errs.append(VerifierError(code="ROLE_MISSING", message=
             f"{subsystem} needs at least one part from categories {sorted(sub['required_any'])}."))
@@ -88,5 +101,5 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
         "ok": not any(e.severity == "error" for e in errs),
         "errors": [e.model_dump(exclude_none=True) for e in errs],
         "totals": {"cost_usd": round(cost, 3), "power_mw": round(power, 3),
-                   "cost_is_lower_bound": bool(unknown_price)},
+                   "cost_is_lower_bound": bool(unknown_price), "power_is_lower_bound": bool(unknown_power)},
     }

@@ -15,12 +15,13 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
+from cvhack.control import read_commands
 from cvhack.parts import load_parts
 
-from . import gate, llm, store
+from . import gate, llm, store, wiring
 from .llm import chat
 from .scheduler import SCHED
-from .spec import BUDGET, DEVICE, SUBSYSTEMS
+from .spec import BUDGET, DEVICE, DEVICE_CLASS, SUBSYSTEMS
 from .tools import kg, parts, regs, sandbox, supply
 
 MAX_SUBMITS = 3
@@ -40,6 +41,9 @@ class RunCtx:
     agents_spawned: int = 0
     findings: list = field(default_factory=list)      # regulatory / sourcing findings that passed their gate
     fetched: dict = field(default_factory=dict)       # CFR section -> text actually returned by a tool this run
+    wiring: dict = field(default_factory=dict)        # subsystem -> {insts, block, ncs, ok, errors} (src/wiring.py)
+    ctrl_offset: int = 0                              # lines of runs/<run>/control.jsonl already applied
+    device_class: str = DEVICE_CLASS
     lock: threading.Lock = field(default_factory=threading.Lock)
 
 
@@ -281,7 +285,14 @@ def _finalize(args, ctx: RunCtx, a: dict):
         elif not opt["gate"]["ok"]:
             problems.append(f"{sub}: option '{opt['name']}' failed the gate")
         else:
-            chosen[sub] = opt
+            # re-check now: stock or constraints may have changed since the report was gated
+            regate = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in opt["parts"]])
+            if not regate["ok"]:
+                opt["gate"] = regate
+                problems.append(f"{sub}: option '{opt['name']}' no longer passes the gate: " + "; ".join(
+                    e["message"] for e in regate["errors"] if e["severity"] == "error"))
+            else:
+                chosen[sub] = opt
     if problems:
         return "REJECTED: " + " | ".join(problems)
     parts = load_parts()
@@ -329,7 +340,12 @@ def _finalize(args, ctx: RunCtx, a: dict):
                   "bom": [{"subsystem": s, **p} for s, p in items], "totals": totals,
                   "critic_rounds": ctx.critic_rounds, "objections": ctx.objections,
                   "responses": list(responses.values()), "unresolved": unresolved,
-                  "rationale": args["rationale"]}
+                  "rationale": args["rationale"], "device_class": ctx.device_class}
+    try:
+        ctx.result["wiring"] = wiring.wire(ctx, chosen, parent=a["name"])
+    except Exception as e:  # a wiring crash must not lose the accepted selection
+        store.log(ctx.run, a["name"], a["parent"], "llm_error", {"error": f"wiring: {type(e).__name__}: {e}"})
+        ctx.result["wiring"] = {"electrical_ok": False, "error": f"{type(e).__name__}: {e}"}
     a["done"] = json.dumps(ctx.result)
     return "ACCEPTED"
 
@@ -344,7 +360,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
                           "description": pt.description, "price_usd": pt.price_usd, "stock": pt.stock,
                           "power_mw": pt.power_mw, "max_voltage_v": gate.rated_max_v(pt)})
     rules = {s: kg.rules_for(s) for s in chosen}
-    msg = json.dumps({"bom": facts, "totals": totals, "mother_rationale": rationale,
+    msg = json.dumps({"device_class": ctx.device_class, "bom": facts, "totals": totals, "mother_rationale": rationale,
                       "options_chosen": {s: {"name": o["name"], "risks": o.get("risks", []),
                                              "warnings": [e["message"] for e in o["gate"]["errors"]
                                                           if e["severity"] == "warning"]}
@@ -369,7 +385,7 @@ LEAF_TOOLS = [kg.SPEC, parts.SEARCH_SPEC, parts.ALTERNATES_SPEC, parts.MEDICAL_S
 REG_TOOLS = [regs.CLASSIFY_SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, parts.MEDICAL_SPEC, FINDINGS_SPEC]
 SOURCING_TOOLS = [supply.SPEC, parts.ALTERNATES_SPEC, FINDINGS_SPEC]
 MOTHER_TOOLS = [DELEGATE_SPEC, BATCH_SPEC, kg.LIST_SPEC, FINALIZE_SPEC]
-FINISHERS = ("submit_report", "submit_findings", "finalize")
+FINISHERS = ("submit_report", "submit_findings", "finalize", "submit_wiring")
 
 def _search_parts(a: dict) -> str:
     """Models send spec_ranges as a JSON string and numbers as strings; coerce instead of crashing."""
@@ -438,6 +454,10 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                                                "strategy": strategy})
     nudges = 0
     for step in range(max_steps):
+        if depth == 0:  # the mother picks up dashboard constraint changes between steps
+            note = apply_controls(ctx, name)
+            if note:
+                msgs.append({"role": "user", "content": note})
         last = step == max_steps - 1
         step_tools = tools
         finish = [t for t in tools if t["function"]["name"] in FINISHERS]
@@ -495,6 +515,8 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                     out = _submit_findings(args, ctx, a)
                 elif fn == "finalize":
                     out = _finalize(args, ctx, a)
+                elif fn == "submit_wiring":
+                    out = wiring.submit_wiring(args, ctx, a)
                 elif fn == "get_regulation_section":
                     out = regs.get_regulation_section(**args)
                     if not str(out).startswith("ERROR"):  # provenance: what this run has really read
@@ -515,3 +537,48 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
             return a["done"]
     store.log(ctx.run, name, parent, "final", "NO_ACCEPTED_OUTPUT")
     return json.dumps({"subsystem": role, "status": "no_accepted_output"})
+
+
+# ------------------------------------------------------------------ operator control channel
+def apply_controls(ctx: RunCtx, agent_name: str) -> str | None:
+    """Apply dashboard commands (runs/<run>/control.jsonl) and return a note for the mother, or None.
+
+    out_of_stock: the part fails the gate from now on; every report option using it is re-gated.
+    device_class: recorded on the run (the critic sees it); the mother is told to re-explore conservatively."""
+    cmds, ctx.ctrl_offset = read_commands(ctx.run, ctx.ctrl_offset)
+    notes = []
+    for c in cmds:
+        p = dict(c.payload)
+        typ = p.get("type")
+        if typ == "out_of_stock" and p.get("mpn"):
+            mpn = p["mpn"]
+            gate.OUT_OF_STOCK.add(mpn)
+            hit, dead = [], []
+            with ctx.lock:
+                for sub, rep in ctx.reports.items():
+                    for o in rep["options"]:
+                        if any(x.get("mpn") == mpn for x in o.get("parts", [])):
+                            o["gate"] = gate.check_option(sub, [{"mpn": x["mpn"], "qty": x.get("qty", 1)}
+                                                                for x in o["parts"]])
+                            hit.append(o["name"])
+                    if not any(o["gate"]["ok"] for o in rep["options"]):
+                        rep["status"] = "no_valid_option"
+                        dead.append(sub)
+            notes.append(f"{mpn} is now OUT OF STOCK. Options that used it now fail the gate: {hit or 'none'}. "
+                         + (f"Subsystems left with no passing option: {dead}; re-delegate each one (agent_type="
+                            f"specialist, strategy=robust_sourcing) telling it {mpn} is unavailable. " if dead else "")
+                         + "Then call finalize again with passing options.")
+        elif typ == "device_class" and p.get("value"):
+            ctx.device_class = str(p["value"])
+            notes.append(f"Device class raised to {ctx.device_class}: treat this as a higher-risk device. Re-delegate "
+                         "the analog_fe and protection specialists with strategy=medical_conservative (ask them to "
+                         "check get_part_medical for isolation and medical-use restrictions), then call finalize "
+                         "again. The critic will review against the new class.")
+        else:
+            notes.append(f"Constraint change: {json.dumps(p)}")
+        store.log(ctx.run, agent_name, None, "constraint_change", p)
+    if not notes:
+        return None
+    with ctx.lock:
+        ctx.result, ctx.critic_rounds, ctx.objections, ctx.reviewed = None, 0, [], False
+    return "CONSTRAINT CHANGE from the operator:\n- " + "\n- ".join(notes)

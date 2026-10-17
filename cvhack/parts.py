@@ -93,10 +93,20 @@ def from_catalog_record(rec: dict[str, Any]) -> dict[str, Any]:
                  symbol_name=kicad.get("symbol_name", ""), pins=kicad.get("pins", []))
     if rec.get("area_mm2"):
         p["area_mm2"] = rec["area_mm2"]["value"]
+    elec = rec.get("electrical") or {}
+    vin = elec.get("vin_abs_max") or {}
+    if vin.get("used"):
+        p["ratings"]["vin_max"] = vin["value"]  # the gate's voltage limit (src/gate.rated_max_v)
+        p["ratings"]["vin_max_source"] = "datasheet absolute maximum: " + (vin.get("quote") or "")
+    power_known = False
+    if elec.get("power_mw_est"):
+        p["power_mw"] = elec["power_mw_est"]["value"]
+        p["ratings"]["power_basis"] = elec["power_mw_est"]["basis"]
+        power_known = True
     offer = rec.get("offer") or {}
     p["ratings"].update({
         "group": rec.get("group"), "datasheet_url": rec.get("datasheet_url"),
-        "pin_source": kicad.get("pin_source"), "power_mw_known": False,
+        "pin_source": kicad.get("pin_source"), "power_mw_known": power_known,
         "medical": rec.get("medical"),
         "catalog": {"sku": offer.get("sku"), "distributor": offer.get("distributor"),
                     "price_usd": p["price_usd"], "stock": p["stock"],
