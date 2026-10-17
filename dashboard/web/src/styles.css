@@ -94,7 +94,7 @@ a { color: var(--accent); }
 .muted { color: var(--muted); font-size: 12px; }
 .sch-wrap { position: relative; flex: 1; overflow: auto; background: #10151c; }
 .sch { padding: 12px; transition: width .2s; min-width: 100%; }
-.sch svg { width: 100%; height: auto; display: block; }
+.sch svg { width: 100%; height: auto; display: block; border-radius: 4px; box-shadow: 0 2px 16px rgba(0,0,0,.45); }
 .sch .part:hover .body { stroke: var(--accent); stroke-width: .5; }
 .zoom { position: sticky; top: 8px; left: 8px; z-index: 2; display: inline-flex; gap: 4px; align-items: center; margin: 8px; background: var(--panel); padding: 3px; border-radius: 6px; border: 1px solid var(--line); }
 .zoom button { padding: 1px 8px; }

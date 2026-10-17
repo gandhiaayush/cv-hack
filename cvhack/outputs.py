@@ -54,7 +54,8 @@ def write_outputs(run_id: str, state: RunState | None = None) -> Path:
     out.mkdir(parents=True, exist_ok=True)
 
     sch = kicad_cli.write_project(design, parts, out / "kicad")
-    (out / "schematic.svg").write_text(kicad_sch.to_svg(design, parts))
+    (out / "schematic.svg").write_text(kicad_cli.render_svg(design, parts, run_dir(run_id) / "_render")
+                                       or kicad_sch.to_svg(design, parts))
     (out / "bom.csv").write_text(budgets.bom_csv(design, parts))
     (out / "traceability.csv").write_text(matrix_csv(matrix_rows(state, design, parts)))
     (out / "design.json").write_text(json.dumps(design.model_dump(), indent=2))
