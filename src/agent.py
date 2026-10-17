@@ -9,6 +9,7 @@ Neither exit is the model's own judgement: the model proposes, code accepts."""
 import json
 import os
 import re
+import time
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -275,7 +276,16 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
             step_tools = finish or tools
         elif step > max_steps - 4:
             step_tools = [t for t in tools if t["function"]["name"] in ("submit_report", "finalize")] or tools
-        m = chat(msgs, model, tools=step_tools)
+        m = None
+        for attempt in range(3):  # transient API failures (timeouts, 429s) must not kill the run
+            try:
+                m = chat(msgs, model, tools=step_tools)
+                break
+            except Exception as e:
+                store.log(ctx.run, name, parent, "llm_error", {"attempt": attempt + 1, "error": type(e).__name__})
+                time.sleep(5 * (attempt + 1))
+        if m is None:
+            break
         msgs.append(m.model_dump(exclude_none=True))
         if not m.tool_calls:
             if nudges < 3 and not last:
