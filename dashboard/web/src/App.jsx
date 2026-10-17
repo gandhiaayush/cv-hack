@@ -6,7 +6,8 @@ import Cad from "./Cad.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
 
-export default function App({ fixedRunId } = {}) {
+export default function App({ fixedRunId, shapeTick } = {}) {
+  const none = fixedRunId === "__none__";
   const [runs, setRuns] = useState([]);
   const [runId, setRunId] = useState(fixedRunId || null);
   const [follow, setFollow] = useState(!fixedRunId);
@@ -48,7 +49,7 @@ export default function App({ fixedRunId } = {}) {
 
   // Live stream: append to the log and refetch folded state (throttled).
   useEffect(() => {
-    if (!runId) return;
+    if (!runId || none) return;
     setLog([]); setState(null); setSvg(null); lastDesignKey.current = "";
     refresh(runId);
     const es = api.events(runId);
@@ -71,7 +72,7 @@ export default function App({ fixedRunId } = {}) {
 
   const running = state && !state.done;
   if (fixedRunId) {
-    return <Cad c={{ runId, state, log, svg, bom, tab, setTab, sendControl, doExport,
+    return <Cad c={{ runId, state, log, svg, bom, shapeTick, sendControl, doExport,
       P: { Schematic, Negotiation, Verifiers, Rules, Matrix, Controls, Budgets, AgentTree } }} />;
   }
   return (

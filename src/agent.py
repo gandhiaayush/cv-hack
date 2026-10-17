@@ -35,6 +35,7 @@ class RunCtx:
     delegations: dict = field(default_factory=dict)
     critic_failures: int = 0
     first_round_blockers: int | None = None
+    applied_oos: set = field(default_factory=set)
     reviewed: bool = False
     objections: list = field(default_factory=list)
     result: dict | None = None
@@ -195,10 +196,19 @@ Return an empty list only if you genuinely find nothing. Do not praise."""
 
 
 # ------------------------------------------------------------------ handlers
-def _gate_report(args: dict) -> dict:
+def _oos(ctx) -> set:
+    """Parts the user marked out of stock for THIS run from the dashboard (control channel), read live."""
+    from cvhack.control import read_commands
+    try:
+        return {c.payload.get('mpn') for c in read_commands(ctx.run)[0] if c.payload.get('type') == 'out_of_stock'} - {None}
+    except Exception:
+        return set()
+
+
+def _gate_report(args: dict, oos: set | None = None) -> dict:
     sub = args["subsystem"]
     for o in args["options"]:
-        res = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in o.get("parts", [])])
+        res = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in o.get("parts", [])], oos)
         o["gate"] = res
     return args
 
@@ -210,7 +220,7 @@ def _submit_report(args, ctx: RunCtx, a: dict):
     if a.get("strategy"):  # explorers share a subsystem: keep option names unique and attributable
         for o in args["options"]:
             o["name"] = f"[{a['strategy']}] {o['name']}"
-    rep = _gate_report(args)
+    rep = _gate_report(args, _oos(ctx))
     passing = [o for o in rep["options"] if o["gate"]["ok"]]
     store.log(ctx.run, a["name"], a["parent"], "gate", {"subsystem": sub, "attempt": a["submits"],
               "passed": [o["name"] for o in passing],
@@ -295,6 +305,15 @@ def _finalize(args, ctx: RunCtx, a: dict):
             problems.append(f"{sub}: option '{opt['name']}' failed the gate")
         else:
             chosen[sub] = opt
+    stockout = _oos(ctx)
+    for sub, opt in chosen.items():  # a stock-out can arrive after an option passed the gate
+        hit = [e for e in gate.check_option(sub, opt["parts"], stockout)["errors"] if e["code"] == "OUT_OF_STOCK"]
+        for e in hit:
+            if e["part"] not in ctx.applied_oos:
+                ctx.applied_oos.add(e["part"])
+                store.log(ctx.run, a["name"], a["parent"], "constraint", {"type": "out_of_stock", "mpn": e["part"]})
+            problems.append(f"{sub}: {e['part']} is now OUT OF STOCK (user constraint). Re-delegate {sub} to a specialist "
+                            "and tell it to replace that part with an in-stock alternative (find_alternates), then finalize again")
     if problems:
         return "REJECTED: " + " | ".join(problems)
     parts = load_parts()

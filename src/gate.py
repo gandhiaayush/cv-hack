@@ -42,9 +42,10 @@ def rated_max_v(part) -> float | None:
     return min(vals) if vals else None
 
 
-def check_option(subsystem: str, items: list[dict]) -> dict:
+def check_option(subsystem: str, items: list[dict], oos: set | None = None) -> dict:
     """items: [{"mpn": str, "qty": int}]. Returns {ok, errors:[VerifierError], totals}."""
     sub = SUBSYSTEMS[subsystem]
+    stockout = set(oos or ()) | OUT_OF_STOCK
     parts = load_parts()
     errs: list[VerifierError] = []
     cost, power, unknown_price, cats = 0.0, 0.0, [], set()
@@ -60,7 +61,7 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
             errs.append(VerifierError(code="CATEGORY_MISMATCH", part=mpn, message=
                 f"{mpn} is category '{p.category}', not allowed in {subsystem} "
                 f"(allowed: {sorted(sub['allowed'])})."))
-        if mpn in OUT_OF_STOCK or p.stock == 0:
+        if mpn in stockout or p.stock == 0:
             errs.append(VerifierError(code="OUT_OF_STOCK", part=mpn, message=f"{mpn} is out of stock."))
         elif p.stock is None:
             errs.append(VerifierError(code="STOCK_UNKNOWN", part=mpn, severity="warning",

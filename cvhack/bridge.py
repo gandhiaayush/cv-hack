@@ -141,6 +141,8 @@ class Translator:
                     chosen.setdefault(ent[0], []).extend(ent[1])
             base = [self._ev(r, r.agent, "step", message=f"finalize({_short(r.body.get('args', {}), 100)})")]
             return base + (self._design_events(r, chosen, "Proposed design") if chosen else [])
+        if r.kind == "constraint" and isinstance(r.body, dict):  # the run picked up a dashboard constraint change
+            return [self._ev(r, r.agent, "constraint_change", **r.body)]
         if r.kind == "spec":  # shown in the chat column; not an agent
             if isinstance(r.body, dict):
                 self.specs[r.run] = r.body
@@ -157,8 +159,9 @@ class Translator:
             return extra + [self._ev(r, r.agent, "run_done", ok=ok, summary=summary)]
         if r.kind == "start":
             self.parents[(r.run, r.agent)] = r.parent
+            b0 = r.body if isinstance(r.body, dict) else {}
             out = [self._ev(r, r.agent, "agent_spawned", role="subsystem" if r.parent else "mother",
-                            label=role.replace("_", " ")),
+                            label=role.replace("_", " "), strategy=b0.get("strategy"), agent_type=b0.get("agent_type")),
                    self._ev(r, r.agent, "agent_status", status="running")]
             if r.parent:
                 task = (r.body or {}).get("task", "") if isinstance(r.body, dict) else str(r.body)

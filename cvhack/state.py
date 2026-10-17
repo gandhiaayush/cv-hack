@@ -36,7 +36,7 @@ class RunState:
             a["parent"] = e.parent_id
         p = e.payload
         if e.kind == "agent_spawned":
-            a.update(role=p.get("role", ""), label=p.get("label", e.agent_id))
+            a.update(role=p.get("role", ""), label=p.get("label", e.agent_id), strategy=p.get("strategy"), agent_type=p.get("agent_type"))
         elif e.kind == "agent_status":
             a["status"] = p.get("status", a["status"])
         elif e.kind == "step":

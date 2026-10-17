@@ -159,6 +159,23 @@ def _latest_design(run_id: str):
     return fold(run_id, evs).design
 
 
+@router.get("/api/real_runs")
+def real_runs():
+    """Runs started from a prompt (they have a spec row), newest first. Scripted samples never appear here."""
+    import sqlite3
+    if not bridge.DEFAULT_DB.exists():
+        return []
+    c = sqlite3.connect(f"file:{bridge.DEFAULT_DB}?mode=ro", uri=True)
+    try:
+        rows = c.execute("select run, max(ts) from messages where run in (select run from messages where kind='spec') "
+                         "group by run order by max(ts) desc").fetchall()
+        return [{"run_id": r, "ts": t} for r, t in rows if (RUNS_DIR / r / "events.jsonl").exists()]
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        c.close()
+
+
 class StatusIn(BaseModel):
     status: str
 
