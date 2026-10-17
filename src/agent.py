@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import store
 from .llm import chat
-from .tools import kg, regs, sandbox
+from .tools import kg, parts, regs, sandbox
 
 TOOL_FUNCS = {
     "run_python": lambda a: sandbox.run_python(**a),
@@ -18,8 +18,11 @@ TOOL_FUNCS = {
     "classify_device": lambda a: regs.classify_device(**a),
     "get_subsystem_context": lambda a: kg.get_subsystem_context(**a),
     "list_subsystems": lambda a: kg.list_subsystems(),
+    "search_parts": lambda a: parts.search_parts(**a),
+    "find_alternates": lambda a: parts.find_alternates(**a),
 }
-LEAF_TOOLS = [kg.SPEC, sandbox.SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, regs.CLASSIFY_SPEC]
+LEAF_TOOLS = [kg.SPEC, sandbox.SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, regs.CLASSIFY_SPEC,
+              parts.SEARCH_SPEC, parts.ALTERNATES_SPEC]
 
 DELEGATE_SPEC = {
     "type": "function",
@@ -43,6 +46,7 @@ Investigate the constraints that touch your subsystem BEFORE proposing anything:
 - FIRST call get_subsystem_context for your subsystem: it returns the parts already placed, the nets, and the design rules (by id) that apply. Your options must respect those rules; cite rule ids.
 - Quantitative: use run_python to compute power, voltage margins, cost, thermal numbers. Never do arithmetic in your head.
 - Qualitative/regulatory: use classify_device / search_regulations / get_regulation_section and cite section ids.
+- Parts: use search_parts / find_alternates to pick real, in-stock MPNs; quote their price and stock date.
 Then reply with a JSON report only:
 {{"subsystem": str, "options": [{{"name": str, "summary": str, "cost": num, "power_mw": num, "risks": [str]}}],
  "quantitative_constraints": [{{"constraint": str, "value": str, "how": str}}],

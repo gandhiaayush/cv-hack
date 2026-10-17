@@ -16,13 +16,16 @@ These are the seams between A (agents), B (data and rules) and C (tooling and de
 
 Every verifier follows the same `Verifier` protocol (a `name` attribute plus `verify(design, parts) -> VerifierResult`), so A can run them all in one loop.
 
-**Where parts come from.** `load_parts()` merges three sources by MPN:
+**Where parts come from.** `load_parts()` merges four sources by MPN:
 
 1. `cvhack/mocks/parts.json`: C's mock catalogue, with full electrical data.
 2. `data/parts.json`: B's sourced dataset, in B's schema (`part_id`, `specs`, `price.unit_amount`, `stock.status`). `cvhack.parts.from_b_record` maps it onto `Part`. B's description, specs, price and stock override the mock, but the mock's pins and symbol are kept.
-3. `cvhack/part_overlay.json`: C's KiCad symbol, footprint, pins, `power_mw` and `area_mm2` for B's parts. A B part with no overlay entry has no pins, so the electrical gate reports `PIN_UNKNOWN` instead of guessing a pinout. The `_missing` list in that file shows which parts still need one.
+3. `data/parts_catalog.json`: 500 real LCSC/JLCPCB parts with KiCad pinouts (`python -m cvhack.scrape.build`), mapped by `cvhack.parts.from_catalog_record`. It adds new parts and fills only fields that are still unknown; `PARTS_PRICES=catalog` makes its dated price and stock win. Its `ratings["catalog"]` always holds the real offer (SKU, price, stock, date).
+4. `cvhack/part_overlay.json`: C's KiCad symbol, footprint, pins, `power_mw` and `area_mm2` for B's parts. A part with no pins from any source makes the electrical gate report `PIN_UNKNOWN` instead of guessing a pinout. The `_missing` list in that file shows which parts still need one.
 
-`PARTS_SOURCE=path/to/parts.json` (a plain list of `Part` records) replaces all three. A `cvhack/data/parts_db.py` with `all_parts()` replaces source 2.
+`PARTS_SOURCE=path/to/parts.json` (a plain list of `Part` records) replaces all four. A `cvhack/data/parts_db.py` with `all_parts()` replaces source 2.
+
+The knowledge graph over the catalog is `data/parts_graph.json`; query it with `cvhack.parts_graph.search(...)`, `alternates(mpn)` and `neighbors(node_id, relation)`, or from an agent with the `search_parts` and `find_alternates` tools in `src/tools/parts.py`.
 
 ## Part (B)
 

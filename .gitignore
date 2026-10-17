@@ -8,3 +8,4 @@ runs/
 node_modules/
 dashboard/web/dist/
 .pytest_cache/
+.cache/

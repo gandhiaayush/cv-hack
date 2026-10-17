@@ -3,12 +3,19 @@
 Sources, merged by MPN (later wins field by field):
   1. cvhack/mocks/parts.json        C's mock catalogue, full electrical data
   2. data/parts.json                B's sourced seed dataset (no pins, price/stock often unknown)
-  3. cvhack/part_overlay.json       C's electrical overlay for B's parts (pins, symbol, footprint)
+  3. data/parts_catalog.json        ~500 real LCSC/JLCPCB parts with KiCad pinouts
+                                    (python -m cvhack.scrape.build); fills gaps, see below
+  4. cvhack/part_overlay.json       C's electrical overlay for B's parts (pins, symbol, footprint)
 PARTS_SOURCE=path.json replaces all of this with one list of Part records.
 A cvhack/data/parts_db.py with all_parts() is still picked up if B adds one.
 
 B's sourced fields (description, specs, price, stock) win over the mock. A
 null price or stock in B's data means "unknown" and stays None here, never 0.
+
+The real catalog adds parts nobody else defines and fills fields that are
+still unknown (B's null prices, missing pins), but leaves the mock's demo
+values alone so scripted runs stay reproducible. PARTS_PRICES=catalog makes
+the catalog's dated price and stock win everywhere.
 """
 
 from __future__ import annotations
@@ -24,6 +31,7 @@ from cvhack.contracts import Part
 ROOT = Path(__file__).resolve().parent.parent
 MOCK_PATH = ROOT / "cvhack" / "mocks" / "parts.json"
 B_PATH = ROOT / "data" / "parts.json"
+CATALOG_PATH = ROOT / "data" / "parts_catalog.json"
 OVERLAY_PATH = ROOT / "cvhack" / "part_overlay.json"
 
 # Fields only C's overlay or the mock know about; B's records never set them.
@@ -76,6 +84,32 @@ def from_b_record(rec: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def from_catalog_record(rec: dict[str, Any]) -> dict[str, Any]:
+    """A data/parts_catalog.json record: B's schema plus a `kicad` block and an `offer`."""
+    p = from_b_record(rec)
+    kicad = rec.get("kicad") or {}
+    if kicad:
+        p.update(footprint=kicad.get("footprint", ""), symbol_lib=kicad.get("symbol_lib", "Device"),
+                 symbol_name=kicad.get("symbol_name", ""), pins=kicad.get("pins", []))
+    if rec.get("area_mm2"):
+        p["area_mm2"] = rec["area_mm2"]["value"]
+    offer = rec.get("offer") or {}
+    p["ratings"].update({
+        "group": rec.get("group"), "datasheet_url": rec.get("datasheet_url"),
+        "pin_source": kicad.get("pin_source"), "power_mw_known": False,
+        "catalog": {"sku": offer.get("sku"), "distributor": offer.get("distributor"),
+                    "price_usd": p["price_usd"], "stock": p["stock"],
+                    "checked_at": (rec.get("price") or {}).get("checked_at")},
+    })
+    return p
+
+
+def _catalog_records() -> list[dict[str, Any]]:
+    if not CATALOG_PATH.exists():
+        return []
+    return [from_catalog_record(r) for r in json.loads(CATALOG_PATH.read_text())["parts"]]
+
+
 def _b_records() -> list[dict[str, Any]]:
     try:
         from cvhack.data import parts_db  # type: ignore  # optional module from B
@@ -91,13 +125,26 @@ def _b_records() -> list[dict[str, Any]]:
     return [from_b_record(r) if "part_id" in r or isinstance(r.get("stock"), dict) else r for r in recs]
 
 
-def merge_sources(mock: list[dict], b: list[dict], overlay: dict[str, dict]) -> dict[str, Part]:
+def merge_sources(mock: list[dict], b: list[dict], overlay: dict[str, dict],
+                  catalog: list[dict] | None = None, catalog_prices: bool = False) -> dict[str, Part]:
     merged: dict[str, dict[str, Any]] = {p["mpn"]: dict(p) for p in mock}
     for rec in b:
         base = merged.get(rec["mpn"], {})
         merged[rec["mpn"]] = {**base, **rec,
                               **{k: base[k] for k in ELECTRICAL if k in base},
                               "ratings": {**base.get("ratings", {}), **rec.get("ratings", {})}}
+    for rec in catalog or []:
+        base = merged.get(rec["mpn"])
+        if base is None:
+            merged[rec["mpn"]] = rec
+            continue
+        # Fill only what is still unknown; existing values keep precedence.
+        for k in (*ELECTRICAL, "price_usd", "stock", "value"):
+            if not base.get(k) and base.get(k) != 0 and rec.get(k) not in (None, "", []):
+                base[k] = rec[k]
+        if catalog_prices:
+            base["price_usd"], base["stock"] = rec["price_usd"], rec["stock"]
+        base["ratings"] = {**rec["ratings"], **base.get("ratings", {}), "catalog": rec["ratings"]["catalog"]}
     for mpn, extra in overlay.items():
         if mpn.startswith("_"):
             continue
@@ -112,4 +159,5 @@ def load_parts() -> dict[str, Part]:
     if src:
         return {p.mpn: p for p in (Part.model_validate(x) for x in json.loads(Path(src).read_text()))}
     overlay = json.loads(OVERLAY_PATH.read_text()) if OVERLAY_PATH.exists() else {}
-    return merge_sources(json.loads(MOCK_PATH.read_text()), _b_records(), overlay)
+    return merge_sources(json.loads(MOCK_PATH.read_text()), _b_records(), overlay, _catalog_records(),
+                         catalog_prices=os.environ.get("PARTS_PRICES") == "catalog")

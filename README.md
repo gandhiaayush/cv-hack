@@ -164,6 +164,46 @@ MPNs. Formal requirement links remain pending A's authoritative requirement
 IDs, and per-run verifier-result links require actual verifier outputs. Do not
 interpret structural connectivity as a requirement pass or regulatory finding.
 
+### Real parts catalog and knowledge graph
+
+[`data/parts_catalog.json`](./data/parts_catalog.json) holds 500 real, orderable
+parts in B's record schema, scraped from two public sources:
+
+- **LCSC/JLCPCB catalog**, via the daily [jlcparts](https://yaqwsx.github.io/jlcparts/)
+  mirror: MPN, manufacturer, package, datasheet link, USD price tiers, stock and
+  parametric specs (normalized to SI units). Price and stock carry the snapshot date.
+- **KiCad's official symbol library**: real pinouts with ERC pin types and default
+  footprints. A symbol is attached only when the MPN matches and the symbol's
+  footprint agrees with the catalog package (404 of 500 parts have pins; the rest
+  have none rather than a guessed pinout).
+
+Parts are chosen per category for this project's subsystems (power, MCU/RF,
+sensing/analog, protection, passives, connectors), ranked by KiCad pinout
+availability, JLC Basic/Preferred class and stock. Every repo MPN that LCSC
+stocks is included (21; the other 17 are listed under `coverage`).
+
+[`data/parts_graph.json`](./data/parts_graph.json) is the knowledge graph built
+from it: parts linked to manufacturers, categories, packages, KiCad symbols and
+footprints, pinout classes, interfaces (I2C, SPI, BLE, ...), the distributor
+offer and one datasheet source each, with evidence source IDs on every edge
+(same conventions and IDs as `relationships.json`). `alternate_candidate` edges
+join parts with the same category, pinout class, footprint and key value; they
+are leads for stock-out re-planning, not verified substitutions.
+`mock_pin_conflicts` lists mock-registry pins that disagree with the KiCad
+symbol for the same MPN.
+
+```
+python -m cvhack.scrape.build          # re-scrape (cached in .cache/scrape/), ~20 s after download
+python -m cvhack.parts_graph --write   # rebuild the graph; --check validates it is current
+```
+
+`load_parts()` includes the catalog: it adds parts nobody else defines and fills
+fields that are still unknown (B's null prices, missing pins), but keeps the
+mock's demo values. Set `PARTS_PRICES=catalog` to make the dated catalog price
+and stock win everywhere. Sub-agents can query the graph with the
+`search_parts` and `find_alternates` tools. Catalog parts carry no `power_mw`
+(the distributor data has no typical power), so the power budget counts them as 0.
+
 ### Rules, verifier results, and events
 
 - B's initial rules are in [`data/rules.json`](./data/rules.json). They check
