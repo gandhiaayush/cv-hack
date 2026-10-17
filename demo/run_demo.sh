@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Start the dashboard and a run.
 #   demo/run_demo.sh            # fake run (no agents needed)
-#   demo/run_demo.sh --real     # real mother agent (A's entrypoint)
+#   demo/run_demo.sh --real     # real agents (A's smoke_test.py mother, bridged from runs/run.db)
 #   demo/run_demo.sh --replay runs/<good-run>   # replay a recorded run as a fallback
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -24,8 +24,13 @@ echo "Dashboard: http://localhost:$PORT"
 RUN_ID="demo-$(date +%H%M%S)"
 case "${1:-}" in
   --real)
-    # A: replace with your entrypoint; it must accept the run id.
-    $PY -m cvhack.agents.mother --run-id "$RUN_ID" "${@:2}"
+    # A's agents log to runs/run.db; the bridge turns that into dashboard events.
+    # Override the entrypoint with REAL_CMD="..." once A has a proper one.
+    $PY -m cvhack.bridge &
+    BRIDGE=$!
+    trap 'kill $SERVER $BRIDGE 2>/dev/null' EXIT
+    ${REAL_CMD:-$PY smoke_test.py mother} "${@:2}"
+    sleep 2   # let the bridge flush the last rows
     ;;
   --replay)
     SRC="${2:?usage: --replay runs/<run_id>}"

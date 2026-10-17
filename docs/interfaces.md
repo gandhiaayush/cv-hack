@@ -112,6 +112,8 @@ The tree is built from `parent_id`; only the root `mother` has `null`. Payloads 
 
 Events are appended to `runs/<run_id>/events.jsonl`, so the agents and the dashboard can run in different processes.
 
+**A's current agents** (`src/agent.py`) log to SQLite (`runs/run.db`) instead of calling `emit`. `python -m cvhack.bridge` tails that DB and translates the rows: `start` becomes `agent_spawned` plus a `delegate` from the parent, a sub-agent's JSON `final` becomes a `report` to its parent, and a root `final` becomes `run_done`. `demo/run_demo.sh --real` starts the bridge automatically. Once A emits events directly, drop the bridge.
+
 ## ControlCommand (dashboard → mother agent)
 
 The dashboard appends to `runs/<run_id>/control.jsonl`:
