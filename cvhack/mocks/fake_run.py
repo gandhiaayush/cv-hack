@@ -105,9 +105,37 @@ class FakeRun:
         blocks = {b.subsystem: b for b in w.blocks}
         agents = [("protection", "Protection agent"), ("power", "Power agent"),
                   ("analog_fe", "Analog FE agent"), ("mcu_comms", "MCU/comms agent")]
+        shares = {"protection": (0, 1.5), "power": (3, 2.5), "analog_fe": (6, 5), "mcu_comms": (20, 7)}
         for aid, label in agents:
             self.spawn(aid, "subsystem", label)
+            mw, usd = shares[aid]
+            self.ev("mother", "delegate", None, to=aid, subsystem=aid,
+                    budget={"power_mw": mw, "cost_usd": usd}, constraints=["IEC 60601-1 Class II"])
             self.wait(0.4)
+
+        # Negotiation round: each subsystem investigates and reports before committing.
+        reports = {
+            "protection": dict(options=[{"name": "PTC + TVS", "cost": 0.27}], conflicts=[], cannot_meet=[], needs=[]),
+            "power": dict(options=[{"name": "linear charger + 2 LDOs", "cost": 1.6, "power_mw": 1.4},
+                                   {"name": "buck + charger IC", "cost": 3.9, "power_mw": 0.8}],
+                          conflicts=[], cannot_meet=[], needs=["peak load from mcu_comms"]),
+            "analog_fe": dict(options=[{"name": "MAX30102 integrated PPG", "cost": 4.2, "power_mw": 4}],
+                              conflicts=["wants a quiet 1.8 V rail"], cannot_meet=[], needs=["1V8 from power"]),
+            "mcu_comms": dict(options=[{"name": "ESP32-C3 module", "cost": 2.1, "power_mw": 85},
+                                       {"name": "nRF52832 module", "cost": 6.2, "power_mw": 9}],
+                              conflicts=["nRF52832 exceeds $7 cost share with passives"], cannot_meet=[], needs=[]),
+        }
+        for aid, _ in agents:
+            self.ev(aid, "report", "mother", to="mother", **reports[aid])
+            self.wait(0.5)
+        self.ev("mother", "decision", None, to="power", chosen="linear charger + 2 LDOs",
+                spawn=["power.charger", "power.regulators"], message="Cheapest option fits the power share")
+        self.ev("mother", "decision", None, to="mcu_comms", chosen="ESP32-C3 module",
+                message="Try the cheaper module first; electrical gate will check power")
+        for cid, label in [("power.charger", "Charger agent"), ("power.regulators", "Regulator agent")]:
+            self.spawn(cid, "subsystem", label, parent="power")
+            self.ev("power", "delegate", "mother", to=cid, subsystem=cid, budget={}, constraints=[])
+            self.wait(0.3)
         for vid, label in [("verifier.electrical", "Electrical verifier"),
                            ("verifier.compliance", "Compliance verifier"),
                            ("verifier.red_team", "Red-team verifier")]:
@@ -137,7 +165,10 @@ class FakeRun:
         if not res.ok:
             codes = sorted({e.code for e in res.errors})
             self.ev("mother", "replan", None, reason=f"electrical gate failed: {', '.join(codes)}",
-                    changes=["MCU/comms: ESP32-C3 draws ~85 mW; swap to nRF52832 module (MDBT42Q)"])
+                    changes=["MCU/comms: ESP32-C3 draws ~85 mW; swap to nRF52832 module (MDBT42Q)",
+                             "Move $4 of cost budget from power to mcu_comms"])
+            self.ev("mother", "decision", None, to="mcu_comms", chosen="nRF52832 module",
+                    budget_changes={"mcu_comms.cost_usd": 11, "power.cost_usd": 1.5})
             self.status("mcu_comms", "running")
             self.ev("mcu_comms", "step", "mother", message="Swapped to MDBT42Q-512KV2 (nRF52832, ~9 mW)")
             self.wait(1.5)
@@ -151,6 +182,8 @@ class FakeRun:
                 self.wait(0.3)
             for aid, _ in agents:
                 self.status(aid, "done")
+            for cid in ("power.charger", "power.regulators"):
+                self.status(cid, "done", parent="power")
             self.ev("mother", "run_done", None, ok=True, summary="Design verified; outputs written")
             self.status("mother", "done", parent=None)
 

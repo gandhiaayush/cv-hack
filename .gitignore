@@ -5,3 +5,6 @@ __pycache__/
 *.db
 runs/
 .DS_Store
+node_modules/
+dashboard/web/dist/
+.pytest_cache/
