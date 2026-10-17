@@ -178,12 +178,24 @@ class Translator:
             return [self._ev(r, r.agent, "step", message=f"budget check: ${b.get('cost_usd')} / ${bud.get('cost_usd')}, "
                                                         f"{b.get('power_mw')} / {bud.get('power_mw')} mW"
                                                         + (f", {len(b['unknown_price_parts'])} unpriced" if b.get("unknown_price_parts") else ""))]
+        if r.kind == "queue":
+            b = r.body if isinstance(r.body, dict) else {}
+            return [self._ev(r, r.agent, "step", message=f"waited {b.get('waited_s')}s in the Crusoe request queue "
+                                                        f"({b.get('running')}/{b.get('cap')} in flight)")]
+        if r.kind == "findings_gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            bad = b.get("rejected") or []
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"findings:{b.get('type', role)}", ok=not bad,
+                                errors=[{"code": "FINDING_REJECTED", "message": str(x)[:300], "severity": "error"} for x in bad],
+                                details={"accepted": b.get("accepted"), "attempt": b.get("attempt")}))
+            return out
         if r.kind in ("retry", "llm_error"):
             b = r.body if isinstance(r.body, dict) else {}
             return [self._ev(r, r.agent, "step", message=f"{r.kind}: {b.get('reason') or b.get('error') or ''}")]
         if r.kind == "tool_call":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
             if b.get("tool") == "finalize":
                 args = b.get("args") or {}
@@ -195,7 +207,7 @@ class Translator:
             return [self._ev(r, r.agent, "step", message=f"{b.get('tool')}({_short(b.get('args', {}), 100)})")]
         if r.kind == "tool_result":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
             return [self._ev(r, r.agent, "step", message=f"{b.get('tool')} → {_short(b.get('result', ''))}")]
         if r.kind == "final":

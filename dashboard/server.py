@@ -33,6 +33,10 @@ from cvhack.tooling.rules import RuleVerifier
 app = FastAPI(title="cv-hack dashboard")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
+from dashboard.narration import install as install_narration  # noqa: E402
+
+install_narration(app)
+
 WEB_DIST = Path(__file__).resolve().parent / "web" / "dist"
 
 
@@ -50,6 +54,11 @@ def _resolve(run_id: str) -> str:
 def _state(run_id: str):
     events, _ = read_events(run_id)
     return fold(run_id, events)
+
+
+from dashboard import bom_plus  # noqa: E402
+
+bom_plus.install(app, _resolve, _state)
 
 
 @app.get("/api/runs")

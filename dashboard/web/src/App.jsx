@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api.js";
 import Board3D from "./Board3D.jsx";
+import Narration from "./Narration.jsx";
+import BomPlus from "./BomPlus.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
 
@@ -91,6 +93,8 @@ export default function App() {
         <main className="grid">
           <section className="panel tree">
             <Inference models={state?.inference || []} />
+            <h2>Live commentary</h2>
+            <Narration />
             <h2>Agents <small>{state?.agents?.length || 0}</small></h2>
             <AgentTree agents={state?.agents || []} />
             <Verifiers verifiers={state?.verifiers || {}} />
@@ -98,7 +102,7 @@ export default function App() {
 
           <section className="panel center">
             <div className="tabs">
-              {[["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM"], ["negotiation", `Negotiation${state?.negotiation?.length ? ` (${state.negotiation.length})` : ""}`]].map(([t, label]) => (
+              {[["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM & Cost"], ["negotiation", `Negotiation${state?.negotiation?.length ? ` (${state.negotiation.length})` : ""}`]].map(([t, label]) => (
                 <button key={t} className={tab === t ? "on" : ""} onClick={() => setTab(t)}>{label}</button>
               ))}
               <span className="spacer" />
@@ -108,7 +112,7 @@ export default function App() {
             {tab === "schematic" ? <Schematic svg={svg} />
               : tab === "board" ? (state?.design ? <Board3D runId={runId} designVersion={state.design_version} failing={state.failing_refs || []} />
                                                  : <div className="empty small">Waiting for the first design…</div>)
-              : tab === "bom" ? <Bom rows={bom} runId={runId} />
+              : tab === "bom" ? <BomPlus runId={runId} designVersion={state?.design_version} />
               : <Negotiation entries={state?.negotiation || []} agents={state?.agents || []} replans={state?.replans || []} />}
           </section>
 
