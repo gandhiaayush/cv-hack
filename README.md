@@ -32,6 +32,25 @@ spec ──► Mother agent (Nemotron)
 
 Ground truth is real tooling (`kicad-cli` ERC/DRC and rule checks), not a model scoring a model.
 
+## Negotiation loop (mother ↔ subsystem agents)
+
+Subsystem agents are not just executors. Each one first **investigates** the constraints that touch its subsystem (applicable reg clauses, parts availability, power/cost/size share) and reports back to the mother agent before committing to a design.
+
+```
+mother ──delegate(subsystem, budget, constraints)──► subsystem agent
+subsystem agent ──report──► mother
+    {feasible options, conflicts found, constraints it cannot meet,
+     what it needs from other subsystems, cost of each option}
+mother ──decision──► subsystem agent
+    {chosen option, budget changes, extra constraints, or spawn sub-subsystem}
+subsystem agent ──► may spawn child agents (e.g. power → battery, regulator, charger)
+                    and repeat the same report/decide cycle
+```
+
+- The mother resolves cross-subsystem conflicts (for example, the analog front end wants a low-noise supply that blows the power agent's cost budget) by reallocating budgets or choosing between options.
+- Delegation is recursive with a depth and step budget, so the tree can grow as deep as the design needs.
+- Every report and decision is an event in the run log, so the dashboard can show the negotiation, not just the result.
+
 ## Demo
 
 1. Hand the system a spec (e.g. battery-powered Class II wearable) and walk away.
