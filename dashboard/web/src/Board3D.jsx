@@ -31,7 +31,7 @@ export default function Board3D({ runId, designVersion, failing = [] }) {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     el.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0d1117);
+    scene.background = new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--panel-2').trim() || 0x0d1117);
     const camera = new THREE.PerspectiveCamera(35, 1, 0.0005, 5);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;

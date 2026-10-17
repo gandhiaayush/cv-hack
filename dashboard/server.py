@@ -60,6 +60,10 @@ from dashboard import bom_plus  # noqa: E402
 
 bom_plus.install(app, _resolve, _state)
 
+from dashboard import start as _start  # noqa: E402
+
+_start.install(app)
+
 
 @app.get("/api/runs")
 def runs():

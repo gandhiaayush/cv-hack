@@ -26,7 +26,7 @@ SYSTEM = ("You are the live commentator for a demo of an AI team designing a med
           "Turn the events below into 1 to 3 short, plain-English sentences for a non-expert audience, in the "
           "present tense. Summarise what the team is doing and why it matters instead of repeating the facts "
           "word for word. Use ONLY the facts given: do not add numbers, part names, reasons or claims that "
-          "are not in them. Describe actions and results only: never judge or promise quality (no 'ensures', "
+          "are not in them. If earlier commentary is given, do NOT repeat it: say only what is new. Describe actions and results only: never judge or promise quality (no 'ensures', "
           "'guarantees', 'correctly', 'perfect', 'safe'). No markdown, no lists.")
 BANNED = ("ensure", "guarantee", "correct", "perfect", "safe", "flawless", "reliab", "optimal")
 
@@ -117,19 +117,22 @@ def fact(kind: str, agent: str, b) -> tuple[str, str] | None:
 class Narrator:
     def __init__(self, db: str = DB):
         self.db, self.last, self.lines, self.lock = db, 0, [], threading.Lock()
+        self.run = None
 
     def poll(self) -> list[tuple[str, str]]:
         if not os.path.exists(self.db):
             return []
         c = sqlite3.connect(self.db)
         try:
+            cur = c.execute("select run from messages order by id desc limit 1").fetchone()
             top = c.execute("select coalesce(max(id),0) from messages").fetchone()[0]
-            if top < self.last:  # a new run replaced the log
+            if (cur and cur[0] != self.run) or top < self.last:  # a new run started: commentary follows it
+                self.run = cur[0] if cur else None
                 self.last = 0
                 with self.lock:
                     self.lines.clear()
-            rows = c.execute("select id, agent, kind, body from messages where id > ? order by id",
-                             (self.last,)).fetchall()
+            rows = c.execute("select id, agent, kind, body from messages where id > ? and run = ? order by id",
+                             (self.last, self.run)).fetchall()
         except sqlite3.OperationalError:
             return []
         finally:
@@ -145,8 +148,11 @@ class Narrator:
     def say(self, facts: list[tuple[str, str]]) -> str:
         facts = _collapse(facts[-30:])
         text = " ".join(f for f, _ in facts)
+        with self.lock:
+            earlier = " ".join(l["text"] for l in self.lines[-2:])
         try:
-            m = chat([{"role": "system", "content": SYSTEM}, {"role": "user", "content": text}],
+            m = chat([{"role": "system", "content": SYSTEM},
+                      {"role": "user", "content": (f"Earlier commentary (do not repeat): {earlier}\n\n" if earlier else "") + "New events: " + text}],
                      os.environ.get("NARRATOR_MODEL") or os.environ["SUB_MODEL"], max_tokens=300, temperature=0.3,
                      extra_body={"chat_template_kwargs": {"enable_thinking": False}})
             out = (m.content or "").strip()

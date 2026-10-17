@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api.js";
 import Board3D from "./Board3D.jsx";
-import Narration from "./Narration.jsx";
 import BomPlus from "./BomPlus.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
 
-export default function App() {
+export default function App({ fixedRunId } = {}) {
   const [runs, setRuns] = useState([]);
-  const [runId, setRunId] = useState(null);
-  const [follow, setFollow] = useState(true);
+  const [runId, setRunId] = useState(fixedRunId || null);
+  const [follow, setFollow] = useState(!fixedRunId);
   const [state, setState] = useState(null);
   const [log, setLog] = useState([]);
   const [svg, setSvg] = useState(null);
@@ -75,11 +74,13 @@ export default function App() {
       <header className="top">
         <div className="brand">
           <span className={`dot ${running ? "live" : state?.done?.ok ? "ok" : ""}`} />
+          {fixedRunId ? <h1>Workspace <small className="muted">{fixedRunId}</small></h1> : (<>
           <h1>Agent PCB run</h1>
           <select value={runId || ""} onChange={(e) => { setFollow(false); setRunId(e.target.value); }}>
             {runs.map((r) => <option key={r.run_id} value={r.run_id}>{r.run_id}</option>)}
           </select>
           <label className="follow"><input type="checkbox" checked={follow} onChange={(e) => setFollow(e.target.checked)} /> follow latest</label>
+          </>)}
         </div>
         <Budgets totals={state?.totals} budgets={state?.budgets} />
         <Controls bom={bom} onSend={sendControl} onExport={doExport} disabled={!runId} />
@@ -92,8 +93,6 @@ export default function App() {
       ) : (
         <main className="grid">
           <section className="panel tree">
-            <h2>Live commentary</h2>
-            <Narration />
             <h2>Agents <small>{state?.agents?.length || 0}</small></h2>
             <AgentTree agents={state?.agents || []} />
             <Verifiers verifiers={state?.verifiers || {}} />

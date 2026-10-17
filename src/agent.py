@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from cvhack.parts import load_parts
 
-from . import gate, store
+from . import gate, lessons, store
 from .llm import chat
 from .scheduler import SCHED
 from .spec import BUDGET, DEVICE, SUBSYSTEMS
@@ -34,10 +34,15 @@ class RunCtx:
     critic_rounds: int = 0
     delegations: dict = field(default_factory=dict)
     critic_failures: int = 0
+    first_round_blockers: int | None = None
     reviewed: bool = False
     objections: list = field(default_factory=list)
     result: dict | None = None
     agents_spawned: int = 0
+    device: str = DEVICE                                   # what the user asked for, from the run spec
+    budget: dict = field(default_factory=lambda: dict(BUDGET))
+    lessons_used: list = field(default_factory=list)
+    request: str = ""                                      # the user's original prompt, verbatim
     findings: list = field(default_factory=list)      # regulatory / sourcing findings that passed their gate
     fetched: dict = field(default_factory=dict)       # CFR section -> text actually returned by a tool this run
     lock: threading.Lock = field(default_factory=threading.Lock)
@@ -159,8 +164,10 @@ Work in this order:
 A deterministic gate checks your options. If it rejects them, read the errors, fix the cause (do not argue),
 and resubmit. Be concise; you have a small step budget."""
 
-MOTHER_PROMPT = f"""You are the mother agent designing a {DEVICE}. Budget: {BUDGET['power_mw']:.0f} mW, ${BUDGET['cost_usd']:.0f} BOM.
-1. Call list_subsystems. Then make ONE delegate_batch call with EXACTLY these 9 items (a queue runs at most {{conc}}
+def mother_prompt(ctx) -> str:
+    req = f"\nThe customer asked for: \"{ctx.request}\"." if ctx.request else ""
+    return f"""You are the mother agent designing a {ctx.device}. Budget: {ctx.budget['power_mw']:.0f} mW, ${ctx.budget['cost_usd']:.0f} BOM.{req}
+1. Call list_subsystems. Then make ONE delegate_batch call with EXACTLY these 9 items (a queue runs at most {SCHED.n}
    model calls at once, so do not hold back):
    - agent_type=regulatory (once, no subsystem)
    - agent_type=specialist, strategy=lowest_cost, for each of: power, analog_fe, mcu_comms, protection   (4 calls)
@@ -172,9 +179,15 @@ MOTHER_PROMPT = f"""You are the mother agent designing a {DEVICE}. Budget: {BUDG
    options or re-delegating a subsystem with new constraints.
 3. Call finalize. Treat your own choice as probably wrong until the checks and the critic say otherwise:
    answer every objection with a change or with evidence. You cannot finish any other way."""
-MOTHER_PROMPT = MOTHER_PROMPT.replace("{conc}", str(SCHED.n))
 
-CRITIC_PROMPT = f"""You are an adversarial design reviewer for a {DEVICE}. Assume the design has a mistake and
+
+MOTHER_PROMPT = mother_prompt(RunCtx(run=""))  # default for scripts that do not build a run spec
+
+def critic_prompt(ctx) -> str:
+    known = lessons.active(None, limit=8)
+    seen_before = ("\nFailure modes found in earlier reviews; check these first:\n" + "\n".join(f"- {t}" for t in known)
+                   if known else "")
+    return seen_before + f"""You are an adversarial design reviewer for a {ctx.device}. Assume the design has a mistake and
 find it: wrong part for the function, voltage/current margin, missing protection, budget games, ignored rule,
 regulatory gap, supply risk. Use only the facts given. Return JSON only:
 {{"objections":[{{"id":"O1","severity":"blocker|concern","subsystem":str,"part":str,"issue":str,"evidence":str}}]}}
@@ -290,9 +303,9 @@ def _finalize(args, ctx: RunCtx, a: dict):
     power = sum((parts[p["mpn"]].power_mw or 0.0) * p.get("qty", 1) for _, p in items)
     unknown = [p["mpn"] for _, p in items if parts[p["mpn"]].price_usd is None]
     totals = {"cost_usd": round(cost, 3), "power_mw": round(power, 3), "unknown_price_parts": unknown,
-              "budget": BUDGET}
+              "budget": ctx.budget}
     store.log(ctx.run, a["name"], a["parent"], "budget_check", totals)
-    if cost > BUDGET["cost_usd"] or power > BUDGET["power_mw"]:
+    if cost > ctx.budget["cost_usd"] or power > ctx.budget["power_mw"]:
         return f"REJECTED: over budget (DB-computed) {totals}. Choose cheaper/lower-power options."
 
     responses = {r["objection_id"]: r for r in args.get("responses", [])}
@@ -311,6 +324,8 @@ def _finalize(args, ctx: RunCtx, a: dict):
             ctx.reviewed = True
             ctx.critic_rounds += 1
             ctx.objections = objs
+            if ctx.first_round_blockers is None:
+                ctx.first_round_blockers = sum(1 for o in objs if o.get("severity") == "blocker")
         store.log(ctx.run, "critic", a["name"], "critique",
                   {"round": ctx.critic_rounds, "objections": ctx.objections})
         if objs and ctx.objections:
@@ -353,7 +368,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
                       "regulatory_and_sourcing_findings": ctx.findings})
     try:
         with SCHED.slot(ctx.run, "critic"):
-            m = chat([{"role": "system", "content": CRITIC_PROMPT}, {"role": "user", "content": msg}],
+            m = chat([{"role": "system", "content": critic_prompt(ctx)}, {"role": "user", "content": msg}],
                      os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
         text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
         objs = json.loads(text[text.index("{"):text.rindex("}") + 1])["objections"]
@@ -412,6 +427,16 @@ PLAIN = {
 }
 
 
+def _lessons_block(ctx: RunCtx, subsystem: str | None) -> str:
+    """Advice distilled from earlier runs' debates (unverified; the gate and critic still decide)."""
+    ls = lessons.active(subsystem)
+    if not ls:
+        return ""
+    ctx.lessons_used = sorted(set(ctx.lessons_used) | set(ls))
+    return "\n\nLessons from earlier design reviews (advice, unverified; the checks still decide):\n" + \
+        "\n".join(f"- {t}" for t in ls)
+
+
 def _delegate(args, ctx: RunCtx, parent: str, depth: int) -> str:
     typ, sub, strat = args.get("agent_type", "specialist"), args.get("subsystem"), args.get("strategy")
     if typ == "specialist" and sub not in SUBSYSTEMS:
@@ -428,13 +453,14 @@ def _delegate(args, ctx: RunCtx, parent: str, depth: int) -> str:
         ctx.agents_spawned += 1
     model = os.environ["SUB_MODEL"]
     if typ == "regulatory":
-        role, tools, system = "regulatory", REG_TOOLS, REG_PROMPT.format(device=DEVICE)
+        role, tools, system = "regulatory", REG_TOOLS, REG_PROMPT.format(device=ctx.device)
     elif typ == "sourcing":
-        role, tools, system = "sourcing", SOURCING_TOOLS, SOURCING_PROMPT.format(device=DEVICE)
+        role, tools, system = "sourcing", SOURCING_TOOLS, SOURCING_PROMPT.format(device=ctx.device)
     else:
         role, tools = sub, LEAF_TOOLS
-        system = SUB_PROMPT.format(role=sub, device=DEVICE, strategy_line=STRATEGIES.get(strat, ""),
+        system = SUB_PROMPT.format(role=sub, device=ctx.device, strategy_line=STRATEGIES.get(strat, ""),
                                    cats=", ".join(sorted(SUBSYSTEMS[sub]["allowed"])))
+        system += _lessons_block(ctx, sub)
     return run_agent(role, args["task"], model, tools, system, ctx, parent=parent, depth=depth + 1,
                      agent_type=typ, strategy=strat)
 

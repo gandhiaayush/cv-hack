@@ -101,13 +101,54 @@ def report_payload(rep: dict, to: str) -> dict:
 class Translator:
     """Stateful: remembers each agent's parent so every event carries its tree edge."""
     parents: dict[tuple[str, str], str | None] = field(default_factory=dict)
+    options: dict[tuple[str, str], tuple[str, list]] = field(default_factory=dict)  # (run, option) -> (subsystem, parts)
 
     def _ev(self, r: Row, agent: str, kind: str, **payload) -> AgentEvent:
         return AgentEvent(run_id=r.run, agent_id=agent, parent_id=self.parents.get((r.run, agent)),
                           kind=kind, payload=payload, ts=r.ts)
 
+    def _design_events(self, r: Row, chosen: dict, label: str) -> list[AgentEvent]:
+        """Apply the agents' chosen parts to the baseline board and tell the UI (schematic, 3D, BOM, ERC)."""
+        try:
+            from cvhack.parts import load_parts
+            from cvhack.tooling.electrical import ElectricalVerifier
+            from src.design_apply import apply
+            parts = load_parts()
+            d, rep = apply(chosen, parts)
+            res = ElectricalVerifier(use_kicad=False).verify(d, parts)
+            msg = (f"{label}: {len(rep['swapped'])} part(s) swapped into the board, {len(rep['kept'])} already there, "
+                   f"{len(rep['unplaced'])} not drawn (" + "; ".join(f"{u['mpn']}: {u['reason']}" for u in rep["unplaced"][:3]) + ")")
+            return [self._ev(r, r.agent, "design_updated", design=d.model_dump()),
+                    self._ev(r, r.agent, "verifier_result", **res.model_dump(), target_subsystem=None),
+                    self._ev(r, r.agent, "step", message=msg)]
+        except Exception as exc:  # the bridge must never stop because a design could not be built
+            return [self._ev(r, r.agent, "step", message=f"{label}: could not build a board ({type(exc).__name__}: {exc})")]
+
     def translate(self, r: Row) -> list[AgentEvent]:
         role = r.agent.split(":")[0]
+        if r.kind == "final" and r.parent and isinstance(r.body, dict) and r.body.get("options"):
+            for o in r.body["options"]:  # remember each explorer option's parts for when the mother selects it
+                self.options[(r.run, o.get("name"))] = (r.body.get("subsystem") or role, o.get("parts") or [])
+        if r.kind == "tool_call" and isinstance(r.body, dict) and r.body.get("tool") == "finalize":
+            chosen: dict[str, list] = {}
+            for sel in (r.body.get("args") or {}).get("selections") or []:
+                ent = self.options.get((r.run, sel.get("option"))) if isinstance(sel, dict) else None
+                if ent:
+                    chosen.setdefault(ent[0], []).extend(ent[1])
+            base = [self._ev(r, r.agent, "step", message=f"finalize({_short(r.body.get('args', {}), 100)})")]
+            return base + (self._design_events(r, chosen, "Proposed design") if chosen else [])
+        if r.kind == "spec":  # shown in the chat column; not an agent
+            return []
+        if r.kind == "result":
+            b = r.body if isinstance(r.body, dict) else {}
+            ok = bool(b.get("selections"))
+            chosen: dict[str, list] = {}
+            for x in b.get("bom") or []:
+                chosen.setdefault(x["subsystem"], []).append({"mpn": x["mpn"], "qty": x.get("qty", 1)})
+            extra = self._design_events(r, chosen, "Final design") if chosen else []
+            summary = (f"Design {b.get('status', '')}: ${(b.get('totals') or {}).get('cost_usd', '?')}" if ok
+                       else f"No accepted design ({b.get('status', 'unknown')})")
+            return extra + [self._ev(r, r.agent, "run_done", ok=ok, summary=summary)]
         if r.kind == "start":
             self.parents[(r.run, r.agent)] = r.parent
             out = [self._ev(r, r.agent, "agent_spawned", role="subsystem" if r.parent else "mother",
@@ -146,6 +187,18 @@ class Translator:
             if not r.parent:
                 out.append(self._ev(r, r.agent, "run_done", ok=True, summary=_short(text, 300)))
             return out
+        if r.kind == "gate" and isinstance(r.body, dict):
+            errs = [{"code": e.split(":")[0], "message": f"{n}: {e}", "part": e.split(":", 1)[1] or None}
+                    for n, es in (r.body.get("failed") or {}).items() for e in es]
+            return [self._ev(r, r.agent, "verifier_result", verifier="gate", ok=bool(r.body.get("passed")),
+                             errors=errs, details={"attempt": r.body.get("attempt")}, target_subsystem=role)]
+        if r.kind == "critique" and isinstance(r.body, dict):
+            objs = r.body.get("objections") or []
+            errs = [{"code": "CRITIC_" + (o.get("severity") or "concern").upper(), "message": (o.get("issue") or "")[:240],
+                     "part": None, "severity": "error" if o.get("severity") == "blocker" else "warning"} for o in objs]
+            return [self._ev(r, "critic", "verifier_result", verifier="critic",
+                             ok=not any(o.get("severity") == "blocker" for o in objs), errors=errs,
+                             details={"round": r.body.get("round")})]
         return [self._ev(r, r.agent, "step", message=f"{r.kind}: {_short(r.body)}")]
 
 
