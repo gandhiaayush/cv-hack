@@ -6,62 +6,45 @@ Theme: *build a team of agents you can walk away from.*
 
 ## What we're building
 
-A long-horizon PCB-design system. Nemotron (served on Crusoe Managed Inference) takes a product spec, a parts database and an FDA regulation list, and produces a compliant schematic, a BOM and a traceability matrix, with no human in the loop.
+A long-horizon PCB-design system. Nemotron (served on Crusoe Managed Inference) takes a product spec
+([`data/spec.json`](./data/spec.json)), a 500-part real catalog and FDA regulations, and produces a wired,
+ERC-checked schematic, a BOM and a requirement traceability matrix, with no human in the loop. Every exit is
+gated by code: the models propose, deterministic checks accept.
 
-A **mother agent** decomposes the spec into subsystems and owns the plan, budgets and run log. **Subsystem agents** pick parts and draft schematic blocks. **Verifier agents** gate every step. Failures return to the mother agent as structured errors, and it re-plans, swaps parts or reallocates budget.
-
-## Architecture
-
-```
-spec ──► Mother agent (Nemotron)
-           │  decompose, budget, re-plan, run log
-           ├─► Power agent      ┐
-           ├─► Analog FE agent  │ pick parts from DB, draft schematic block
-           ├─► MCU/comms agent  │ (SKiDL / KiCad netlist)
-           └─► Protection agent ┘
-                    │
-                    ▼
-           Verifiers (the gate)
-             ├─ Compliance agent : parts + design vs. reg rules, cites clause
-             ├─ Electrical agent : kicad-cli ERC/DRC, power/cost/size budgets
-             └─ Red-team agent   : hunts violations the others missed
-                    │ pass → merge into design   fail → structured error → mother agent
-                    ▼
-           Output: KiCad project, BOM, requirement-to-part traceability matrix
-```
-
-Ground truth is real tooling (`kicad-cli` ERC/DRC and rule checks), not a model scoring a model.
-
-## Negotiation loop (mother ↔ subsystem agents)
-
-Subsystem agents are not just executors. Each one first **investigates** the constraints that touch its subsystem (applicable reg clauses, parts availability, power/cost/size share) and reports back to the mother agent before committing to a design.
+## How a real run works
 
 ```
-mother ──delegate(subsystem, budget, constraints)──► subsystem agent
-subsystem agent ──report──► mother
-    {feasible options, conflicts found, constraints it cannot meet,
-     what it needs from other subsystems, cost of each option}
-mother ──decision──► subsystem agent
-    {chosen option, budget changes, extra constraints, or spawn sub-subsystem}
-subsystem agent ──► may spawn child agents (e.g. power → battery, regulator, charger)
-                    and repeat the same report/decide cycle
+data/spec.json ──► Mother agent (Nemotron Super)
+                     │ one delegate_batch: 1 regulatory + 4 subsystems × 2 strategies (lowest_cost, robust_sourcing)
+                     ├─► specialist agents (Nemotron Lightning) ── search_parts / find_alternates / get_part_medical
+                     │        └─ submit_report ──► stage-1 gate (src/gate.py): part exists, category, voltage
+                     │                              rating vs rail, stock, pinout known, price/power known
+                     ├─► regulatory agent ── classify_device / CFR sections ── findings gate (quotes must be fetched)
+                     ├─► sourcing agent (optional) ── check_supply / alternates
+                     │
+                     └─ finalize ──► budget check (DB prices) ──► critic on a different model (GLM) ──► answer
+                                     every objection ──► wiring phase (src/wiring.py):
+                                       refs assigned, one wiring agent per subsystem wires real KiCad pins
+                                       ──► wiring gate (ERC, grounding) per block
+                                       ──► merged design ──► ElectricalVerifier (native ERC, budgets, stock,
+                                           KiCad ERC when installed), one repair round for cross-block errors
+                                       ──► requirements (src/requirements.py) evaluated from data/spec.json
 ```
 
-- The mother resolves cross-subsystem conflicts (for example, the analog front end wants a low-noise supply that blows the power agent's cost budget) by reallocating budgets or choosing between options.
-- Delegation is recursive with a depth and step budget, so the tree can grow as deep as the design needs.
-- Every report and decision is an event in the run log, so the dashboard can show the negotiation, not just the result.
+The agents log to `runs/run.db`; `python -m cvhack.bridge` turns that into the dashboard's event stream
+(agent tree, negotiation, gate and critic results, design, ERC, requirements). The dashboard's **Mark out of
+stock** and **Raise to Class III** buttons write `runs/<run>/control.jsonl`; the mother picks them up between
+steps (or, after the design is accepted, during `LINGER`), re-gates every option that used the part, and
+re-plans.
 
-## Demo
-
-1. Hand the system a spec (e.g. battery-powered Class II wearable) and walk away.
-2. A live agent tree and a requirements matrix turning green.
-3. Mid-run we change a constraint (a part goes out of stock, or the device class goes up) and the system re-plans on its own.
-4. Final output: schematic rendered from KiCad, BOM, compliance matrix.
+Run modes: `demo/run_demo.sh` (scripted fake run, no LLM), `--replay` (recorded run, stage fallback) and
+`--real` (the pipeline above, at the catalog's dated LCSC prices).
 
 ## Scope and caveats
 
 - The current rule set contains project-defined prototype wiring checks, not FDA/IEC regulatory clauses or a regulatory assessment. It is **not** legal or regulatory advice.
-- Target is schematic + netlist + ERC. Board layout only if time allows.
+- Target is schematic + netlist + ERC. Wiring is checked electrically (ERC, grounding, drivers), not
+  functionally; a passing run is a reviewed starting point, not a validated design.
 
 ## Team split (3 people)
 
@@ -156,7 +139,7 @@ fixture that supports that structural claim. Run
 nodes, pins, rule targets, or evidence references.
 
 The graph covers all 29 placed instances, 20 distinct MPNs, 4 subsystems, 17
-nets, and all 83 mock symbol pins (81 connected and 2 intentionally
+nets, and all 85 mock symbol pins (83 connected and 2 intentionally
 no-connect). The graph also includes B's project-defined demo rules and their
 links to affected mock parts/nets. The mock fixtures are not manufacturer
 datasheets: official manufacturer evidence is still missing for those 20 PPG
@@ -262,14 +245,16 @@ references are to the EMC standard 60601-1-2, not safety isolation.
 
 ## Setup
 
-Requires KiCad (`kicad-cli`), Python 3.11+, and Crusoe Managed Inference credentials in `.env`.
+Python 3.11+ with `pip install -r requirements.txt` (the scripts use `./.venv` or `../.venv`), Crusoe Managed
+Inference credentials in `.env` (copy `.env.example`), and optionally KiCad (`brew install --cask kicad`) for
+KiCad's own ERC and PDF export, plus `demo/setup_router.sh` for the routed 3D board.
 
 ## Running the demo
 
 ```
 demo/preflight.sh                 # checklist: tests, build, KiCad, fake run, credentials
 demo/run_demo.sh                  # dashboard + scripted fake run (no LLM needed)
-demo/run_demo.sh --real           # dashboard + A's agents, bridged from runs/run.db
+demo/run_demo.sh --real           # dashboard + the real agents on Crusoe, bridged from runs/run.db
 demo/run_demo.sh --replay         # dashboard + recorded run (stage fallback)
 ```
 

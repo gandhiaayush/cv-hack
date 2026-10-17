@@ -94,3 +94,23 @@ def test_gate_critic_inference_and_finalize_map_to_dashboard_events():
     assert models["nvidia/Nemotron-X"]["calls"] == 1 and models["zai-org/GLM-5.3"]["prompt_tokens"] == 10
     assert s.agents["critic"]["role"] == "verifier" and s.agents["critic"]["parent"] == "mother:m"
     assert s.done["ok"] is True and "accepted" in s.done["summary"]
+
+
+def test_run_done_is_green_only_for_a_clean_wired_result():
+    from cvhack.bridge import Row, Translator
+    base = {"status": "accepted", "selections": {"power": "A"}, "totals": {}, "critic_rounds": 1,
+            "wiring": {"electrical_ok": True, "requirements": {"REQ-01": "pass", "REQ-11": "fail"},
+                       "advisory_requirements": ["REQ-11"]}}
+
+    def done(res):
+        tr = Translator()
+        tr.translate(Row(1, 1.0, "r", "mother:m", None, "start", {"task": "Begin."}))
+        return next(e for e in tr.translate(Row(2, 2.0, "r", "mother:m", None, "final", res))
+                    if e.kind == "run_done").payload
+
+    assert done(base)["ok"] is True                                   # an advisory failure stays green
+    assert done({**base, "status": "accepted_with_contested_blockers", "contested_blockers": ["R1-O1"]})["ok"] is False
+    assert done({**base, "wiring": {**base["wiring"], "electrical_ok": False}})["ok"] is False
+    bad = {**base, "wiring": {**base["wiring"], "requirements": {"REQ-01": "fail"}}}
+    assert done(bad)["ok"] is False and "REQ-01" in done(bad)["summary"]
+

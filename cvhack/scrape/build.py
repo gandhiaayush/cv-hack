@@ -547,8 +547,9 @@ def main() -> None:
     args = ap.parse_args()
     data = build(refresh=args.refresh, target=args.target)
     if not args.no_medical:
-        from cvhack.scrape import medical
+        from cvhack.scrape import medical, ratings
         medical.enrich(data)
+        ratings.enrich(data)  # uses the datasheet text cached by medical
     OUT_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     cov = data["coverage"]
     print(f"Wrote {OUT_PATH.relative_to(ROOT)}: {cov['parts']} parts, {cov['with_pins']} with pins "

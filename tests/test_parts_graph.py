@@ -33,9 +33,9 @@ def test_mock_design_parts_link_to_real_records():
     assert {"AP2112K-3.3TRG1", "MAX30102EFD+T"} <= {parts_graph.part_node(r["source"])["label"] for r in used}
 
 
-def test_mock_pin_conflicts_are_reported():
-    conflicts = parts_graph.load_graph()["mock_pin_conflicts"]
-    assert any(c["mpn"] == "MAX30102EFD+T" and c["pin"] == "4" for c in conflicts)
+def test_mock_pins_agree_with_kicad():
+    # the mock MAX30102 once put SDA on PGND (pin 4); every mock pin now matches the KiCad symbol
+    assert parts_graph.load_graph()["mock_pin_conflicts"] == []
 
 
 def test_agent_tools_return_json():

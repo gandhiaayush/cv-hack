@@ -21,7 +21,7 @@ def test_library_symbols_used_only_when_pins_agree():
     assert rep["RC0402FR-0710KL"] == "Device:R"
     assert rep["MCP73831T-2ACI/OT"] == "Battery_Management:MCP73831-2-OT"
     assert rep["AP2112K-3.3TRG1"] == "Regulator_Linear:AP2112K-3.3"         # derived symbol, flattened
-    assert rep["MAX30102EFD+T"].startswith("generated (pin 1")               # mock pinout disagrees with KiCad
+    assert rep["MAX30102EFD+T"] == "Sensor:MAX30102"                          # mock pinout now matches KiCad
 
 
 @needs_kicad

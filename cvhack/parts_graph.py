@@ -153,6 +153,9 @@ def build_graph() -> dict[str, Any]:
                  jlc_library_class=p["offer"]["jlc_library_class"], datasheet_url=p.get("datasheet_url"),
                  pin_count=len(kicad.get("pins", [])), pin_source=kicad.get("pin_source"),
                  area_mm2=(p.get("area_mm2") or {}).get("value"),
+                 vin_abs_max_v=((p.get("electrical") or {}).get("vin_abs_max") or {}).get("value")
+                 if ((p.get("electrical") or {}).get("vin_abs_max") or {}).get("used") else None,
+                 power_mw_est=((p.get("electrical") or {}).get("power_mw_est") or {}).get("value"),
                  mock_part_id=("part:mock:" + _slug(p["mpn"])) if "cvhack/mocks/parts.json" in p.get("repo_refs", []) else None,
                  metadata_status="distributor_reported_not_datasheet_verified")
 

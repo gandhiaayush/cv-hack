@@ -11368,6 +11368,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": 13.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -11627,6 +11629,8 @@
     "pin_count": 28,
     "pin_source": "kicad_symbol",
     "area_mm2": 19.76,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -11964,6 +11968,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -12193,6 +12199,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.0,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -12404,6 +12412,8 @@
     "pin_count": 12,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.0,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -12591,6 +12601,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -12802,6 +12814,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": 7.5,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -13007,6 +13021,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": 7.5,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -13200,6 +13216,8 @@
     "pin_count": 24,
     "pin_source": "kicad_symbol",
     "area_mm2": 16.0,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -13495,6 +13513,8 @@
     "pin_count": 12,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.0,
+    "vin_abs_max_v": 3.6,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -13676,6 +13696,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -13923,6 +13945,8 @@
     "pin_count": 24,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.004,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -14212,6 +14236,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.007,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -14438,6 +14464,8 @@
     "pin_count": 21,
     "pin_source": "kicad_symbol",
     "area_mm2": 25.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 4.95,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -14720,6 +14748,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.478,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -14861,6 +14891,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 3.96,
     "mock_part_id": "part:mock:max30102efd-t",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15072,6 +15104,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 3.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": 2.574,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15123,6 +15157,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.32,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15279,6 +15315,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": 24.75,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15415,6 +15453,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.32,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15512,6 +15552,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": 0.198,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15627,6 +15669,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.198,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15748,6 +15792,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.082,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15828,6 +15874,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.198,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15912,6 +15960,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": 0.65,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -15992,6 +16042,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 26.0,
+    "power_mw_est": 0.214,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16117,6 +16169,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 12.0,
+    "power_mw_est": 1.815,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16267,6 +16321,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 18.0,
+    "power_mw_est": 1.115,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16405,6 +16461,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 2.31,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16542,6 +16600,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 14.7,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": 0.165,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16656,6 +16716,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 2.2,
+    "power_mw_est": 0.115,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16829,6 +16891,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.2,
+    "vin_abs_max_v": 1.98,
+    "power_mw_est": 0.132,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -16951,6 +17015,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17003,6 +17069,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 8.64,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17063,6 +17131,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 2.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17208,6 +17278,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 4.41,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": 0.006,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17261,6 +17333,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 9.9,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17469,6 +17543,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 4.95,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17611,6 +17687,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.237,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17740,6 +17818,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 3.96,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17869,6 +17949,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 32.0,
+    "power_mw_est": 3.96,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -17922,6 +18004,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": 2.31,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18021,6 +18105,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 2.31,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18070,6 +18156,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 2.64,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18125,6 +18213,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.65,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18184,6 +18274,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": 0.561,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18297,6 +18389,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": 0.693,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18396,6 +18490,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 13.53,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18497,6 +18593,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 4.62,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18598,6 +18696,8 @@
     "pin_count": 14,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.33,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18727,6 +18827,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": 52.8,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18817,6 +18919,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -18956,6 +19060,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19113,6 +19219,8 @@
     "pin_count": 10,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.0,
+    "vin_abs_max_v": 4.8,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19282,6 +19390,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 15.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19439,6 +19549,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 15.0,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19598,6 +19710,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 5.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19656,6 +19770,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.006,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19772,6 +19888,8 @@
     "pin_count": 7,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.004,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19914,6 +20032,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.485,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -19968,6 +20088,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.001,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20136,6 +20258,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.98,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20241,6 +20365,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 2.64,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20346,6 +20472,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 4.0,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": 1.419,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20398,6 +20526,8 @@
     "pin_count": 7,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.495,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20548,6 +20678,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20669,6 +20801,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20778,6 +20912,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20859,6 +20995,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 7.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -20998,6 +21136,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 2.56,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21137,6 +21277,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 2.56,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21231,6 +21373,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21367,6 +21511,8 @@
     "pin_count": 4,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21479,6 +21625,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21552,6 +21700,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21601,6 +21751,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21639,6 +21791,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21689,6 +21843,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21738,6 +21894,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21788,6 +21946,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21838,6 +21998,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21887,6 +22049,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21930,6 +22094,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -21979,6 +22145,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22023,6 +22191,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22066,6 +22236,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22110,6 +22282,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22148,6 +22322,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22192,6 +22368,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22242,6 +22420,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22285,6 +22465,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 27.04,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22346,6 +22528,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 21.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22395,6 +22579,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 26.01,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22444,6 +22630,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 36.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22488,6 +22676,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22592,6 +22782,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22663,6 +22855,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22728,6 +22922,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22793,6 +22989,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22858,6 +23056,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -22923,6 +23123,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23024,6 +23226,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23102,6 +23306,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23180,6 +23386,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23240,6 +23448,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23278,6 +23488,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23338,6 +23550,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23376,6 +23590,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23462,6 +23678,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23535,6 +23753,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23573,6 +23793,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23611,6 +23833,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23663,6 +23887,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23713,6 +23939,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23775,6 +24003,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23835,6 +24065,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23895,6 +24127,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23933,6 +24167,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -23979,6 +24215,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24050,6 +24288,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24123,6 +24363,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24190,6 +24432,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24255,6 +24499,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24320,6 +24566,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24385,6 +24633,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24426,6 +24676,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24466,6 +24718,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24512,6 +24766,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24585,6 +24841,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24662,6 +24920,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24733,6 +24993,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24819,6 +25081,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 70.2,
+    "vin_abs_max_v": null,
+    "power_mw_est": 19.8,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24884,6 +25148,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 191.1,
+    "vin_abs_max_v": null,
+    "power_mw_est": 33.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -24949,6 +25215,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 19.8,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25028,6 +25296,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 191.1,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25079,6 +25349,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25253,6 +25525,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25371,6 +25645,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25429,6 +25705,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25572,6 +25850,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -25808,6 +26088,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26084,6 +26366,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26307,6 +26591,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26461,6 +26747,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26616,6 +26904,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26700,6 +26990,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -26944,6 +27236,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27176,6 +27470,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27335,6 +27631,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27561,6 +27859,8 @@
     "pin_count": 16,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27725,6 +28025,8 @@
     "pin_count": 4,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27843,6 +28145,8 @@
     "pin_count": 4,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -27940,6 +28244,8 @@
     "pin_count": 4,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -28029,6 +28335,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -28099,6 +28407,8 @@
     "pin_count": 64,
     "pin_source": "kicad_symbol",
     "area_mm2": 196.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -28754,6 +29064,8 @@
     "pin_count": 32,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -29121,6 +29433,8 @@
     "pin_count": 32,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -29339,6 +29653,8 @@
     "pin_count": 44,
     "pin_source": "kicad_symbol",
     "area_mm2": 100.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -29816,6 +30132,8 @@
     "pin_count": 44,
     "pin_source": "kicad_symbol",
     "area_mm2": 100.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -30285,6 +30603,8 @@
     "pin_count": 64,
     "pin_source": "kicad_symbol",
     "area_mm2": 196.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -30663,6 +30983,8 @@
     "pin_count": 32,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -30881,6 +31203,8 @@
     "pin_count": 32,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -31236,6 +31560,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -31747,6 +32073,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -31886,6 +32214,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": 4.2,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -31940,6 +32270,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -31992,6 +32324,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -32044,6 +32378,8 @@
     "pin_count": 49,
     "pin_source": "kicad_symbol",
     "area_mm2": 36.0,
+    "vin_abs_max_v": 3.9,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -32572,6 +32908,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -32624,6 +32962,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -32676,6 +33016,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": 6.25,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -32728,6 +33070,8 @@
     "pin_count": 57,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -33324,6 +33668,8 @@
     "pin_count": 61,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -33950,6 +34296,8 @@
     "pin_count": 81,
     "pin_source": "kicad_symbol",
     "area_mm2": 100.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -34760,6 +35108,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -34812,6 +35162,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -35317,6 +35669,8 @@
     "pin_count": 20,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -35576,6 +35930,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -35874,6 +36230,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -36375,6 +36733,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -36675,6 +37035,8 @@
     "pin_count": 64,
     "pin_source": "kicad_symbol",
     "area_mm2": 100.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -37332,6 +37694,8 @@
     "pin_count": 100,
     "pin_source": "kicad_symbol",
     "area_mm2": 196.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -38313,6 +38677,8 @@
     "pin_count": 100,
     "pin_source": "kicad_symbol",
     "area_mm2": 196.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -39282,6 +39648,8 @@
     "pin_count": 20,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -39531,6 +39899,8 @@
     "pin_count": 48,
     "pin_source": "kicad_symbol",
     "area_mm2": 49.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -39823,6 +40193,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -39890,6 +40262,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 216.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 23.1,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -39948,6 +40322,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 100.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 20.46,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40006,6 +40382,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 247.0,
+    "vin_abs_max_v": 3.6,
+    "power_mw_est": 11.352,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40058,6 +40436,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 368.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 8.25,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40114,6 +40494,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 339.2,
+    "vin_abs_max_v": 3.6,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40182,6 +40564,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 272.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40238,6 +40622,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 384.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 181.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40297,6 +40683,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 384.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 396.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40347,6 +40735,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 384.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 184.8,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40397,6 +40787,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 384.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 181.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40447,6 +40839,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 184.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": 181.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40503,6 +40897,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 246.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 181.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40559,6 +40955,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 459.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40623,6 +41021,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 633.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40681,6 +41081,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 133.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40733,6 +41135,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 74.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 33.99,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40792,6 +41196,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 216.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 49.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40839,6 +41245,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 279.66,
+    "vin_abs_max_v": null,
+    "power_mw_est": 52.14,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40898,6 +41306,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 225.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 26.4,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -40953,6 +41363,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 40.095,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41002,6 +41414,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 40.095,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41048,6 +41462,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 17.49,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41100,6 +41516,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 64.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 17.49,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41152,6 +41570,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 226.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": 21.12,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41205,6 +41625,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 279.66,
+    "vin_abs_max_v": null,
+    "power_mw_est": 54.45,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41251,6 +41673,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 217.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41309,6 +41733,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 169.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41361,6 +41787,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41514,6 +41942,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 9.9,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41620,6 +42050,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 9.9,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41720,6 +42152,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 3.3,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41821,6 +42255,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -41984,6 +42420,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42082,6 +42520,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42180,6 +42620,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42285,6 +42727,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42390,6 +42834,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42443,6 +42889,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42496,6 +42944,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42549,6 +42999,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42602,6 +43054,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42655,6 +43109,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42720,6 +43176,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42785,6 +43243,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42856,6 +43316,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42909,6 +43371,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -42968,6 +43432,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43023,6 +43489,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43076,6 +43544,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43129,6 +43599,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43182,6 +43654,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43235,6 +43709,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43288,6 +43764,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43341,6 +43819,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43394,6 +43874,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43447,6 +43929,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43500,6 +43984,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43553,6 +44039,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43606,6 +44094,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43659,6 +44149,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43712,6 +44204,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43765,6 +44259,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43818,6 +44314,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43871,6 +44369,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43924,6 +44424,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -43977,6 +44479,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44030,6 +44534,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44083,6 +44589,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44136,6 +44644,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44189,6 +44699,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:grm155r71c104ka88d",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44248,6 +44760,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44301,6 +44815,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:grm188r61a105ka61d",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44358,6 +44874,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:grm188r61a106ke69d",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44415,6 +44933,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:grm188r61a475ke15d",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44468,6 +44988,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44513,6 +45035,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44592,6 +45116,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44637,6 +45163,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44688,6 +45216,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44739,6 +45269,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44790,6 +45322,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44839,6 +45373,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 20.16,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44928,6 +45464,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 36.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -44989,6 +45527,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 28.08,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45044,6 +45584,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 28.08,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45093,6 +45635,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 46.2,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45148,6 +45692,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 46.2,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45197,6 +45743,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45258,6 +45806,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 8.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45319,6 +45869,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45368,6 +45920,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45417,6 +45971,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45466,6 +46022,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45515,6 +46073,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 28.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45576,6 +46136,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 48.18,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45631,6 +46193,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 46.86,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45686,6 +46250,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45730,6 +46296,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45808,6 +46376,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45846,6 +46416,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45890,6 +46462,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45928,6 +46502,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -45972,6 +46548,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46010,6 +46588,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46048,6 +46628,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:ltst-c191kgkt",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46088,6 +46670,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46132,6 +46716,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46170,6 +46756,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46217,6 +46805,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 2.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 2.64,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46276,6 +46866,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.99,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46329,6 +46921,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 1.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.155,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46373,6 +46967,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46434,6 +47030,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46523,6 +47121,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46572,6 +47172,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46621,6 +47223,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46670,6 +47274,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46719,6 +47325,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46768,6 +47376,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46823,6 +47433,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46872,6 +47484,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46921,6 +47535,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -46970,6 +47586,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47019,6 +47637,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47068,6 +47688,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47117,6 +47739,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47166,6 +47790,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47215,6 +47841,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47264,6 +47892,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47313,6 +47943,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47362,6 +47994,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47411,6 +48045,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47460,6 +48096,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47509,6 +48147,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47558,6 +48198,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47607,6 +48249,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47656,6 +48300,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47705,6 +48351,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47760,6 +48408,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47809,6 +48459,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47858,6 +48510,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47907,6 +48561,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -47956,6 +48612,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48005,6 +48663,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48054,6 +48714,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48103,6 +48765,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48152,6 +48816,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:rc0402fr-0710kl",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48201,6 +48867,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:rc0402fr-071kl",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48250,6 +48918,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:rc0402fr-072kl",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48299,6 +48969,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:rc0402fr-074k7l",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48348,6 +49020,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:rc0402fr-075k1l",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48398,6 +49072,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 16.0,
+    "vin_abs_max_v": 30.0,
+    "power_mw_est": 1.109,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48462,6 +49138,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 16.0,
+    "vin_abs_max_v": 30.0,
+    "power_mw_est": 0.005,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48505,6 +49183,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.005,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48562,6 +49242,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.002,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48686,6 +49368,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48739,6 +49423,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 1.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.002,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48794,6 +49480,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48838,6 +49526,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.01,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -48899,6 +49589,8 @@
     "pin_count": 17,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.165,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -49138,6 +49830,8 @@
     "pin_count": 25,
     "pin_source": "kicad_symbol",
     "area_mm2": 19.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.082,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -49443,6 +50137,8 @@
     "pin_count": 25,
     "pin_source": "kicad_symbol",
     "area_mm2": 16.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.049,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -49744,6 +50440,8 @@
     "pin_count": 17,
     "pin_source": "kicad_symbol",
     "area_mm2": 12.96,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.016,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -49977,6 +50675,8 @@
     "pin_count": 21,
     "pin_source": "kicad_symbol",
     "area_mm2": 17.39,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.01,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -50246,6 +50946,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.01,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -50407,6 +51109,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": 9.0,
+    "power_mw_est": 0.082,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -50466,6 +51170,8 @@
     "pin_count": 13,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.28,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -50663,6 +51369,8 @@
     "pin_count": 17,
     "pin_source": "kicad_symbol",
     "area_mm2": 16.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 6.6,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -50896,6 +51604,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.008,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51036,6 +51746,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": 0.165,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51151,6 +51863,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.132,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51204,6 +51918,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.148,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51257,6 +51973,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.007,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51406,6 +52124,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.099,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51542,6 +52262,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.005,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51612,6 +52334,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 3.3,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51753,6 +52477,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 3.3,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -51921,6 +52647,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 20.0,
+    "power_mw_est": 8.25,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52045,6 +52773,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 3.63,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52180,6 +52910,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 9.9,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52348,6 +53080,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52492,6 +53226,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52601,6 +53337,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": 6.6,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52752,6 +53490,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 6.6,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52864,6 +53604,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -52961,6 +53703,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53064,6 +53808,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 14.5,
+    "power_mw_est": 1.32,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53186,6 +53932,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53335,6 +54083,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53447,6 +54197,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 6.6,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53576,6 +54328,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 1.98,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53712,6 +54466,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.33,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53847,6 +54603,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.231,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -53905,6 +54663,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": 0.132,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54043,6 +54803,8 @@
     "pin_count": 9,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.0,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": 0.099,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54215,6 +54977,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.115,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54306,6 +55070,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 30.0,
+    "power_mw_est": 0.148,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54406,6 +55172,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.198,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54501,6 +55269,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 7.0,
+    "power_mw_est": 0.092,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54625,6 +55395,8 @@
     "pin_count": 11,
     "pin_source": "kicad_symbol",
     "area_mm2": 6.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.082,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54815,6 +55587,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 7.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.165,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -54881,6 +55655,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 45.0,
+    "power_mw_est": 6.6,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55038,6 +55814,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 40.0,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55150,6 +55928,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.165,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55208,6 +55988,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 10.0,
+    "vin_abs_max_v": 30.0,
+    "power_mw_est": 0.825,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55260,6 +56042,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.478,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55305,6 +56089,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": 0.031,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55348,6 +56134,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": 0.009,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55400,6 +56188,8 @@
     "pin_count": 15,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.017,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55621,6 +56411,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 45.5,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55744,6 +56536,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 45.5,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55822,6 +56616,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 45.5,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -55900,6 +56696,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56025,6 +56823,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:ap2112k-3-3trg1",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56121,6 +56921,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56211,6 +57013,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56301,6 +57105,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 45.5,
+    "vin_abs_max_v": 18.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56402,6 +57208,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56501,6 +57309,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 66.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56558,6 +57368,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56615,6 +57427,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 18.45,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56726,6 +57540,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 18.45,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56804,6 +57620,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 18.45,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56882,6 +57700,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 45.5,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -56960,6 +57780,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 15.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57044,6 +57866,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57132,6 +57956,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57220,6 +58046,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57364,6 +58192,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57456,6 +58286,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57536,6 +58368,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57632,6 +58466,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57722,6 +58558,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57812,6 +58650,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57900,6 +58740,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -57988,6 +58830,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58076,6 +58920,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.016,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58199,6 +59045,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 16.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58295,6 +59143,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:tlv70018ddcr",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58383,6 +59233,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58471,6 +59323,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58559,6 +59413,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58647,6 +59503,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 4.41,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58776,6 +59634,8 @@
     "pin_count": 11,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -58959,6 +59819,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59055,6 +59917,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59118,6 +59982,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59169,6 +60035,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59257,6 +60125,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59337,6 +60207,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": 6.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59454,6 +60326,8 @@
     "pin_count": 20,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59712,6 +60586,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59838,6 +60714,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -59965,6 +60843,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60045,6 +60925,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60129,6 +61011,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.026,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60287,6 +61171,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.026,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60420,6 +61306,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60568,6 +61456,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 20.0,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60704,6 +61594,8 @@
     "pin_count": 11,
     "pin_source": "kicad_symbol",
     "area_mm2": 9.0,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60871,6 +61763,8 @@
     "pin_count": 5,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": 6.0,
+    "power_mw_est": 0.049,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -60955,6 +61849,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61048,6 +61944,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61101,6 +61999,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 14.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61168,6 +62068,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61227,6 +62129,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61274,6 +62178,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61321,6 +62227,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61368,6 +62276,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61415,6 +62325,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61462,6 +62374,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 2.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61515,6 +62429,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61562,6 +62478,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 14.4,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61605,6 +62523,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61688,6 +62608,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 0.5,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61737,6 +62659,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61780,6 +62704,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61825,6 +62751,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61868,6 +62796,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61911,6 +62841,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -61954,6 +62886,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 1.28,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62005,6 +62939,8 @@
     "pin_count": 3,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62078,6 +63014,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62133,6 +63071,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62206,6 +63146,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62273,6 +63215,8 @@
     "pin_count": 2,
     "pin_source": "kicad_symbol",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62340,6 +63284,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62389,6 +63335,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62438,6 +63386,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62481,6 +63431,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62524,6 +63476,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": "part:mock:smf5-0a",
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62569,6 +63523,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62612,6 +63568,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62657,6 +63615,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 5.92,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62700,6 +63660,8 @@
     "pin_count": 6,
     "pin_source": "kicad_symbol",
     "area_mm2": 8.12,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62793,6 +63755,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": 0.6,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62842,6 +63806,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": 3.25,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62885,6 +63851,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -62974,6 +63942,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63023,6 +63993,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63078,6 +64050,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63127,6 +64101,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63176,6 +64152,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63219,6 +64197,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63262,6 +64242,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63311,6 +64293,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63360,6 +64344,8 @@
     "pin_count": 2,
     "pin_source": "kicad_generic",
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63407,6 +64393,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": null,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63466,6 +64454,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63521,6 +64511,8 @@
     "pin_count": 0,
     "pin_source": null,
     "area_mm2": null,
+    "vin_abs_max_v": null,
+    "power_mw_est": 16.5,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63569,6 +64561,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 4.0,
+    "power_mw_est": 0.004,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63714,6 +64708,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": 0.0,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63853,6 +64849,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 29.4,
+    "vin_abs_max_v": 5.5,
+    "power_mw_est": 0.001,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -63951,6 +64949,8 @@
     "pin_count": 8,
     "pin_source": "kicad_symbol",
     "area_mm2": 14.7,
+    "vin_abs_max_v": null,
+    "power_mw_est": 0.001,
     "mock_part_id": null,
     "metadata_status": "distributor_reported_not_datasheet_verified",
     "medical": {
@@ -127942,50 +128942,7 @@
    "uses_symbol": 400
   }
  },
- "mock_pin_conflicts": [
-  {
-   "mpn": "MAX30102EFD+T",
-   "mock_part_id": "part:mock:max30102efd-t",
-   "pin": "1",
-   "mock": {
-    "name": "VLED+",
-    "type": "power_in"
-   },
-   "kicad": {
-    "name": "NC",
-    "type": "no_connect"
-   },
-   "kicad_symbol": "Sensor:MAX30102"
-  },
-  {
-   "mpn": "MAX30102EFD+T",
-   "mock_part_id": "part:mock:max30102efd-t",
-   "pin": "4",
-   "mock": {
-    "name": "SDA",
-    "type": "bidirectional"
-   },
-   "kicad": {
-    "name": "PGND",
-    "type": "power_in"
-   },
-   "kicad_symbol": "Sensor:MAX30102"
-  },
-  {
-   "mpn": "MAX30102EFD+T",
-   "mock_part_id": "part:mock:max30102efd-t",
-   "pin": "5",
-   "mock": {
-    "name": "SCL",
-    "type": "input"
-   },
-   "kicad": {
-    "name": "NC",
-    "type": "no_connect"
-   },
-   "kicad_symbol": "Sensor:MAX30102"
-  }
- ],
+ "mock_pin_conflicts": [],
  "limitations": [
   "Price and stock are a dated LCSC/JLCPCB snapshot (catalog_snapshot); they change daily.",
   "Specs are distributor-reported screening values, not datasheet-verified limits.",
