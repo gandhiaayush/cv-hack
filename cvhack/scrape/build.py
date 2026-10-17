@@ -1,13 +1,14 @@
 """Select ~500 real parts from the JLCPCB/LCSC catalog and write data/parts_catalog.json.
 
-    python -m cvhack.scrape.build [--refresh] [--target 500]
+    python -m cvhack.scrape.build [--refresh] [--target 500] [--no-medical]
 
 Selection is deterministic for a given catalog snapshot: every MPN already
 referenced by the repo (mock design, B's seed) that the catalog stocks is kept,
 then each category in PLAN is filled by rank: KiCad pinout available, JLC
 Basic/Preferred library class, then stock. Records use B's schema (README
 "Part records") plus a `kicad` block with pins, and an `offer` block with the
-distributor SKU and price tiers.
+distributor SKU and price tiers. cvhack.scrape.medical then adds the `medical`
+evidence block (lifecycle, traceability, datasheet statements, isolation).
 """
 
 from __future__ import annotations
@@ -40,6 +41,7 @@ class Bucket:
     dedupe: Callable[[Component], Any] | None = None
     per_manufacturer: int | None = None
     needs_pins: bool = False   # rank parts with a KiCad pinout first
+    prefer: Callable[[Component], float] | None = None  # extra rank key, after pins
 
 
 def _t(c: Component, name: str) -> str:
@@ -62,12 +64,22 @@ def _two_terminal(c: Component) -> bool:
     return bool(c.package and TWO_TERMINAL_PKGS.match(c.package.replace(" ", "")))
 
 
+def _isolation_kv(c: Component) -> float:
+    v = c.attr_num("Isolation Voltage(VRMS)") or c.attr_num("Isolation Voltage")
+    return round(v / 1000, 1) if v else 0.0
+
+
+# Isolation parts commonly used at a patient or USB barrier; kept whenever stocked.
+MEDICAL_MPNS = ("ISOW7841DWER", "ADUM3160BRWZ", "ADUM4160BRWZ-RL", "ISO1540DR", "SI8641BD-B-IS",
+                "AMC1301DWVR", "ADUM5000ARWZ-RL", "B0505S-1WR3")
+
+
 PLAN: list[Bucket] = [
     # --- power ---------------------------------------------------------------
-    Bucket("ldo", "power", (455, 457), 45, needs_pins=True, per_manufacturer=8,
+    Bucket("ldo", "power", (455, 457), 40, needs_pins=True, per_manufacturer=8,
            accept=lambda c: _vout(c) is not None and 0.8 <= _vout(c) <= 5.0,
            dedupe=lambda c: (c.mpn.split("-")[0][:7], _vout(c))),
-    Bucket("dcdc", "power", (441,), 32, needs_pins=True, per_manufacturer=8,
+    Bucket("dcdc", "power", (441,), 28, needs_pins=True, per_manufacturer=8,
            accept=lambda c: any(t in _t(c, "Topology") for t in ("buck", "boost"))
            and (c.attr_num("Supply Voltage") or 99) <= 40,
            dedupe=lambda c: c.mpn[:7]),
@@ -83,7 +95,7 @@ PLAN: list[Bucket] = [
     Bucket("load_switch", "power", (447,), 6, needs_pins=True,
            accept=lambda c: _t(c, "Type") in ("load switch", "high side switch"), dedupe=lambda c: c.mpn[:6]),
     # --- MCU and comms --------------------------------------------------------
-    Bucket("mcu", "mcu", (216,), 35, needs_pins=True, per_manufacturer=10, dedupe=lambda c: c.mpn[:9]),
+    Bucket("mcu", "mcu", (216,), 32, needs_pins=True, per_manufacturer=10, dedupe=lambda c: c.mpn[:9]),
     Bucket("rf_module", "mcu", (320,), 12, per_manufacturer=4),
     Bucket("rf_module", "mcu", (331,), 10, per_manufacturer=4, dedupe=lambda c: c.mpn[:12]),
     Bucket("rf_module", "mcu", (325, 324), 6, per_manufacturer=3),
@@ -103,7 +115,7 @@ PLAN: list[Bucket] = [
     Bucket("comparator", "analog", (7,), 4, needs_pins=True, dedupe=lambda c: c.mpn[:5]),
     Bucket("adc", "analog", (2,), 5, needs_pins=True, dedupe=lambda c: c.mpn[:6]),
     # --- protection -------------------------------------------------------------
-    Bucket("tvs", "protection", (50,), 30, needs_pins=True, per_manufacturer=8,
+    Bucket("tvs", "protection", (50,), 24, needs_pins=True, per_manufacturer=8,
            dedupe=lambda c: (c.attr_num("Reverse Stand-Off Voltage (VRWM)"), _t(c, "Polarity"),
                              c.package, _t(c, "Number of Channels"))),
     Bucket("fuse", "protection", (55,), 12, per_manufacturer=5,
@@ -126,7 +138,7 @@ PLAN: list[Bucket] = [
     Bucket("resistor", "passive", (501,), 50,
            accept=lambda c: c.package in ("0402", "0603", "0805") and (c.is_basic or c.is_preferred),
            dedupe=lambda c: (c.attr_num("Resistance"), c.package)),
-    Bucket("capacitor", "passive", (39,), 45,
+    Bucket("capacitor", "passive", (39,), 40,
            accept=lambda c: c.package in ("0402", "0603", "0805", "1206") and (c.is_basic or c.is_preferred),
            dedupe=lambda c: (c.attr_num("Capacitance"), c.package)),
     Bucket("inductor", "passive", (264,), 12, per_manufacturer=5,
@@ -145,6 +157,14 @@ PLAN: list[Bucket] = [
            dedupe=lambda c: (c.attr_num("Number of Pins"), c.attr_num("Pitch"))),
     Bucket("connector", "connector", (96,), 2),
     Bucket("switch", "connector", (340,), 4, dedupe=lambda c: c.package),
+    # --- isolation barriers (where IEC 60601-1 MOOP/MOPP ratings apply) -----------
+    Bucket("isolator", "isolation", (540, 541, 542, 552), 12, needs_pins=True, per_manufacturer=4,
+           prefer=_isolation_kv, dedupe=lambda c: c.mpn[:8]),
+    Bucket("isolation_amp", "isolation", (553,), 3, needs_pins=True, prefer=_isolation_kv,
+           dedupe=lambda c: c.mpn[:6]),
+    Bucket("isolated_dcdc", "isolation", (466, 442), 5, per_manufacturer=2, prefer=_isolation_kv,
+           dedupe=lambda c: (c.manufacturer, _isolation_kv(c))),
+    Bucket("optocoupler", "isolation", (428,), 3, needs_pins=True, dedupe=lambda c: c.mpn[:5]),
 ]
 
 SKIP_ATTRS = {"Basic/Extended", "Package", "Status", "Manufacturer", "Category", "Description",
@@ -309,12 +329,14 @@ def _repo_mpns() -> dict[str, list[str]]:
         refs.setdefault(p["mpn"], []).append("cvhack/mocks/parts.json")
     for p in json.loads(B_PATH.read_text())["parts"]:
         refs.setdefault(p["mpn"], []).append("data/parts.json")
+    for mpn in MEDICAL_MPNS:
+        refs.setdefault(mpn, [])
     return refs
 
 
-def _rank(c: Component, has_pins: bool, needs_pins: bool) -> tuple:
-    return ((has_pins if needs_pins else 0), c.is_basic or c.is_preferred, c.is_basic,
-            math.log10(c.stock + 1), c.lcsc)
+def _rank(c: Component, has_pins: bool, b: Bucket) -> tuple:
+    return ((has_pins if b.needs_pins else 0), b.prefer(c) if b.prefer else 0,
+            c.is_basic or c.is_preferred, c.is_basic, math.log10(c.stock + 1), c.lcsc)
 
 
 def select(cat: Catalog, lib: SymbolLibrary, target: int) -> tuple[list[tuple[Bucket, Component, dict | None]], list[str]]:
@@ -356,7 +378,7 @@ def select(cat: Catalog, lib: SymbolLibrary, target: int) -> tuple[list[tuple[Bu
                     continue
                 kb = kicad_block(lib, c, b.category) if b.needs_pins else None
                 pool.append((c, kb))
-        pool.sort(key=lambda x: _rank(x[0], x[1] is not None, b.needs_pins), reverse=True)
+        pool.sort(key=lambda x: _rank(x[0], x[1] is not None, b), reverse=True)
         per_mfr: dict[str, int] = {}
         for bb, c, _ in chosen:
             if bb is b:
@@ -521,8 +543,12 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--refresh", action="store_true", help="re-download the catalog and KiCad library")
     ap.add_argument("--target", type=int, default=500)
+    ap.add_argument("--no-medical", action="store_true", help="skip the medical-evidence enrichment")
     args = ap.parse_args()
     data = build(refresh=args.refresh, target=args.target)
+    if not args.no_medical:
+        from cvhack.scrape import medical
+        medical.enrich(data)
     OUT_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     cov = data["coverage"]
     print(f"Wrote {OUT_PATH.relative_to(ROOT)}: {cov['parts']} parts, {cov['with_pins']} with pins "

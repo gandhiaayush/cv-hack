@@ -21,9 +21,23 @@ SEARCH_SPEC = {
                 "text": {"type": "string"},
                 "spec_ranges": {"type": "object", "description": "spec name -> [min or null, max or null]"},
                 "needs_pins": {"type": "boolean", "description": "only parts with a known KiCad pinout"},
+                "mopp_at_least": {"type": "integer", "description": "isolation parts whose datasheet states at "
+                                  "least this many MOPP (IEC 60601-1) for their package"},
+                "lifecycle": {"type": "string", "description": "e.g. 'active' (manufacturer status where known)"},
                 "limit": {"type": "integer"},
             },
         },
+    },
+}
+MEDICAL_SPEC = {
+    "type": "function",
+    "function": {
+        "name": "get_part_medical",
+        "description": "Medical-device evidence for one MPN: lifecycle status, RoHS/ECCN traceability, what its "
+        "datasheet says about IEC 60601-1, MOPP, ISO 10993 and life-support use (with quotes), isolation "
+        "ratings (creepage, clearance, withstand voltage, certifications) and estimated barrier leakage. "
+        "Evidence only: device-level IEC 60601-1 conformity and biocompatibility are decided on the device.",
+        "parameters": {"type": "object", "properties": {"mpn": {"type": "string"}}, "required": ["mpn"]},
     },
 }
 ALTERNATES_SPEC = {
@@ -47,13 +61,17 @@ def _row(n: dict) -> dict:
             "package": a["package"], "unit_price_usd": a["unit_price_usd"], "stock": a["stock"],
             "stock_checked_at": a["stock_checked_at"], "pin_count": a["pin_count"],
             "specs": {k: v.get("value", [v.get("min"), v.get("max")]) for k, v in a["specs"].items()},
+            "lifecycle": (a.get("medical") or {}).get("lifecycle_status"),
+            "mopp": (((a.get("medical") or {}).get("isolation") or {}).get("mopp") or {}).get("count"),
             "description": a["description"]}
 
 
-def search_parts(category=None, interface=None, text=None, spec_ranges=None, needs_pins=False, limit=10) -> str:
+def search_parts(category=None, interface=None, text=None, spec_ranges=None, needs_pins=False, limit=10,
+                 mopp_at_least=None, lifecycle=None) -> str:
     ranges = {k: tuple(v) for k, v in (spec_ranges or {}).items()}
     hits = parts_graph.search(category=category, interface=interface, text=text, spec_ranges=ranges,
-                              needs_pins=needs_pins, limit=min(int(limit), 30))
+                              needs_pins=needs_pins, limit=min(int(limit), 30),
+                              mopp_at_least=mopp_at_least, lifecycle=lifecycle)
     return json.dumps([_row(n) for n in hits]) if hits else "no matching parts"
 
 
@@ -62,3 +80,8 @@ def find_alternates(mpn: str) -> str:
         return f"{mpn} is not in the real-parts graph"
     alts = parts_graph.alternates(mpn)
     return json.dumps([_row(n) for n in alts]) if alts else "no alternate candidates in stock"
+
+
+def get_part_medical(mpn: str) -> str:
+    profile = parts_graph.medical_profile(mpn)
+    return json.dumps(profile) if profile else f"{mpn} is not in the real-parts graph"

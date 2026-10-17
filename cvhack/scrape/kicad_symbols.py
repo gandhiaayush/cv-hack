@@ -27,7 +27,8 @@ ARCHIVE = CACHE / "kicad" / "kicad-symbols-master.tar.gz"
 # through the generic two-terminal / header symbols in build.py.
 LIBRARIES = (
     "Amplifier_Current", "Amplifier_Instrumentation", "Amplifier_Operational", "Analog_ADC",
-    "Battery_Management", "Comparator", "Converter_DCDC", "Diode", "Interface_USB", "LED",
+    "Battery_Management", "Comparator", "Converter_DCDC", "Diode", "Interface_USB", "Isolator",
+    "Isolator_Analog", "LED",
     "MCU_Espressif", "MCU_Microchip_ATmega", "MCU_Microchip_ATtiny", "MCU_Microchip_SAMD",
     "MCU_Nordic", "MCU_RaspberryPi", "MCU_ST_STM32C0", "MCU_ST_STM32F0", "MCU_ST_STM32F1",
     "MCU_ST_STM32F4", "MCU_ST_STM32G0", "MCU_ST_STM32G4", "MCU_ST_STM32L0", "MCU_ST_STM32L4",

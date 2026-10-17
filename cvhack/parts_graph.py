@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOG_PATH = ROOT / "data" / "parts_catalog.json"
 DESIGN_PATH = ROOT / "cvhack" / "mocks" / "design_wearable.json"
 MOCK_PARTS_PATH = ROOT / "cvhack" / "mocks" / "parts.json"
+MEDICAL_REQ_PATH = ROOT / "data" / "medical_requirements.json"
 OUTPUT_PATH = ROOT / "data" / "parts_graph.json"
 DESIGN_SOURCE_ID = "source:repo:design-wearable-mock"
 DISTRIBUTOR_ID = "distributor:lcsc-jlcpcb"
@@ -123,6 +124,18 @@ def build_graph() -> dict[str, Any]:
     add_node(design_id, "design", design["name"], status="mock", graph="data/relationships.json")
     add_node(DISTRIBUTOR_ID, "distributor", "LCSC / JLCPCB", url="https://www.lcsc.com/")
 
+    # IEC 60601-1 reference values (secondary-source summary; see data/medical_requirements.json).
+    med_req = json.loads(MEDICAL_REQ_PATH.read_text(encoding="utf-8"))
+    for src in med_req["sources"]:
+        add_node(src["source_id"], "source", src["document"], url=src["url"], publisher=src["publisher"],
+                 evidence_kind="secondary_standard_summary", checked_at=src["checked_at"])
+        source_registry.append(nodes_by_id[src["source_id"]])
+    insulation_reqs = med_req["insulation"]
+    for req in insulation_reqs + med_req["leakage_current"]:
+        add_node(req["id"], "medical_requirement", req["label"],
+                 **{k: v for k, v in req.items() if k not in ("id", "label", "source_ids")},
+                 standard=med_req["standard"], status=med_req["status"])
+
     pinout_members: dict[str, list[str]] = defaultdict(list)
     parts_by_id: dict[str, dict[str, Any]] = {}
     for p in catalog["parts"]:
@@ -187,6 +200,10 @@ def build_graph() -> dict[str, Any]:
         if refs:
             rel(pid, "used_in_design", design_id, [DESIGN_SOURCE_ID], refs=sorted(refs))
 
+        med = p.get("medical")
+        if med:
+            _add_medical(pid, p, med, insulation_reqs, add_node, rel, nodes_by_id[pid]["attributes"], catalog_src)
+
     # Alternates: same category + pinout class + package family + key spec values.
     alt_count = 0
     for po, members in pinout_members.items():
@@ -230,6 +247,7 @@ def build_graph() -> dict[str, Any]:
             "parts_with_datasheet": sum(1 for p in catalog["parts"] if p.get("datasheet_url")),
             "parts_used_in_mock_design": sum(1 for r in relationships if r["relation"] == "used_in_design"),
             "alternate_candidate_pairs": alt_count,
+            "medical": catalog["coverage"].get("medical"),
             "node_types": dict(sorted(type_counts.items())),
             "relationship_types": dict(sorted(rel_counts.items())),
         },
@@ -269,6 +287,67 @@ def _mock_pin_conflicts(catalog_parts: list[dict[str, Any]]) -> list[dict[str, A
                     "kicad_symbol": kicad["symbol"],
                 })
     return out
+
+STATEMENT_LABELS = {
+    "iec60601_1_safety": "Datasheet references IEC 60601-1 (safety)",
+    "iec60601_1_2_emc": "Datasheet references IEC 60601-1-2 (EMC)",
+    "mopp_or_moop": "Datasheet states MOPP/MOOP",
+    "iso10993_or_biocompat": "Datasheet claims ISO 10993 / biocompatibility",
+    "medical_use_restriction": "Datasheet restricts life-support / medical use",
+    "medical_application": "Datasheet lists medical applications",
+    "aec_q_qualified": "Datasheet states AEC-Q qualification",
+}
+
+
+def _add_medical(pid, p, med, insulation_reqs, add_node, rel, attrs, catalog_src) -> None:
+    """Lifecycle, datasheet statements, certifications and isolation screening for one part."""
+    life = med["lifecycle"]
+    trace = med["traceability"]
+    iso = med["isolation"]
+    attrs["medical"] = {
+        "lifecycle_status": life["status"], "manufacturer_status": life["manufacturer_status"],
+        "distributor_lifecycle": life["distributor_lifecycle"], "rohs": trace["rohs"], "eccn": trace["eccn"],
+        "datasheet_sha256": trace["datasheet_sha256"],
+        "statements": sorted({s["kind"] for s in med["statements"]}),
+        "biocompatibility_claim": med["biocompatibility"]["datasheet_claim"],
+        "patient_contact_path_candidate": med["biocompatibility"]["patient_contact_path_candidate"],
+        "isolation_applicable": iso["applicable"],
+        "leakage_estimate_ua": med["leakage_current"].get("estimate_ua"),
+    }
+    if iso.get("status") == "transcribed_from_datasheet":
+        attrs["medical"]["isolation"] = {k: iso.get(k) for k in (
+            "isolation_voltage_vrms", "isolation_voltage_vdc", "isolation_voltage_vpk", "working_voltage_vrms",
+            "repetitive_peak_vpk", "creepage_mm", "clearance_mm", "dti_um", "cti_v", "insulation",
+            "barrier_capacitance_pf", "package_column", "mopp", "iec60601_rating", "certifications", "notes")
+            if iso.get(k) is not None}
+    lc = add_node("lifecycle:" + life["status"], "lifecycle_status", life["status"])
+    rel(pid, "has_lifecycle_status", lc, life["source_ids"] or [catalog_src],
+        manufacturer_status=life["manufacturer_status"], distributor_lifecycle=life["distributor_lifecycle"],
+        checked_at=life["checked_at"])
+    for st in med["statements"]:
+        node = add_node("statement:" + st["kind"], "datasheet_statement", STATEMENT_LABELS[st["kind"]])
+        if st.get("source_id"):
+            rel(pid, "datasheet_states", node, [st["source_id"]], quote=st["quote"])
+    if iso.get("status") != "transcribed_from_datasheet":
+        return
+    evidence = ["src:isolation-ratings"] + [s for s in p["sources"] if s.startswith("src:datasheet:")]
+    for cert in iso.get("certifications") or []:
+        node = add_node("standard:" + _slug(cert), "safety_standard", cert)
+        rel(pid, "certified_to", node, evidence)
+    # Screening: does the part's own rating reach each insulation level's test voltage and spacing?
+    for req in insulation_reqs:
+        checks = {
+            "test_voltage": (iso.get("isolation_voltage_vrms"), req["test_voltage_vrms"]),
+            "creepage": (iso.get("creepage_mm"), req["creepage_mm"]),
+            "clearance": (iso.get("clearance_mm"), req["clearance_mm"]),
+        }
+        if any(have is None for have, _ in checks.values()):
+            continue
+        if all(have >= need for have, need in checks.values()):
+            rel(pid, "rating_reaches", req["id"], evidence, status="screening_only_not_certification",
+                compared={k: {"part": h, "required": n} for k, (h, n) in checks.items()},
+                note="Package rating only; the board layout, working voltage and the part's own "
+                     "IEC 60601-1 certificate decide whether it provides this means of protection.")
 
 
 def validate_graph(graph: dict[str, Any]) -> None:
@@ -341,8 +420,11 @@ def alternates(mpn: str, in_stock_only: bool = True) -> list[dict[str, Any]]:
 
 def search(category: str | None = None, text: str | None = None, interface: str | None = None,
            spec_ranges: dict[str, tuple[float | None, float | None]] | None = None,
-           in_stock_only: bool = True, needs_pins: bool = False, limit: int = 20) -> list[dict[str, Any]]:
-    """Filter part nodes. spec_ranges: {"output_voltage": (3.2, 3.4)} matches value (or max) in range."""
+           in_stock_only: bool = True, needs_pins: bool = False, limit: int = 20,
+           mopp_at_least: int | None = None, lifecycle: str | None = None) -> list[dict[str, Any]]:
+    """Filter part nodes. spec_ranges: {"output_voltage": (3.2, 3.4)} matches value (or max) in range.
+    mopp_at_least keeps isolation parts whose datasheet states that many MOPP for their package;
+    lifecycle keeps parts with that lifecycle status (e.g. "active")."""
     g = load_graph()
     iface_parts = None
     if interface:
@@ -363,6 +445,11 @@ def search(category: str | None = None, text: str | None = None, interface: str 
             continue
         if needs_pins and not a.get("pin_count"):
             continue
+        med = a.get("medical") or {}
+        if lifecycle and med.get("lifecycle_status") != lifecycle:
+            continue
+        if mopp_at_least and ((med.get("isolation") or {}).get("mopp") or {}).get("count", 0) < mopp_at_least:
+            continue
         ok = True
         for spec, (lo, hi) in (spec_ranges or {}).items():
             s = a["specs"].get(spec) or {}
@@ -375,6 +462,24 @@ def search(category: str | None = None, text: str | None = None, interface: str 
     # Parts with a known pinout first (the electrical gate can check them), then cheapest.
     hits.sort(key=lambda n: (0 if n["attributes"].get("pin_count") else 1, n["attributes"].get("unit_price_usd") or 1e9))
     return hits[:limit]
+
+
+def medical_profile(mpn: str) -> dict[str, Any] | None:
+    """Medical evidence for one part: lifecycle, statements (with quotes), certifications,
+    isolation ratings, leakage estimate and the IEC 60601-1 levels its rating reaches."""
+    node = part_node(mpn)
+    if node is None:
+        return None
+    med = node["attributes"].get("medical") or {}
+    rels = neighbors(node["id"])
+    return {
+        "mpn": node["label"], **med,
+        "datasheet_statements": [{"kind": n["id"].split(":", 1)[1], "quote": r["attributes"]["quote"]}
+                                 for r, n in rels if r["relation"] == "datasheet_states"],
+        "certified_to": [n["label"] for r, n in rels if r["relation"] == "certified_to"],
+        "rating_reaches": [{"requirement": n["id"], "label": n["label"], **r["attributes"]}
+                           for r, n in rels if r["relation"] == "rating_reaches"],
+    }
 
 
 def main() -> None:

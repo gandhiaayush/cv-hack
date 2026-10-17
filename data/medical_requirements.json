@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cv-hack-iec60601-reference-values",
+  "standard": "IEC 60601-1 3rd edition (2005) and amendments",
+  "status": "secondary_source_summary",
+  "caution": "Values are transcribed from manufacturer application notes that summarize IEC 60601-1, not from the standard itself. Creepage and clearance depend on working voltage, pollution degree, material group and altitude; the standard forbids interpolation. Confirm against the purchased standard (Tables 6, 7, 12, 13 and the leakage tables) and a test lab before a design decision.",
+  "sources": [
+    {
+      "source_id": "src:meanwell:mopp-moop",
+      "publisher": "Mean Well",
+      "document": "The Difference between MOPP and MOOP in IEC 60601-1 3rd",
+      "url": "https://medical.meanwell.com/newsInfo.aspx?c=5&i=635",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:advancedenergy:moop-mopp",
+      "publisher": "Advanced Energy",
+      "document": "Methods of Protection, MOOPs and MOPs (E01.R00)",
+      "url": "https://www.advancedenergy.com/getmedia/494e81e7-b8fd-4c3b-bcfc-3682e8c35508/en-lv-methods-of-protection-moops-and-mops-application-note.pdf",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:delta:leakage-current",
+      "publisher": "Delta Electronics",
+      "document": "Leakage Current Considerations for Medical Power Supplies, Table 1",
+      "url": "https://psu.deltaww.com/uploads_delta/698ec66eab1a4LeakageCurrentConsiderationsforMedicalPowerSupplies.pdf",
+      "checked_at": "2026-10-17"
+    }
+  ],
+  "insulation": [
+    {
+      "id": "req:iec60601-1:moop-1",
+      "label": "1 x MOOP (basic insulation, operator protection)",
+      "means": "MOOP", "count": 1, "insulation": "basic",
+      "test_voltage_vrms": 1500, "creepage_mm": 2.5, "clearance_mm": 2.0,
+      "working_voltage": "mains, about 240-250 Vrms",
+      "source_ids": ["src:meanwell:mopp-moop", "src:advancedenergy:moop-mopp"]
+    },
+    {
+      "id": "req:iec60601-1:moop-2",
+      "label": "2 x MOOP (double/reinforced insulation, operator protection)",
+      "means": "MOOP", "count": 2, "insulation": "double",
+      "test_voltage_vrms": 3000, "creepage_mm": 5.0, "clearance_mm": 4.0,
+      "working_voltage": "mains, about 240-250 Vrms",
+      "source_ids": ["src:meanwell:mopp-moop", "src:advancedenergy:moop-mopp"]
+    },
+    {
+      "id": "req:iec60601-1:mopp-1",
+      "label": "1 x MOPP (basic insulation, patient protection)",
+      "means": "MOPP", "count": 1, "insulation": "basic",
+      "test_voltage_vrms": 1500, "creepage_mm": 4.0, "clearance_mm": 2.5,
+      "working_voltage": "mains, about 240-250 Vrms",
+      "source_ids": ["src:meanwell:mopp-moop", "src:advancedenergy:moop-mopp"]
+    },
+    {
+      "id": "req:iec60601-1:mopp-2",
+      "label": "2 x MOPP (double/reinforced insulation, patient protection)",
+      "means": "MOPP", "count": 2, "insulation": "double",
+      "test_voltage_vrms": 4000, "creepage_mm": 8.0, "clearance_mm": 5.0,
+      "working_voltage": "mains, about 240-250 Vrms",
+      "source_ids": ["src:meanwell:mopp-moop", "src:advancedenergy:moop-mopp"]
+    }
+  ],
+  "leakage_current": [
+    {
+      "id": "req:iec60601-1:patient-leakage",
+      "label": "Patient leakage current",
+      "limits_ua": {
+        "B": {"normal": 100, "single_fault": 500},
+        "BF": {"normal": 100, "single_fault": 500},
+        "CF": {"normal": 10, "single_fault": 50}
+      },
+      "source_ids": ["src:delta:leakage-current"]
+    },
+    {
+      "id": "req:iec60601-1:touch-current",
+      "label": "Touch current (formerly enclosure leakage)",
+      "limits_ua": {"all_applied_part_types": {"normal": 100, "single_fault": 500}},
+      "source_ids": ["src:delta:leakage-current"]
+    },
+    {
+      "id": "req:iec60601-1:earth-leakage",
+      "label": "Earth leakage current",
+      "limits_ua": {"all_applied_part_types": {"normal": 500, "single_fault": 1000}},
+      "note": "5 mA normal / 10 mA single fault for permanently installed equipment.",
+      "source_ids": ["src:delta:leakage-current"]
+    }
+  ]
+}
