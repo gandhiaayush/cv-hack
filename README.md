@@ -191,3 +191,14 @@ interpret structural connectivity as a requirement pass or regulatory finding.
 ## Setup
 
 Requires KiCad (`kicad-cli`), Python 3.11+, and Crusoe Managed Inference credentials in `.env`.
+
+## Running the demo
+
+```
+demo/preflight.sh                 # checklist: tests, build, KiCad, fake run, credentials
+demo/run_demo.sh                  # dashboard + scripted fake run (no LLM needed)
+demo/run_demo.sh --real           # dashboard + A's agents, bridged from runs/run.db
+demo/run_demo.sh --replay         # dashboard + recorded run (stage fallback)
+```
+
+The dashboard opens at http://localhost:8000. Use **Mark out of stock** or **Raise to Class III** mid-run to trigger a re-plan, and open `/#negotiation` to show the mother/subsystem negotiation.

@@ -2,7 +2,8 @@
 # Start the dashboard and a run.
 #   demo/run_demo.sh            # fake run (no agents needed)
 #   demo/run_demo.sh --real     # real agents (A's smoke_test.py mother, bridged from runs/run.db)
-#   demo/run_demo.sh --replay runs/<good-run>   # replay a recorded run as a fallback
+#   demo/run_demo.sh --replay [runs/<good-run>] # replay a recorded run as a fallback
+#                                               # (default: demo/recordings/fake-ppg-stockout)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -33,7 +34,7 @@ case "${1:-}" in
     sleep 2   # let the bridge flush the last rows
     ;;
   --replay)
-    SRC="${2:?usage: --replay runs/<run_id>}"
+    SRC="${2:-demo/recordings/fake-ppg-stockout}"
     $PY -m demo.replay "$SRC" --run-id "$RUN_ID"
     ;;
   *)
