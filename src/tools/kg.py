@@ -109,3 +109,12 @@ def get_subsystem_context(subsystem: str) -> str:
         "evidence_gaps": gaps,
         "caveat": "Mock design + project-defined prototype rules. NOT FDA/IEC compliance; mock ratings unverified.",
     }, indent=1)[:7000]
+
+
+def rules_for(subsystem: str) -> list[dict]:
+    """Untruncated {id, title} of the rules that target this subsystem's parts (for code, not the model)."""
+    _, _, rule_set = _load()
+    sub = _norm(subsystem)
+    inst = _instances(sub) if sub else {}
+    return [{"id": r["id"], "title": r["title"]} for r in rule_set["rules"]
+            if any(t.get("ref") in inst for t in r["targets"])]

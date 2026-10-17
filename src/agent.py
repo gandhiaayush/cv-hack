@@ -30,6 +30,8 @@ class RunCtx:
     reports: dict = field(default_factory=dict)  # subsystem -> gated report
     critic_rounds: int = 0
     delegations: dict = field(default_factory=dict)
+    critic_failures: int = 0
+    reviewed: bool = False
     objections: list = field(default_factory=list)
     result: dict | None = None
 
@@ -187,16 +189,25 @@ def _finalize(args, ctx: RunCtx, a: dict):
         return ("REJECTED: answer EVERY open objection id via `responses` before finalizing: "
                 + ", ".join(o["id"] for o in open_objs))
     if ctx.critic_rounds < MAX_CRITIC_ROUNDS:  # first review, or re-review after the mother answered all
-        ctx.critic_rounds += 1
-        ctx.objections = _critic(ctx, chosen, totals, args["rationale"])
+        objs = _critic(ctx, chosen, totals, args["rationale"])
+        if objs is None:
+            ctx.critic_failures += 1
+            store.log(ctx.run, "critic", a["name"], "critique_failed", {"failures": ctx.critic_failures})
+            if ctx.critic_failures < 3:
+                return "REJECTED: the reviewer was unavailable (not a verdict). Call finalize again."
+        else:
+            ctx.reviewed = True
+            ctx.critic_rounds += 1
+            ctx.objections = objs
         store.log(ctx.run, "critic", a["name"], "critique",
                   {"round": ctx.critic_rounds, "objections": ctx.objections})
-        if ctx.objections:
+        if objs and ctx.objections:
             return ("REJECTED by the critic (round %d). Answer EVERY objection id via `responses` "
                     "(accept = change your selection, rebut = cite evidence) and call finalize again:\n%s"
                     % (ctx.critic_rounds, json.dumps(ctx.objections, indent=1)))
     unresolved = [o for o in ctx.objections if o["id"] not in responses]
-    ctx.result = {"status": "accepted" if not unresolved else "accepted_with_unresolved_objections",
+    ctx.result = {"status": ("accepted_UNREVIEWED_critic_failed" if not ctx.reviewed else
+                          "accepted" if not unresolved else "accepted_with_unresolved_objections"),
                   "selections": {s: o["name"] for s, o in chosen.items()},
                   "bom": [{"subsystem": s, **p} for s, p in items], "totals": totals,
                   "critic_rounds": ctx.critic_rounds, "objections": ctx.objections,
@@ -215,21 +226,20 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
             facts.append({"subsystem": sub, "mpn": p["mpn"], "qty": p.get("qty", 1), "category": pt.category,
                           "description": pt.description, "price_usd": pt.price_usd, "stock": pt.stock,
                           "power_mw": pt.power_mw, "max_voltage_v": gate.rated_max_v(pt)})
-    rules = {s: json.loads(kg.get_subsystem_context(s)).get("applicable_rules", []) for s in chosen}
-    rules = {s: [{"id": r["id"], "title": r["title"]} for r in rs] for s, rs in rules.items()}
+    rules = {s: kg.rules_for(s) for s in chosen}
     msg = json.dumps({"bom": facts, "totals": totals, "mother_rationale": rationale,
                       "options_chosen": {s: {"name": o["name"], "risks": o.get("risks", []),
                                              "warnings": [e["message"] for e in o["gate"]["errors"]
                                                           if e["severity"] == "warning"]}
                                          for s, o in chosen.items()},
                       "design_rules_in_scope": rules})
-    m = chat([{"role": "system", "content": CRITIC_PROMPT}, {"role": "user", "content": msg}],
-             os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
-    text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
     try:
+        m = chat([{"role": "system", "content": CRITIC_PROMPT}, {"role": "user", "content": msg}],
+                 os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
+        text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
         objs = json.loads(text[text.index("{"):text.rindex("}") + 1])["objections"]
-    except (ValueError, KeyError):
-        return []
+    except Exception:  # None means "no review happened", which must never read as "no objections"
+        return None
     return [{**o, "id": f"R{rnd}-O{i + 1}"} for i, o in enumerate(objs)]
 
 
