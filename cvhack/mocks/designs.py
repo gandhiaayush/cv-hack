@@ -66,11 +66,11 @@ def wearable() -> Design:
         "analog_fe",
         {"U4": "MAX30102EFD+T", "C7": "GRM155R71C104KA88D", "C8": "GRM188R61A475KE15D"},
         {"1V8": "U4.11 C7.1",
-         "VBAT": "U4.1 C8.1",
-         "I2C_SDA": "U4.4",
-         "I2C_SCL": "U4.5",
+         "VBAT": "U4.9 U4.10 C8.1",
+         "I2C_SDA": "U4.3",
+         "I2C_SCL": "U4.2",
          "PPG_INT": "U4.13",
-         "GND": "U4.12 C7.2 C8.2"},
+         "GND": "U4.12 U4.4 C7.2 C8.2"},
         ports=["1V8", "VBAT", "I2C_SDA", "I2C_SCL", "PPG_INT", "GND"],
     )
     mcu = _block(

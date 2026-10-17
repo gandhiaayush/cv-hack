@@ -7,15 +7,22 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-PY=.venv/bin/python
-[ -x "$PY" ] || { python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt; }
+# Use ./.venv, else a venv one level up (shared checkout), else create ./.venv. PY=... overrides.
+if [ -z "${PY:-}" ]; then
+  if [ -x .venv/bin/python ]; then PY=.venv/bin/python
+  elif [ -x ../.venv/bin/python ]; then PY=../.venv/bin/python
+  else python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt && PY=.venv/bin/python; fi
+fi
 if [ ! -d dashboard/web/dist ]; then (cd dashboard/web && npm install --no-audit --no-fund && npm run build); fi
 if [ -z "${KICAD_CLI:-}" ] && [ -x "$HOME/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli" ]; then
   export KICAD_CLI="$HOME/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"
 fi
 
+# A real run prices parts at the catalog's dated LCSC prices; the dashboard must see the same numbers.
+if [ "${1:-}" = "--real" ]; then export PARTS_PRICES=${PARTS_PRICES:-catalog}; fi
+
 PORT=${PORT:-8000}
-.venv/bin/uvicorn dashboard.server:app --port "$PORT" --log-level warning &
+$PY -m uvicorn dashboard.server:app --port "$PORT" --log-level warning &
 SERVER=$!
 trap 'kill $SERVER 2>/dev/null' EXIT
 sleep 1
@@ -30,7 +37,8 @@ case "${1:-}" in
     $PY -m cvhack.bridge &
     BRIDGE=$!
     trap 'kill $SERVER $BRIDGE 2>/dev/null' EXIT
-    ${REAL_CMD:-$PY smoke_test.py mother} "${@:2}"
+    # LINGER keeps the run listening for Mark out of stock / Raise to Class III after the design is accepted.
+    RUN_ID="real-$(date +%H%M%S)" LINGER=${LINGER:-900} ${REAL_CMD:-$PY smoke_test.py mother} "${@:2}"
     sleep 2   # let the bridge flush the last rows
     ;;
   --replay)

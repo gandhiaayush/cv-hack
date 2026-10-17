@@ -3,7 +3,8 @@
 #   demo/preflight.sh
 set -uo pipefail
 cd "$(dirname "$0")/.."
-PY=.venv/bin/python
+PY=${PY:-.venv/bin/python}
+[ -x "$PY" ] || { [ -x ../.venv/bin/python ] && PY=../.venv/bin/python; }
 fails=0
 ok()   { printf '  \033[32mOK\033[0m   %s\n' "$1"; }
 bad()  { printf '  \033[31mFAIL\033[0m %s\n' "$1"; fails=$((fails+1)); }

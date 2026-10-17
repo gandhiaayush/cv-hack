@@ -13,7 +13,8 @@
     "pins": "pin_source 'kicad_symbol' means the MPN matched a KiCad library symbol whose footprint or footprint filter agrees with the catalog package. 'kicad_generic' means a conventional two-terminal or single-row-header symbol. kicad=null means no pinout is known; the electrical verifier reports PIN_UNKNOWN rather than guessing.",
     "power": "Typical power draw is not in the catalog; parts here carry no power_mw.",
     "area": "area_mm2 is a nominal package outline, not a courtyard.",
-    "medical": "medical.* fields are evidence only: datasheet quotes, transcribed insulation tables, manufacturer or distributor records, each with a source. They are not a suitability or compliance finding; IEC 60601-1 conformity and ISO 10993 evaluation are properties of the finished device."
+    "medical": "medical.* fields are evidence only: datasheet quotes, transcribed insulation tables, manufacturer or distributor records, each with a source. They are not a suitability or compliance finding; IEC 60601-1 conformity and ISO 10993 evaluation are properties of the finished device.",
+    "electrical": "electrical.vin_abs_max is the supply-pin absolute maximum quoted from the datasheet; electrical.power_mw_est is a distributor current figure x 3.3 V. Both are screening values."
   },
   "sources": [
     {
@@ -4135,6 +4136,12 @@
       "iec60601_1_safety_mentioned": 8,
       "medical_use_restriction": 62,
       "iso10993_claims": 0
+    },
+    "electrical": {
+      "vin_abs_max": 95,
+      "power_estimated": 143,
+      "vin_agrees_with_distributor": 76,
+      "vin_compared": 78
     }
   },
   "parts": [
@@ -4406,7 +4413,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c194919"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:bosch-sensortec:bno055",
@@ -4742,7 +4750,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c93216"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tdk-invensense:icm-20602",
@@ -5022,6 +5031,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c97633"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "Supply Voltage, VDD -0.5V to +4V",
+          "source_id": "src:datasheet:c97633",
+          "distributor_supply_voltage": 3.45,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -5273,6 +5293,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c155670"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c155670",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -5519,6 +5550,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c221446"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c221446",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -5786,6 +5828,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c15134"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c15134",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -6058,6 +6111,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c126672"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c126672",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -6320,6 +6384,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c94048"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c94048",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -6641,6 +6716,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c24112"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "Supply Voltage, VDD -0.5V to +6V",
+          "source_id": "src:datasheet:c24112",
+          "distributor_supply_voltage": 3.46,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -6883,6 +6969,17 @@
           "status": "scanned",
           "pages_scanned": 31,
           "source_id": "src:datasheet:c19274408"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 3.6,
+          "unit": "V",
+          "quote": "电源电压 1 VCC 电路不损坏 -0.3 3.6 V",
+          "source_id": "src:datasheet:c19274408",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -7174,6 +7271,12 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c48263"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.0,
+          "basis": "quiescent_current_iq 0.0001 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -7501,6 +7604,12 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c27919"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.004,
+          "basis": "quiescent_current_iq 0.0013 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -7781,6 +7890,12 @@
           "status": "scanned",
           "pages_scanned": 9,
           "source_id": "src:datasheet:c43656"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.007,
+          "basis": "quiescent_current_iq 0.002 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -8074,6 +8189,12 @@
           "pages_scanned": 26,
           "source_id": "src:datasheet:c118474"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 4.95,
+          "basis": "quiescent_current_iq 1.5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -8310,6 +8431,12 @@
           "status": "scanned",
           "pages_scanned": 30,
           "source_id": "src:datasheet:c29454"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.478,
+          "basis": "quiescent_current_iq 0.145 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -8552,6 +8679,12 @@
           "pages_scanned": 32,
           "source_id": "src:datasheet:c6454833"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 3.96,
+          "basis": "supply_current 1.2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -8720,6 +8853,12 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7453173"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 2.574,
+          "basis": "supply_current 0.78 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -8979,6 +9118,12 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c57474"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.32,
+          "basis": "quiescent_current 0.4 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -9224,6 +9369,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c12597"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "VI Input voltage (either input) (2) (4) ±15 V",
+          "source_id": "src:datasheet:c12597",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 24.75,
+          "basis": "quiescent_current 7.5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -9483,6 +9643,12 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c7955"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.32,
+          "basis": "quiescent_current 0.4 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -9706,6 +9872,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c34731"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "VCC Supply voltage(2) 5.5 V",
+          "source_id": "src:datasheet:c34731",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.198,
+          "basis": "quiescent_current 0.06 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -9940,6 +10121,12 @@
           "pages_scanned": 26,
           "source_id": "src:datasheet:c129947"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.198,
+          "basis": "quiescent_current 0.06 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -10173,6 +10360,12 @@
           "pages_scanned": 27,
           "source_id": "src:datasheet:c134294"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.082,
+          "basis": "quiescent_current 0.025 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -10405,6 +10598,12 @@
           "status": "scanned",
           "pages_scanned": 26,
           "source_id": "src:datasheet:c44322"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.198,
+          "basis": "quiescent_current 0.06 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -10656,6 +10855,21 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c192764"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "电源电压，VS 6 V",
+          "source_id": "src:datasheet:c192764",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.65,
+          "basis": "quiescent_current 0.197 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -10902,6 +11116,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c59135"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 26.0,
+          "unit": "V",
+          "quote": "电源电压 26 V",
+          "source_id": "src:datasheet:c59135",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.214,
+          "basis": "quiescent_current 0.065 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -11186,6 +11415,21 @@
           "status": "scanned",
           "pages_scanned": 27,
           "source_id": "src:datasheet:c9676"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 12.0,
+          "unit": "V",
+          "quote": "Supply Voltage 12 V",
+          "source_id": "src:datasheet:c9676",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 1.815,
+          "basis": "quiescent_current_iq 0.55 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -11476,6 +11720,21 @@
           "pages_scanned": 28,
           "source_id": "src:datasheet:c49482"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 18.0,
+          "unit": "V",
+          "quote": "Supply Voltage ±2.3 V to ±18 V",
+          "source_id": "src:datasheet:c49482",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 1.115,
+          "basis": "quiescent_current_iq 0.338 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -11744,6 +12003,21 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c22233"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "模拟输入电压 ±40 V",
+          "source_id": "src:datasheet:c22233",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 2.31,
+          "basis": "quiescent_current_iq 0.7 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -11999,6 +12273,21 @@
           "pages_scanned": 35,
           "source_id": "src:datasheet:c19450"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "Supply voltage 7 V",
+          "source_id": "src:datasheet:c19450",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.165,
+          "basis": "quiescent_current_iq 0.05 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -12226,6 +12515,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c22552043"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 2.2,
+          "unit": "V",
+          "quote": "VDD / VGND Supply Voltage to Ground -0.3 2.2 V Applicable for pin VDD",
+          "source_id": "src:datasheet:c22552043",
+          "distributor_supply_voltage": 2.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.115,
+          "basis": "quiescent_current 0.035 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -12460,6 +12764,21 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c17613538"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 1.98,
+          "unit": "V",
+          "quote": "VDD / VGND Supply Voltage to Ground -0.3 1.98 V Applicable for pin VDD",
+          "source_id": "src:datasheet:c17613538",
+          "distributor_supply_voltage": 1.98,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.132,
+          "basis": "quiescent_current 0.04 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -12644,6 +12963,12 @@
           "pages_scanned": 20,
           "source_id": "src:datasheet:c78960"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.0,
+          "basis": "quiescent_current 1e-05 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -12805,7 +13130,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c131239"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:renesas:isl29035iroz-t7",
@@ -13025,7 +13351,8 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c118347"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:opt3001dnpr",
@@ -13208,6 +13535,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c90462"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VDD to GND –0.5 6 V",
+          "source_id": "src:datasheet:c90462",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.006,
+          "basis": "quiescent_current 0.0018 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -13488,6 +13830,12 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c57473"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 9.9,
+          "basis": "quiescent_current 3 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -13739,6 +14087,12 @@
           "status": "scanned",
           "pages_scanned": 16,
           "source_id": "src:datasheet:c18229"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 4.95,
+          "basis": "quiescent_current 1.5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -14026,6 +14380,12 @@
           "pages_scanned": 21,
           "source_id": "src:datasheet:c80791"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.237,
+          "basis": "quiescent_current 0.375 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -14312,6 +14672,12 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c71035"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 3.96,
+          "basis": "quiescent_current 1.2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -14594,6 +14960,21 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7942"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 32.0,
+          "unit": "V",
+          "quote": "电源电压，VCC (2) 40 26 32 V",
+          "source_id": "src:datasheet:c7942",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 3.96,
+          "basis": "quiescent_current 1.2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -14845,6 +15226,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c74525"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "VS ≤ 15V 条件下）(3) 无限 s",
+          "source_id": "src:datasheet:c74525",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 2.31,
+          "basis": "quiescent_current 0.7 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -15098,6 +15494,12 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c7950"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 2.31,
+          "basis": "quiescent_current 0.7 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -15341,6 +15743,12 @@
           "status": "scanned",
           "pages_scanned": 7,
           "source_id": "src:datasheet:c71101"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 2.64,
+          "basis": "quiescent_current 0.8 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -15587,6 +15995,12 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c83902"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.65,
+          "basis": "quiescent_current 0.5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -15823,6 +16237,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7972"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "VCC 电源电压(2) 5.5 V",
+          "source_id": "src:datasheet:c7972",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.561,
+          "basis": "quiescent_current 0.17 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -16075,6 +16504,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c63813"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "VCC 电源电压(2) 5.5 V",
+          "source_id": "src:datasheet:c63813",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.693,
+          "basis": "quiescent_current 0.21 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -16329,6 +16773,12 @@
           "status": "scanned",
           "pages_scanned": 14,
           "source_id": "src:datasheet:c7299"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 13.53,
+          "basis": "quiescent_current 4.1 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -16587,6 +17037,12 @@
           "status": "scanned",
           "pages_scanned": 19,
           "source_id": "src:datasheet:c39113"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 4.62,
+          "basis": "quiescent_current 1.4 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -16870,6 +17326,12 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7378"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.33,
+          "basis": "quiescent_current 0.1 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -17122,6 +17584,21 @@
           "pages_scanned": 23,
           "source_id": "src:datasheet:c7426"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "输入电压，任一输入(2) (3) -15 +15 V",
+          "source_id": "src:datasheet:c7426",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 52.8,
+          "basis": "quiescent_current 16 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -17364,7 +17841,8 @@
           "pages_scanned": 24,
           "source_id": "src:datasheet:c7433"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:bosch-sensortec:bme680",
@@ -17586,7 +18064,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c125972"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:lps22hbtr",
@@ -17823,6 +18302,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c94049"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.8,
+          "unit": "V",
+          "quote": "Vdd Supply voltage -0.3 to 4.8 V",
+          "source_id": "src:datasheet:c94049",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -18053,7 +18543,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c54429"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:te-connectivity:ms561101ba03-50",
@@ -18283,6 +18774,17 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c15639"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "Supply voltage VDD -0.3 +4.0 V",
+          "source_id": "src:datasheet:c15639",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -18456,7 +18958,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c47023336"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:bosch-sensortec:bme280",
@@ -18688,6 +19191,12 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c92489"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.006,
+          "basis": "supply_current 0.0018 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -18917,6 +19426,12 @@
           "pages_scanned": 29,
           "source_id": "src:datasheet:c82227"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.004,
+          "basis": "supply_current 0.0013 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -19101,6 +19616,12 @@
           "status": "scanned",
           "pages_scanned": 21,
           "source_id": "src:datasheet:c83479"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.485,
+          "basis": "supply_current 0.45 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -19339,6 +19860,12 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c77361"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.001,
+          "basis": "supply_current 0.0002 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -19571,6 +20098,12 @@
           "status": "scanned",
           "pages_scanned": 22,
           "source_id": "src:datasheet:c80862"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.98,
+          "basis": "supply_current 0.6 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -19805,6 +20338,12 @@
           "pages_scanned": 20,
           "source_id": "src:datasheet:c90161"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 2.64,
+          "basis": "supply_current 0.8 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -19978,6 +20517,21 @@
           "status": "scanned",
           "pages_scanned": 13,
           "source_id": "src:datasheet:c194656"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "Supply voltage, VDD -0.3 to +4 V",
+          "source_id": "src:datasheet:c194656",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 1.419,
+          "basis": "supply_current 0.43 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -20212,6 +20766,12 @@
           "pages_scanned": 36,
           "source_id": "src:datasheet:c132603"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.495,
+          "basis": "supply_current 0.15 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -20405,7 +20965,8 @@
           "pages_scanned": 20,
           "source_id": "src:datasheet:c9753"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:mcp9700at-e-tt",
@@ -20581,7 +21142,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c127949"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:tc1047avnbtr",
@@ -20762,6 +21324,17 @@
           "status": "scanned",
           "pages_scanned": 12,
           "source_id": "src:datasheet:c50052"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "Supply Voltage ......................................................+7V",
+          "source_id": "src:datasheet:c50052",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -20978,6 +21551,17 @@
           "pages_scanned": 31,
           "source_id": "src:datasheet:c31810"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.5,
+          "unit": "V",
+          "quote": "Power supply, V+ 7.5 V",
+          "source_id": "src:datasheet:c31810",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -21192,6 +21776,17 @@
           "status": "scanned",
           "pages_scanned": 33,
           "source_id": "src:datasheet:c99269"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "Supply voltage 4 V",
+          "source_id": "src:datasheet:c99269",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -21408,6 +22003,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c28927"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "电源电压 (V+) 4 V",
+          "source_id": "src:datasheet:c28927",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -21619,6 +22225,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c22428347"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "Supply voltage V+ –0.3 6 V",
+          "source_id": "src:datasheet:c22428347",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -21810,7 +22427,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c18057293"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:amphenol-icc:10118194-0001lf",
@@ -21973,7 +22591,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c132563"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:molex:1050170001",
@@ -22144,7 +22763,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c136000"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:molex:1054500101",
@@ -22315,7 +22935,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c134092"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:boomele-boom-precision-elec:2-54-1-1p",
@@ -22492,7 +23113,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c81276"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jing-extension-of-the-electronic-co:920-e52a2021s10100",
@@ -22661,7 +23283,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c10418"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jst:b2b-ph-k-s-lf-sn",
@@ -22866,7 +23489,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c131337"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:q-j:cr1220-2",
@@ -23006,7 +23630,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c70381"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hanxia:hx-pz2-0-1x2p-zz",
@@ -23196,7 +23821,8 @@
           "pages_scanned": 7,
           "source_id": "src:datasheet:c22438285"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hanxia:hx-type-c-6pin",
@@ -23378,7 +24004,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c18357552"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:shou-han:type-c-6pin",
@@ -23558,7 +24185,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c7507406"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:korean-hroparts-elec:type-c-31-m-12",
@@ -23728,7 +24356,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c165948"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:korean-hroparts-elec:u-f-m5dd-y-l1",
@@ -23901,7 +24530,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c145791"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:xkb-connection:u254-051t-4bh83-s1s",
@@ -24075,7 +24705,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c319160"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:xkb-connection:u262-161n-4bvc11",
@@ -24240,7 +24871,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c319148"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:lian-xin-technology:xdcr-1220-006",
@@ -24384,7 +25016,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c7498147"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:megastar:zx-pz1-27-1-2pzz",
@@ -24568,7 +25201,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c41370734"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:megastar:zx-pz2-54-1-16pzz",
@@ -24753,7 +25387,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c7501270"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:g-switch:gt-tz084b-h015-l1",
@@ -24946,7 +25581,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c29780122"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:xkb-connection:ts-1101-c-w",
@@ -25134,7 +25770,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c318938"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:xkb-connection:ts-1187a-b-a-b",
@@ -25327,7 +25964,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c318884"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:megastar:zx-qc66-8-5tp",
@@ -25516,7 +26154,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c7470159"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bc846b",
@@ -25727,7 +26366,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c20069134"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jiangsu-changjing-electronics-technology-co-ltd:mmbt2222a-1p",
@@ -25931,7 +26571,8 @@
           "pages_scanned": 2,
           "source_id": "src:datasheet:c8512"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:mmbt3904",
@@ -26147,7 +26788,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7420353"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:mmbta44",
@@ -26358,7 +27000,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c20069141"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:ss8050",
@@ -26573,7 +27216,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7420370"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:ss8550",
@@ -26788,7 +27432,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7420371"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:st-semtech:1n4148w",
@@ -26974,7 +27619,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c81598"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:guangdong-hottech:1n5819ws",
@@ -27158,7 +27804,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c191023"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:1sma4749a",
@@ -27343,7 +27990,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c173489"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:b5817ws",
@@ -27529,7 +28177,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7420329"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jiangsu-changjing-electronics-technology-co-ltd:b5819w-sl",
@@ -27702,7 +28351,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c8598"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bas316",
@@ -27895,7 +28545,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7502720"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bat60b",
@@ -28073,7 +28724,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c7502695"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jiangsu-changjing-electronics-technology-co-ltd:bav70",
@@ -28277,7 +28929,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c68978"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:nexperia:bav99-215",
@@ -28481,7 +29134,8 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c2500"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bzt52c12s",
@@ -28676,7 +29330,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c19077447"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bzt52c5v6",
@@ -28872,7 +29527,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c19077402"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:nexperia:bzt52h-c5v6-115",
@@ -29062,7 +29718,8 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c96227"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bzx584c5v1",
@@ -29257,7 +29914,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c19077463"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:ss14",
@@ -29443,7 +30101,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c2480"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:ss210",
@@ -29622,7 +30281,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c14996"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:ss34",
@@ -29804,7 +30464,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c8678"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:ss54",
@@ -29981,7 +30642,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c22452"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:rohm-semicon:udzvte-176-8b",
@@ -30168,7 +30830,8 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c123062"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jiangsu-changjing-electronics-technology-co-ltd:2n7002",
@@ -30381,7 +31044,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c8545"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:alpha-omega-semicon:ao3400a",
@@ -30615,7 +31279,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c20917"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:alpha-omega-semicon:ao3401a",
@@ -30826,7 +31491,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c15127"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bss123",
@@ -31052,7 +31718,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c7420338"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bss138",
@@ -31266,7 +31933,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c7420339"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:bss84",
@@ -31483,7 +32151,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c7420340"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:nexperia:bss84ak-215",
@@ -31721,7 +32390,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c127273"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:onsemi:bss84lt1g",
@@ -31955,7 +32625,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c82079"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:infineon-technologies:bss84ph6327",
@@ -32187,7 +32858,8 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c152212"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:diodes-incorporated:dmp3099l-7",
@@ -32405,7 +33077,8 @@
           "pages_scanned": 7,
           "source_id": "src:datasheet:c155244"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:infineon-technologies:irf540npbf",
@@ -32628,7 +33301,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c2566"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:infineon-technologies:irf9540npbf",
@@ -32851,7 +33525,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c2575"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:analog-devices:adum5000arwz-rl",
@@ -33058,7 +33733,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c50435"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:evisun:b0505s-1wr3",
@@ -33292,6 +33968,12 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c7465178"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 19.8,
+          "basis": "quiescent_supply_current 6 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -33491,6 +34173,12 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c18723863"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 33.0,
+          "basis": "quiescent_supply_current 10 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -33733,6 +34421,12 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c7598645"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 19.8,
+          "basis": "quiescent_supply_current 6 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -33951,7 +34645,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c7468841"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:broadcom-avago:acpl-c87b-500e",
@@ -34233,7 +34928,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c92180"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:amc1200bdwvr",
@@ -34502,6 +35198,17 @@
           "pages_scanned": 34,
           "source_id": "src:datasheet:c79905"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "Supply voltage, VDD1 to GND1 or VDD2 to GND2 –0.5 6 V",
+          "source_id": "src:datasheet:c79905",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        }
       }
     },
     {
@@ -34736,7 +35443,8 @@
           "pages_scanned": 36,
           "source_id": "src:datasheet:c190273"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jsmsemi:adum1201arz-jsm",
@@ -34981,7 +35689,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c30587325"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:analog-devices:adum1412arwz-rl",
@@ -35292,6 +36001,17 @@
           "status": "scanned",
           "pages_scanned": 22,
           "source_id": "src:datasheet:c54637"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "Supply Voltages (VDD1, VDD2)1 −0.5 V to +7.0 V",
+          "source_id": "src:datasheet:c54637",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
         }
       }
     },
@@ -35624,6 +36344,17 @@
           "pages_scanned": 24,
           "source_id": "src:datasheet:c7455611"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "Supply Voltages (VDD1, VDD2) −0.5 V to +7.0 V",
+          "source_id": "src:datasheet:c7455611",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
+        }
       }
     },
     {
@@ -35897,6 +36628,17 @@
           "status": "scanned",
           "pages_scanned": 16,
           "source_id": "src:datasheet:c108501"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "电源电压(VBUS1、VBUS2、VDD1、VDD2)1, 2 −0.5 V至+6.5 V",
+          "source_id": "src:datasheet:c108501",
+          "distributor_supply_voltage": null,
+          "agrees_with_distributor": null,
+          "used": true
         }
       }
     },
@@ -36176,7 +36918,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c57791"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:iso1540dr",
@@ -36444,7 +37187,8 @@
           "pages_scanned": 36,
           "source_id": "src:datasheet:c179739"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:isow7841dwer",
@@ -36692,6 +37436,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c179690"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VCC 电源电压 –0.5 6 V",
+          "source_id": "src:datasheet:c179690",
+          "distributor_supply_voltage": 5.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -37022,7 +37777,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7363506"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:skyworks-solutions:si8642bd-b-is2",
@@ -37346,7 +38102,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7081249"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:skyworks-solutions:si8642ed-b-is2",
@@ -37666,7 +38423,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7010882"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:skyworks-solutions:si8661bc-b-is1",
@@ -37997,7 +38755,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7081296"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:skyworks-silicon-labs:si8661bd-b-isr",
@@ -38342,7 +39101,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c25490831"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:everlight-elec:el817-c-f",
@@ -38567,7 +39327,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c181890"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:lite-on:ltv-357t-c",
@@ -38816,7 +39577,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c119091"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:aote:pc817c",
@@ -39077,7 +39839,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c20612594"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:zhongkewei:at7456e",
@@ -39220,7 +39983,8 @@
           "pages_scanned": 38,
           "source_id": "src:datasheet:c82351"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega128a-au",
@@ -39743,7 +40507,8 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c6510"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega168pa-au",
@@ -40106,7 +40871,8 @@
           "pages_scanned": 31,
           "source_id": "src:datasheet:c8728"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega328p-au",
@@ -40469,7 +41235,8 @@
           "pages_scanned": 31,
           "source_id": "src:datasheet:c14877"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega32a-au",
@@ -40898,7 +41665,8 @@
           "pages_scanned": 18,
           "source_id": "src:datasheet:c5659"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega32u4-au",
@@ -41321,7 +42089,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c44854"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega64a-au",
@@ -41844,7 +42613,8 @@
           "pages_scanned": 13,
           "source_id": "src:datasheet:c9435"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega88pa-au",
@@ -42207,7 +42977,8 @@
           "pages_scanned": 31,
           "source_id": "src:datasheet:c8727"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atmega8a-au",
@@ -42570,7 +43341,8 @@
           "pages_scanned": 13,
           "source_id": "src:datasheet:c16190"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:atsamd21g18a-au",
@@ -43012,7 +43784,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c78624"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:attiny13a-ssur",
@@ -43255,7 +44028,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c40382"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:skyworks-silicon-labs:efm8bb21f16g-c-qfn20r",
@@ -43442,6 +44216,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c80713"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.2,
+          "unit": "V",
+          "quote": "Voltage on VDD VDD GND-0.3 4.2 V",
+          "source_id": "src:datasheet:c80713",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -43621,7 +44406,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c6547511"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:nuvoton-tech:n76e003aq20",
@@ -43805,7 +44591,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c90832"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:nordic-semicon:nrf51822-qfaa-r",
@@ -44246,6 +45033,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c38167"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 3.9,
+          "unit": "V",
+          "quote": "VDD -0.3 +3.9 V",
+          "source_id": "src:datasheet:c38167",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -44430,7 +45228,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c94618"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:padauk-tech:pms150c-u06",
@@ -44608,7 +45407,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c168658"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:puya:py32f002bf15u6tr",
@@ -44786,6 +45586,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7469099"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.25,
+          "unit": "V",
+          "quote": "VCC 外部主供电电源 -0.3 6.25 V",
+          "source_id": "src:datasheet:c7469099",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -45264,7 +46075,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c2040"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:raspberry-pi:rp2350a",
@@ -45737,7 +46549,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c42411118"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:raspberry-pi:rp2350b",
@@ -46314,7 +47127,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c42415655"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stc-micro:stc8g1k08-36i-sop8",
@@ -46497,7 +47311,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c18208924"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f030c8t6",
@@ -46932,6 +47747,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c23922"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "VDD–VSS External main supply voltage (including VDDA and VDD) –0.3 4.0 V",
+          "source_id": "src:datasheet:c23922",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -47224,7 +48050,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c81002"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f051c8t6",
@@ -47657,6 +48484,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c9863"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "VDD–VSS External main supply voltage (including VDDA and VDD) –0.3 4.0 V",
+          "source_id": "src:datasheet:c9863",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -48103,7 +48941,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c8288"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f103c8t6",
@@ -48544,7 +49383,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c8734"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f105rbt6",
@@ -49069,7 +49909,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c8349"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f107vct6",
@@ -49774,7 +50615,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c8315"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32f407vet6",
@@ -50479,7 +51321,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c28730"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32l031f6p6",
@@ -50782,7 +51625,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c115208"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:stm32l051c8t6",
@@ -51228,7 +52072,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c110878"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fanstel:bc805m",
@@ -51357,7 +52202,8 @@
           "pages_scanned": 20,
           "source_id": "src:datasheet:c6751361"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:dreamlnk:dl-cc2340-b",
@@ -51526,6 +52372,12 @@
           "status": "scanned",
           "pages_scanned": 16,
           "source_id": "src:datasheet:c19273634"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 23.1,
+          "basis": "receive_current 7 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -51705,6 +52557,12 @@
           "pages_scanned": 35,
           "source_id": "src:datasheet:c17916841"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 20.46,
+          "basis": "receive_current 6.2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -51882,6 +52740,21 @@
           "status": "scanned",
           "pages_scanned": 23,
           "source_id": "src:datasheet:c20624985"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 3.6,
+          "unit": "V",
+          "quote": "电源电压（V） 0 3.6 超过 3.6V 永久烧毁模块",
+          "source_id": "src:datasheet:c20624985",
+          "distributor_supply_voltage": 3.3,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 11.352,
+          "basis": "receive_current 3.44 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -52062,6 +52935,12 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c17916844"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 8.25,
+          "basis": "receive_current 2.5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -52236,6 +53115,17 @@
           "status": "scanned",
           "pages_scanned": 18,
           "source_id": "src:datasheet:c82894"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 3.6,
+          "unit": "V",
+          "quote": "供电电压 VDD 3.0 3.3 3.6 V",
+          "source_id": "src:datasheet:c82894",
+          "distributor_supply_voltage": 3.3,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -52412,7 +53302,8 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c82895"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:doit:esp-12f",
@@ -52589,6 +53480,12 @@
           "status": "scanned",
           "pages_scanned": 15,
           "source_id": "src:datasheet:c19949064"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 181.5,
+          "basis": "receive_current 55 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -52770,6 +53667,12 @@
           "status": "scanned",
           "pages_scanned": 17,
           "source_id": "src:datasheet:c82891"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 396.0,
+          "basis": "receive_current 120 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -52956,6 +53859,12 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c82898"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 184.8,
+          "basis": "receive_current 56 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -53133,6 +54042,12 @@
           "status": "scanned",
           "pages_scanned": 16,
           "source_id": "src:datasheet:c19949062"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 181.5,
+          "basis": "receive_current 55 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -53316,6 +54231,12 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c19949056"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 181.5,
+          "basis": "receive_current 55 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -53498,6 +54419,12 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c19949057"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 181.5,
+          "basis": "receive_current 55 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -53665,7 +54592,8 @@
           "pages_scanned": 27,
           "source_id": "src:datasheet:c82899"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hi-link:hlk-7628n",
@@ -53829,7 +54757,8 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c209920"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hi-link:hlk-b40-i",
@@ -53986,7 +54915,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c19723499"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:ru-bo-microelectronics:m301h",
@@ -54152,6 +55082,12 @@
           "status": "unavailable",
           "pages_scanned": 0,
           "source_id": "src:datasheet:c48031355"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 33.99,
+          "basis": "receive_current 10.3 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -54339,6 +55275,12 @@
           "status": "scanned",
           "pages_scanned": 7,
           "source_id": "src:datasheet:c115101"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 49.5,
+          "basis": "receive_current 15 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -54529,6 +55471,12 @@
           "pages_scanned": 19,
           "source_id": "src:datasheet:c22400304"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 52.14,
+          "basis": "receive_current 15.8 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -54704,6 +55652,12 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c42381991"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 26.4,
+          "basis": "receive_current 8 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -54874,6 +55828,12 @@
           "status": "scanned",
           "pages_scanned": 5,
           "source_id": "src:datasheet:c90040"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 40.095,
+          "basis": "receive_current 12.15 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -55047,6 +56007,12 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c90039"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 40.095,
+          "basis": "receive_current 12.15 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -55218,6 +56184,12 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c7500868"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 17.49,
+          "basis": "receive_current 5.3 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -55388,6 +56360,12 @@
           "status": "scanned",
           "pages_scanned": 14,
           "source_id": "src:datasheet:c22358994"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 17.49,
+          "basis": "receive_current 5.3 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -55570,6 +56548,12 @@
           "status": "scanned",
           "pages_scanned": 21,
           "source_id": "src:datasheet:c22365148"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 21.12,
+          "basis": "receive_current 6.4 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -55760,6 +56744,12 @@
           "pages_scanned": 19,
           "source_id": "src:datasheet:c22400303"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 54.45,
+          "basis": "receive_current 16.5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -55923,7 +56913,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c20539408"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:vollgo:vglt219t240n0s1",
@@ -56079,7 +57070,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c47117737"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:24lc512t-i-sn",
@@ -56326,6 +57318,12 @@
           "pages_scanned": 36,
           "source_id": "src:datasheet:c52088"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "operating_current 5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -56566,6 +57564,12 @@
           "status": "scanned",
           "pages_scanned": 19,
           "source_id": "src:datasheet:c238978"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 9.9,
+          "basis": "operating_current 3 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -56815,6 +57819,12 @@
           "status": "scanned",
           "pages_scanned": 18,
           "source_id": "src:datasheet:c79987"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 9.9,
+          "basis": "operating_current 3 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -57070,6 +58080,12 @@
           "pages_scanned": 34,
           "source_id": "src:datasheet:c7562"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 3.3,
+          "basis": "operating_current 1 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -57304,7 +58320,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c97521"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:winbond-elec:w25q16jvssiq",
@@ -57532,7 +58549,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c131025"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:winbond-elec:w25q32jvssiq",
@@ -57760,7 +58778,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c179173"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:winbond-elec:w25x40clsnig",
@@ -57993,7 +59012,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c113674"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402b102k500nt",
@@ -58164,7 +59184,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1523"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402cg101j500nt",
@@ -58335,7 +59356,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1546"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402cg120j500nt",
@@ -58506,7 +59528,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1547"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402cg150j500nt",
@@ -58677,7 +59700,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1548"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402cg220j500nt",
@@ -58848,7 +59872,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1555"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0402cg330j500nt",
@@ -59019,7 +60044,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c1562"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:0603b103k500nt",
@@ -59190,7 +60216,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c57112"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:fh-guangdong-fenghua-advanced-tech:1206b102k202nt",
@@ -59361,7 +60388,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c9196"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:cc0805krx7r9bb104",
@@ -59536,7 +60564,8 @@
           "pages_scanned": 29,
           "source_id": "src:datasheet:c49678"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:cc0805krx7r9bb221",
@@ -59711,7 +60740,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c107145"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05a105ka5nqnc",
@@ -59886,7 +60916,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c52923"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05a106mq5nunc",
@@ -60067,7 +61098,8 @@
           "pages_scanned": 36,
           "source_id": "src:datasheet:c15525"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05a225mq5nsnc",
@@ -60242,7 +61274,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c12530"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05a475mp5nrnc",
@@ -60417,7 +61450,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c23733"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05b103kb5nnnc",
@@ -60592,7 +61626,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c15195"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05b224ko5nnnc",
@@ -60767,7 +61802,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c16772"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl05c100jb5nnnc",
@@ -60942,7 +61978,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c32949"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10a225ko8nnnc",
@@ -61117,7 +62154,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c23630"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10a226mq8nrnc",
@@ -61292,7 +62330,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c59461"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10b102kb8nnnc",
@@ -61474,7 +62513,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1588"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10b224ka8nnnc",
@@ -61649,7 +62689,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c21120"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10c100jb8nnnc",
@@ -61824,7 +62865,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1634"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10c101jb8nnnc",
@@ -61999,7 +63041,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c14858"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10c200jb8nnnc",
@@ -62174,7 +63217,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1648"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl10c220jb8nnnc",
@@ -62349,7 +63393,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1653"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21a106kaynnne",
@@ -62524,7 +63569,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c15850"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21a226maqnnne",
@@ -62695,7 +63741,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c45783"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21a475kaqnnne",
@@ -62870,7 +63917,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1779"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21a476mqynnne",
@@ -63045,7 +64093,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c16780"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21b102kbcnnnc",
@@ -63220,7 +64269,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c46653"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21b103kbannnc",
@@ -63395,7 +64445,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c1710"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl21b105kbfnnne",
@@ -63570,7 +64621,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c28323"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl31a106kbhnnne",
@@ -63745,7 +64797,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c13585"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:samsung-electro-mechanics:cl31a107mqhnnne",
@@ -63920,7 +64973,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c15008"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm155r71c104ka88d",
@@ -64098,7 +65152,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c71629"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm188r60j475ke19d",
@@ -64272,7 +65327,8 @@
           "pages_scanned": 29,
           "source_id": "src:datasheet:c71631"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm188r61a105ka61d",
@@ -64466,7 +65522,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c86012"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm188r61a106ke69d",
@@ -64660,7 +65717,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c77044"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm188r61a475ke15d",
@@ -64834,7 +65892,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c71633"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:grm188r71c104ka01d",
@@ -65012,7 +66071,8 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c45000"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:blm15ag102sn1d",
@@ -65200,7 +66260,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c76883"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:blm15ag601sn1d",
@@ -65388,7 +66449,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c76884"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:murata-electronics:blm18pg121sn1d",
@@ -65576,7 +66638,8 @@
           "pages_scanned": 18,
           "source_id": "src:datasheet:c14709"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:gz1608d601tf",
@@ -65756,7 +66819,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c1002"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:gz2012d101tf",
@@ -65936,7 +67000,8 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c1015"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:gz2012d601tf",
@@ -66116,7 +67181,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c1017"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:coilank-international:aps0420m100a",
@@ -66295,7 +67361,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c47327173"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:cjiang-changjiang-microelectronics-tech:fnr6045s150mt",
@@ -66478,7 +67545,8 @@
           "pages_scanned": 19,
           "source_id": "src:datasheet:c168078"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:cjiang-changjiang-microelectronics-tech:fxl0530-100-m",
@@ -66661,7 +67729,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c177248"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:cjiang-changjiang-microelectronics-tech:fxl0530-4r7-m",
@@ -66844,7 +67913,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c177246"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:cjiang-changjiang-microelectronics-tech:fxl0630-100-m",
@@ -67027,7 +68097,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c167223"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:cjiang-changjiang-microelectronics-tech:fxl0630-150-m",
@@ -67210,7 +68281,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c177243"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tdk:nlv25t-068j-ef",
@@ -67386,7 +68458,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c295175"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tdk:nlv32t-100j-pf",
@@ -67565,7 +68638,8 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c76835"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:sdcl1005c15njtdf",
@@ -67743,7 +68817,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c27143"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:sdcl1608c68njtdf",
@@ -67921,7 +68996,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c13415"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:sdfl1608s100ktf",
@@ -68099,7 +69175,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c1035"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sunlord:sdfl2012s100ktf",
@@ -68281,7 +69358,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c1046"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sxn-shun-xiang-nuo-elec:smms0530-100m",
@@ -68462,7 +69540,8 @@
           "pages_scanned": 28,
           "source_id": "src:datasheet:c181721"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sxn-shun-xiang-nuo-elec:smms0630-100m",
@@ -68643,7 +69722,8 @@
           "pages_scanned": 28,
           "source_id": "src:datasheet:c128692"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sxn-shun-xiang-nuo-elec:smms0630-220m",
@@ -68824,7 +69904,8 @@
           "pages_scanned": 28,
           "source_id": "src:datasheet:c128694"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:sxn-shun-xiang-nuo-elec:smnr3015-470mt",
@@ -69005,7 +70086,8 @@
           "pages_scanned": 26,
           "source_id": "src:datasheet:c135243"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tuozhan:f-0603-00025-p2-0603g1ts2-06t-002",
@@ -69204,7 +70286,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c7496818"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tuozhan:f-0603-00026-p2-0603b1ts2-06t-001",
@@ -69416,7 +70499,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c7496819"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hubei-kento-elec:kt-0603r",
@@ -69622,7 +70706,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c2286"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hubei-kento-elec:kt-0603w",
@@ -69827,7 +70912,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c2290"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hubei-kento-elec:kt-0805g",
@@ -70033,7 +71119,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c2297"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hubei-kento-elec:kt-0805w",
@@ -70238,7 +71325,8 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c34499"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hubei-kento-elec:kt-0805y",
@@ -70435,7 +71523,8 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c2296"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:lite-on:ltst-c191kgkt",
@@ -70643,7 +71732,8 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c125098"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:foshan-nationstar-optoelectronics:ncd0603y2",
@@ -70846,7 +71936,8 @@
           "pages_scanned": 2,
           "source_id": "src:datasheet:c89811"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:foshan-nationstar-optoelectronics:ncd0805g1",
@@ -71057,7 +72148,8 @@
           "pages_scanned": 2,
           "source_id": "src:datasheet:c84260"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:foshan-nationstar-optoelectronics:ncd0805r1",
@@ -71268,7 +72360,8 @@
           "pages_scanned": 2,
           "source_id": "src:datasheet:c84256"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tcwin:tx1812mwca5-f01",
@@ -71477,6 +72570,12 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c27637010"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 2.64,
+          "basis": "quiescent_current 0.8 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -71683,6 +72782,12 @@
           "status": "scanned",
           "pages_scanned": 14,
           "source_id": "src:datasheet:c26167850"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.99,
+          "basis": "quiescent_current 0.3 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -71908,6 +73013,12 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c41347988"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.155,
+          "basis": "quiescent_current 0.35 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -72113,7 +73224,8 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c25503345"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf0000tce",
@@ -72304,7 +73416,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17168"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf1000tce",
@@ -72493,7 +73606,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25076"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf1003tce",
@@ -72682,7 +73796,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25741"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf100jtce",
@@ -72871,7 +73986,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25077"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf220jtce",
@@ -73060,7 +74176,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25092"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0402wgf4702tce",
@@ -73251,7 +74368,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25792"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf0000t5e",
@@ -73434,7 +74552,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c21189"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1000t5e",
@@ -73625,7 +74744,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22775"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1001t5e",
@@ -73816,7 +74936,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c21190"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1002t5e",
@@ -74009,7 +75130,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25804"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1003t5e",
@@ -74198,7 +75320,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c25803"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1004t5e",
@@ -74387,7 +75510,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22935"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf100jt5e",
@@ -74576,7 +75700,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22859"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1501t5e",
@@ -74765,7 +75890,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22843"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf1502t5e",
@@ -74956,7 +76082,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22809"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf2001t5e",
@@ -75145,7 +76272,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22975"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf2002t5e",
@@ -75334,7 +76462,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c4184"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf2201t5e",
@@ -75523,7 +76652,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c4190"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf220jt5e",
@@ -75712,7 +76842,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c23345"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf3001t5e",
@@ -75903,7 +77034,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c4211"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf3301t5e",
@@ -76092,7 +77224,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c22978"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf330jt5e",
@@ -76283,7 +77416,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c23140"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf4700t5e",
@@ -76472,7 +77606,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c23179"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf4701t5e",
@@ -76661,7 +77796,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c23162"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0603waf5101t5e",
@@ -76852,7 +77988,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c23186"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f0000t5e",
@@ -77041,7 +78178,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17477"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f1000t5e",
@@ -77233,7 +78371,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17408"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f1001t5e",
@@ -77425,7 +78564,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17513"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f1002t5e",
@@ -77617,7 +78757,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17414"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f1003t5e",
@@ -77809,7 +78950,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c149504"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f100jt5e",
@@ -78001,7 +79143,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17415"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f2001t5e",
@@ -78193,7 +79336,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17604"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f2201t5e",
@@ -78385,7 +79529,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17520"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:uni-royal-uniroyal-elec:0805w8f4701t5e",
@@ -78574,7 +79719,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c17673"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:rc0402fr-0710kl",
@@ -78770,7 +79916,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c60490"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:rc0402fr-071kl",
@@ -78966,7 +80113,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c106235"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:rc0402fr-072kl",
@@ -79162,7 +80310,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c60488"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:rc0402fr-074k7l",
@@ -79358,7 +80507,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c105871"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yageo:rc0402fr-075k1l",
@@ -79554,7 +80704,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c105872"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:bq4050rsmr",
@@ -79745,6 +80896,21 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c157570"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 30.0,
+          "unit": "V",
+          "quote": "Supply voltage range, VCC BAT, VCC, PBI –0.3 30 V",
+          "source_id": "src:datasheet:c157570",
+          "distributor_supply_voltage": 26.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 1.109,
+          "basis": "quiescent_current 0.336 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -79920,6 +81086,21 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c179743"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 30.0,
+          "unit": "V",
+          "quote": "Supply voltage range, BAT, VCC, PBI –0.3 30 VVCC",
+          "source_id": "src:datasheet:c179743",
+          "distributor_supply_voltage": 26.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.005,
+          "basis": "supply_current_iq 0.0016 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -80102,6 +81283,12 @@
           "status": "scanned",
           "pages_scanned": 8,
           "source_id": "src:datasheet:c17702042"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.005,
+          "basis": "supply_current_iq 0.0015 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -80319,6 +81506,12 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c42380662"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.002,
+          "basis": "supply_current_iq 0.0007 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -80497,6 +81690,12 @@
           "status": "scanned",
           "pages_scanned": 22,
           "source_id": "src:datasheet:c116509"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.0,
+          "basis": "supply_current_iq 0.0001 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -80677,6 +81876,12 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c47345803"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.002,
+          "basis": "supply_current_iq 0.0005 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -80855,6 +82060,12 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c7541669"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.0,
+          "basis": "supply_current_iq 0.0001 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -81031,6 +82242,12 @@
           "status": "scanned",
           "pages_scanned": 12,
           "source_id": "src:datasheet:c79928"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.01,
+          "basis": "supply_current_iq 0.003 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -81303,6 +82520,12 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c15220"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.165,
+          "basis": "supply_current_iq 0.05 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -81618,6 +82841,12 @@
           "pages_scanned": 39,
           "source_id": "src:datasheet:c44478"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.082,
+          "basis": "supply_current_iq 0.025 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -81927,6 +83156,12 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c19384"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.049,
+          "basis": "supply_current_iq 0.015 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -82188,6 +83423,12 @@
           "status": "scanned",
           "pages_scanned": 39,
           "source_id": "src:datasheet:c53712"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.016,
+          "basis": "supply_current_iq 0.005 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -82477,6 +83718,12 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c133307"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.01,
+          "basis": "supply_current_iq 0.003 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -82706,6 +83953,12 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c28078"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.01,
+          "basis": "supply_current_iq 0.003 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -82873,6 +84126,21 @@
           "status": "scanned",
           "pages_scanned": 12,
           "source_id": "src:datasheet:c19192535"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 9.0,
+          "unit": "V",
+          "quote": "VCC 输入电压 -0.3~ 9 V",
+          "source_id": "src:datasheet:c19192535",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.082,
+          "basis": "supply_current_iq 0.025 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -83119,6 +84387,12 @@
           "status": "scanned",
           "pages_scanned": 26,
           "source_id": "src:datasheet:c194712"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.28,
+          "basis": "supply_current_iq 0.085 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -83394,6 +84668,12 @@
           "pages_scanned": 20,
           "source_id": "src:datasheet:c117075"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 6.6,
+          "basis": "supply_current_iq 2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -83623,6 +84903,12 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c7455977"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.008,
+          "basis": "supply_current_iq 0.0025 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -83848,6 +85134,21 @@
           "pages_scanned": 22,
           "source_id": "src:datasheet:c144308"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "Supply Voltage V DD 3.75 — 6 V",
+          "source_id": "src:datasheet:c144308",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.165,
+          "basis": "supply_current_iq 0.05 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -84025,6 +85326,12 @@
           "status": "scanned",
           "pages_scanned": 7,
           "source_id": "src:datasheet:c7588528"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.132,
+          "basis": "supply_current_iq 0.04 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -84206,6 +85513,12 @@
           "status": "scanned",
           "pages_scanned": 14,
           "source_id": "src:datasheet:c32574"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.148,
+          "basis": "supply_current_iq 0.045 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -84438,6 +85751,12 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c16581"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.007,
+          "basis": "supply_current_iq 0.002 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -84661,6 +85980,12 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c7473159"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.099,
+          "basis": "supply_current_iq 0.03 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -84835,6 +86160,12 @@
           "status": "unavailable",
           "pages_scanned": 0,
           "source_id": "src:datasheet:c42460577"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.005,
+          "basis": "supply_current_iq 0.0015 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -85074,6 +86405,12 @@
           "status": "scanned",
           "pages_scanned": 13,
           "source_id": "src:datasheet:c41240"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 3.3,
+          "basis": "quiescent_current 1 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -85328,6 +86665,21 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c48060"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "Supply Voltage (VIN) 40V",
+          "source_id": "src:datasheet:c48060",
+          "distributor_supply_voltage": 36.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 3.3,
+          "basis": "quiescent_current 1 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -85556,6 +86908,21 @@
           "status": "scanned",
           "pages_scanned": 11,
           "source_id": "src:datasheet:c102618"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 20.0,
+          "unit": "V",
+          "quote": "Input V oltage V IN 20 V",
+          "source_id": "src:datasheet:c102618",
+          "distributor_supply_voltage": 16.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 8.25,
+          "basis": "quiescent_current 2.5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -85796,6 +87163,12 @@
           "status": "scanned",
           "pages_scanned": 11,
           "source_id": "src:datasheet:c154863"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 3.63,
+          "basis": "quiescent_current 1.1 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -86051,6 +87424,12 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c54619"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 9.9,
+          "basis": "quiescent_current 3 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -86279,6 +87658,21 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c194471"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "最大电源电压 LM2576 VIN 40 V",
+          "source_id": "src:datasheet:c194471",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "quiescent_current 5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -86502,6 +87896,21 @@
           "status": "scanned",
           "pages_scanned": 14,
           "source_id": "src:datasheet:c194476"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "最大电源电压 LM2576 VIN 40 V",
+          "source_id": "src:datasheet:c194476",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "quiescent_current 5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -86746,6 +88155,12 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c18057294"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 6.6,
+          "basis": "quiescent_current 2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -86988,6 +88403,21 @@
           "pages_scanned": 12,
           "source_id": "src:datasheet:c316682"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "输入电源电压 LM2594 VIN ~40 V",
+          "source_id": "src:datasheet:c316682",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 6.6,
+          "basis": "quiescent_current 2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -87216,6 +88646,21 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c194349"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "输入电源电压 LM2596 VIN ~40 V",
+          "source_id": "src:datasheet:c194349",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "quiescent_current 5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -87443,6 +88888,21 @@
           "status": "scanned",
           "pages_scanned": 17,
           "source_id": "src:datasheet:c194354"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "输入电源电压 LM2596 VIN ~40 V",
+          "source_id": "src:datasheet:c194354",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "quiescent_current 5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -87678,6 +89138,21 @@
           "status": "scanned",
           "pages_scanned": 21,
           "source_id": "src:datasheet:c165138"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 14.5,
+          "unit": "V",
+          "quote": "Input Supply Voltage −0.4V to +14.5V",
+          "source_id": "src:datasheet:c165138",
+          "distributor_supply_voltage": 14.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 1.32,
+          "basis": "quiescent_current 0.4 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -87924,7 +89399,8 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c7296"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:onsemi:mc34063adr2g",
@@ -88169,7 +89645,8 @@
           "pages_scanned": 15,
           "source_id": "src:datasheet:c32078"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:mcp16301t-i-chy",
@@ -88401,6 +89878,12 @@
           "status": "unreadable",
           "pages_scanned": 0,
           "source_id": "src:datasheet:c57168"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 6.6,
+          "basis": "quiescent_current 2 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -88635,6 +90118,12 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c30197556"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 1.98,
+          "basis": "quiescent_current 0.6 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -88868,6 +90357,12 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c84817"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.33,
+          "basis": "quiescent_current 0.1 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -89094,6 +90589,12 @@
           "status": "scanned",
           "pages_scanned": 9,
           "source_id": "src:datasheet:c19189893"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.231,
+          "basis": "quiescent_current 0.07 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -89326,6 +90827,21 @@
           "status": "scanned",
           "pages_scanned": 17,
           "source_id": "src:datasheet:c264079"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "Input Voltage -0.3 to +6.0 V",
+          "source_id": "src:datasheet:c264079",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.132,
+          "basis": "quiescent_current 0.04 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -89576,6 +91092,21 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c181488"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "VIN, PG, VOS – 0.3 7 V",
+          "source_id": "src:datasheet:c181488",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.099,
+          "basis": "quiescent_current 0.03 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -89804,6 +91335,12 @@
           "status": "scanned",
           "pages_scanned": 30,
           "source_id": "src:datasheet:c141836"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.115,
+          "basis": "quiescent_current 0.035 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -90034,6 +91571,21 @@
           "pages_scanned": 30,
           "source_id": "src:datasheet:c191884"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 30.0,
+          "unit": "V",
+          "quote": "VIN -0.3 30 V",
+          "source_id": "src:datasheet:c191884",
+          "distributor_supply_voltage": 28.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.148,
+          "basis": "quiescent_current 0.045 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -90263,6 +91815,12 @@
           "pages_scanned": 23,
           "source_id": "src:datasheet:c83671"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.198,
+          "basis": "quiescent_current 0.06 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -90491,6 +92049,21 @@
           "status": "scanned",
           "pages_scanned": 39,
           "source_id": "src:datasheet:c7722"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 7.0,
+          "unit": "V",
+          "quote": "引脚 VIN 上的电源电压 (2) -0.3 7 V",
+          "source_id": "src:datasheet:c7722",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.092,
+          "basis": "quiescent_current 0.028 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -90754,6 +92327,12 @@
           "pages_scanned": 27,
           "source_id": "src:datasheet:c15516"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.082,
+          "basis": "quiescent_current 0.025 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -90954,6 +92533,12 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c109322"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.165,
+          "basis": "quiescent_current 0.05 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -91195,6 +92780,21 @@
           "pages_scanned": 13,
           "source_id": "src:datasheet:c61063"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 45.0,
+          "unit": "V",
+          "quote": "Input Voltage Vin -0.3 to 45 V",
+          "source_id": "src:datasheet:c61063",
+          "distributor_supply_voltage": 40.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 6.6,
+          "basis": "quiescent_current 2 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -91419,6 +93019,21 @@
           "pages_scanned": 10,
           "source_id": "src:datasheet:c51661"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 40.0,
+          "unit": "V",
+          "quote": "Input Voltage Vin -0.3 to 40 V",
+          "source_id": "src:datasheet:c51661",
+          "distributor_supply_voltage": 36.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "quiescent_current 5 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -91588,6 +93203,12 @@
           "status": "scanned",
           "pages_scanned": 28,
           "source_id": "src:datasheet:c165137"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.165,
+          "basis": "supply_current_iq 0.05 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -91765,6 +93386,21 @@
           "pages_scanned": 39,
           "source_id": "src:datasheet:c157573"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 30.0,
+          "unit": "V",
+          "quote": "Supply voltage range, VCC VC2, PBI –0.3 30 V",
+          "source_id": "src:datasheet:c157573",
+          "distributor_supply_voltage": 26.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.825,
+          "basis": "supply_current_iq 0.25 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -91933,6 +93569,21 @@
           "pages_scanned": 27,
           "source_id": "src:datasheet:c7220642"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 2.75,
+          "unit": "V",
+          "quote": "VCC Supply Voltage Range –0.3 2.75 V",
+          "source_id": "src:datasheet:c7220642",
+          "distributor_supply_voltage": 4.5,
+          "agrees_with_distributor": false,
+          "used": false
+        },
+        "power_mw_est": {
+          "value": 0.478,
+          "basis": "supply_current_iq 0.145 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -92097,6 +93748,21 @@
           "status": "scanned",
           "pages_scanned": 8,
           "source_id": "src:datasheet:c32773"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VCC..............…...…...... …..-0.3V ~ +6.5V",
+          "source_id": "src:datasheet:c32773",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.031,
+          "basis": "supply_current_iq 0.0095 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -92263,6 +93929,21 @@
           "status": "scanned",
           "pages_scanned": 9,
           "source_id": "src:datasheet:c7495114"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VCC..............…...…...... …..-0.3V ~ +6.5V",
+          "source_id": "src:datasheet:c7495114",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.009,
+          "basis": "supply_current_iq 0.0027 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -92528,6 +94209,12 @@
           "pages_scanned": 32,
           "source_id": "src:datasheet:c7457893"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.017,
+          "basis": "supply_current_iq 0.0051 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -92743,6 +94430,17 @@
           "status": "scanned",
           "pages_scanned": 8,
           "source_id": "src:datasheet:c6185"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "Input Voltage 15V Lead Temperatu re (25 sec) 265°C",
+          "source_id": "src:datasheet:c6185",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -92960,6 +94658,17 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c6186"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "Input Voltage 15V Lead Temperatu re (25 sec) 265°C",
+          "source_id": "src:datasheet:c6186",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -93174,6 +94883,17 @@
           "status": "scanned",
           "pages_scanned": 8,
           "source_id": "src:datasheet:c6187"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "Input Voltage 15V Lead Temperatu re (25 sec) 265°C",
+          "source_id": "src:datasheet:c6187",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -93405,6 +95125,17 @@
           "status": "scanned",
           "pages_scanned": 18,
           "source_id": "src:datasheet:c176944"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VCC Power Supply Voltage 6.5 V",
+          "source_id": "src:datasheet:c176944",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -93640,6 +95371,17 @@
           "pages_scanned": 18,
           "source_id": "src:datasheet:c51118"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VCC Power Supply Voltage 6.5 V",
+          "source_id": "src:datasheet:c51118",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -93873,6 +95615,17 @@
           "status": "scanned",
           "pages_scanned": 24,
           "source_id": "src:datasheet:c151375"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VIN Input Voltage 6.5 V",
+          "source_id": "src:datasheet:c151375",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -94108,6 +95861,17 @@
           "pages_scanned": 24,
           "source_id": "src:datasheet:c156285"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VIN Input Voltage 6.5 V",
+          "source_id": "src:datasheet:c156285",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -94327,6 +96091,17 @@
           "pages_scanned": 19,
           "source_id": "src:datasheet:c110475"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 18.0,
+          "unit": "V",
+          "quote": "VIN Input Voltage 18 V",
+          "source_id": "src:datasheet:c110475",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -94537,7 +96312,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c16807"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:umw-youtai-semiconductor-co-ltd:l7805cdt-umw",
@@ -94735,7 +96511,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c7394043"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:xblw:l7805cv-xblw",
@@ -94946,7 +96723,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c18723601"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:l78l05abutr",
@@ -95164,7 +96942,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c42738"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:l78l33acutr",
@@ -95381,7 +97160,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c14170"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:l79l05abutr",
@@ -95598,7 +97378,8 @@
           "pages_scanned": 24,
           "source_id": "src:datasheet:c157452"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:stmicroelectronics:ld1117s33tr",
@@ -95816,6 +97597,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c86781"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "DC input voltage 15 V",
+          "source_id": "src:datasheet:c86781",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -96030,6 +97822,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c134077"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 15.0,
+          "unit": "V",
+          "quote": "DC input voltage 15 V",
+          "source_id": "src:datasheet:c134077",
+          "distributor_supply_voltage": 15.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -96259,6 +98062,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c92498"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VIN 输入电压 -0.3 6 V",
+          "source_id": "src:datasheet:c92498",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -96486,6 +98300,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c80670"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VIN 输入电压 -0.3 6 V",
+          "source_id": "src:datasheet:c80670",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -96730,6 +98555,17 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c7371"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 9.0,
+          "unit": "V",
+          "quote": "Input Voltage (5.0 V−9.0 V)",
+          "source_id": "src:datasheet:c7371",
+          "distributor_supply_voltage": 30.0,
+          "agrees_with_distributor": false,
+          "used": false
+        }
       }
     },
     {
@@ -96940,7 +98776,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c94612"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:microchip-tech:mcp1700t-3302e-tt",
@@ -97157,6 +98994,17 @@
           "status": "scanned",
           "pages_scanned": 28,
           "source_id": "src:datasheet:c39051"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VDD............................................................................................+ 6.5V",
+          "source_id": "src:datasheet:c39051",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -97388,6 +99236,17 @@
           "pages_scanned": 23,
           "source_id": "src:datasheet:c236672"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "Input Voltage VIN 6.5 V",
+          "source_id": "src:datasheet:c236672",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -97617,6 +99476,17 @@
           "status": "scanned",
           "pages_scanned": 23,
           "source_id": "src:datasheet:c236671"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "Input Voltage VIN 6.5 V",
+          "source_id": "src:datasheet:c236671",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -97848,6 +99718,17 @@
           "pages_scanned": 23,
           "source_id": "src:datasheet:c194395"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "Input Voltage VIN 6.5 V",
+          "source_id": "src:datasheet:c194395",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -98073,6 +99954,17 @@
           "status": "scanned",
           "pages_scanned": 12,
           "source_id": "src:datasheet:c53099"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "输入脚电压 VIN 6.5 V",
+          "source_id": "src:datasheet:c53099",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -98301,6 +100193,17 @@
           "pages_scanned": 23,
           "source_id": "src:datasheet:c82942"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "输入脚电压 VIN 6.5 V",
+          "source_id": "src:datasheet:c82942",
+          "distributor_supply_voltage": 6.0,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -98528,7 +100431,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c88419"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tech-public:spx3819m5-l-3-3",
@@ -98756,6 +100660,12 @@
           "status": "scanned",
           "pages_scanned": 8,
           "source_id": "src:datasheet:c20617301"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.016,
+          "basis": "supply_current_iq 0.005 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -98985,6 +100895,17 @@
           "status": "scanned",
           "pages_scanned": 12,
           "source_id": "src:datasheet:c13417"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 16.0,
+          "unit": "V",
+          "quote": "Input Voltage Range V IN ................................ 2.5V to 16V",
+          "source_id": "src:datasheet:c13417",
+          "distributor_supply_voltage": 16.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -99217,7 +101138,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c79924"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tlv70033ddcr",
@@ -99444,7 +101366,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c11337"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tlv70233dbvr",
@@ -99672,7 +101595,8 @@
           "pages_scanned": 37,
           "source_id": "src:datasheet:c26833"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tlv73333pdbvr",
@@ -99900,7 +101824,8 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c134139"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tps71533dckr",
@@ -100128,7 +102053,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c32670"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tps74801drcr",
@@ -100375,6 +102301,17 @@
           "pages_scanned": 40,
           "source_id": "src:datasheet:c105263"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VIN, VBIAS Input voltage –0.3 6 V",
+          "source_id": "src:datasheet:c105263",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        }
       }
     },
     {
@@ -100581,7 +102518,8 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c21659"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tdsemic:xc6206p212mr",
@@ -100787,7 +102725,8 @@
           "pages_scanned": 7,
           "source_id": "src:datasheet:c22466431"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:torex-semicon:xc6206p332mr-g",
@@ -100988,7 +102927,8 @@
           "pages_scanned": 17,
           "source_id": "src:datasheet:c5446"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:torex-semicon:xc6210b332mr-g",
@@ -101207,7 +103147,8 @@
           "pages_scanned": 27,
           "source_id": "src:datasheet:c47719"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:torex-semicon:xc6220b331mr-g",
@@ -101426,7 +103367,8 @@
           "pages_scanned": 31,
           "source_id": "src:datasheet:c86534"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:diodes-incorporated:ap2171wg-7",
@@ -101635,6 +103577,17 @@
           "status": "scanned",
           "pages_scanned": 18,
           "source_id": "src:datasheet:c110466"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.5,
+          "unit": "V",
+          "quote": "VIN Input Voltage 6.5 V",
+          "source_id": "src:datasheet:c110466",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -101919,7 +103872,8 @@
           "pages_scanned": 16,
           "source_id": "src:datasheet:c82656"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:onsemi:fdc6330l",
@@ -102126,7 +104080,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c112086"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:vishay-intertech:sip32510dt-t1-ge3",
@@ -102341,7 +104296,8 @@
           "pages_scanned": 13,
           "source_id": "src:datasheet:c145264"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tps2041bdbvr",
@@ -102547,6 +104503,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c51386"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VI(IN), VI(INx) Input voltage (2) –0.3 6 V",
+          "source_id": "src:datasheet:c51386",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -102754,6 +104721,17 @@
           "status": "scanned",
           "pages_scanned": 40,
           "source_id": "src:datasheet:c129581"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "VIN 输入电压，IN 4.5 5.5 V",
+          "source_id": "src:datasheet:c129581",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -102975,6 +104953,12 @@
           "status": "scanned",
           "pages_scanned": 11,
           "source_id": "src:datasheet:c128613"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.026,
+          "basis": "quiescent_current 0.008 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -103203,6 +105187,12 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c143546"
         }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.026,
+          "basis": "quiescent_current 0.008 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -103415,7 +105405,8 @@
           "pages_scanned": 18,
           "source_id": "src:datasheet:c7451970"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tl7705aidr",
@@ -103640,6 +105631,17 @@
           "status": "scanned",
           "pages_scanned": 29,
           "source_id": "src:datasheet:c53106"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 20.0,
+          "unit": "V",
+          "quote": "VCC Supply voltage (2) 20 V",
+          "source_id": "src:datasheet:c53106",
+          "distributor_supply_voltage": 18.0,
+          "agrees_with_distributor": true,
+          "used": true
         }
       }
     },
@@ -103874,7 +105876,8 @@
           "pages_scanned": 34,
           "source_id": "src:datasheet:c165131"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tps3823-33dbvr",
@@ -104090,6 +106093,21 @@
           "pages_scanned": 34,
           "source_id": "src:datasheet:c7719"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 6.0,
+          "unit": "V",
+          "quote": "VDD -0.3 6 V",
+          "source_id": "src:datasheet:c7719",
+          "distributor_supply_voltage": 3.0,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.049,
+          "basis": "quiescent_current 0.015 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -104299,7 +106317,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c7472504"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:lute:0805l010-24xr",
@@ -104508,7 +106527,8 @@
           "pages_scanned": 9,
           "source_id": "src:datasheet:c7472554"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:bourns:mf-msmf050-2",
@@ -104726,7 +106746,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c17313"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:techfuse:nsmd005",
@@ -104925,7 +106946,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c70064"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:techfuse:nsmd010",
@@ -105125,7 +107147,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c70065"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:techfuse:nsmd012",
@@ -105324,7 +107347,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c70066"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:techfuse:nsmd050-33v",
@@ -105528,7 +107552,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c70077"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smd0603-005-15",
@@ -105737,7 +107762,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c46640951"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:techfuse:smd0603-010-24v",
@@ -105941,7 +107967,8 @@
           "pages_scanned": 1,
           "source_id": "src:datasheet:c70048"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:smd0805b050tf",
@@ -106153,7 +108180,8 @@
           "pages_scanned": 7,
           "source_id": "src:datasheet:c269104"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:smd1206b012tf",
@@ -106365,7 +108393,8 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c269109"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:smd1812b110tf-33",
@@ -106577,7 +108606,8 @@
           "pages_scanned": 11,
           "source_id": "src:datasheet:c269134"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:born:0603esda-05n",
@@ -106765,7 +108795,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c316054"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:born:bpesd0402-05st",
@@ -106953,7 +108984,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c316059"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:jiangsu-changjing-electronics-technology-co-ltd:cesd5v0d3-za",
@@ -107154,7 +109186,8 @@
           "pages_scanned": 2,
           "source_id": "src:datasheet:c22643"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:onsemi:esd5z5-0t1g",
@@ -107373,7 +109406,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c82044"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:h3v3hd3u",
@@ -107585,7 +109619,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c20615801"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:h3v3ld5b",
@@ -107797,7 +109832,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c20615817"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:h5vld3b",
@@ -108009,7 +110045,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c20615805"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:lrc:lesd5z3-3t1g",
@@ -108225,7 +110262,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c136161"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:onsemi:nup2105lt1g",
@@ -108455,7 +110493,8 @@
           "pages_scanned": 7,
           "source_id": "src:datasheet:c14486"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:p6smb6-8ca-tr13",
@@ -108647,7 +110686,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c78395"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:smaj15ca",
@@ -108855,7 +110895,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c110044"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:smaj36ca-tr13",
@@ -109060,7 +111101,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c87270"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:smaj5-0a",
@@ -109267,7 +111309,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c113952"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:dowo:smbj30ca",
@@ -109467,7 +111510,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c284101"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smf12ca",
@@ -109674,7 +111718,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c19077507"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smf15ca",
@@ -109881,7 +111926,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c19077510"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smf28ca",
@@ -110088,7 +112134,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c19077517"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:smf5-0a",
@@ -110301,7 +112348,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c193402"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smf5-0ca",
@@ -110509,7 +112557,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c19077498"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:mdd-microdiode-semiconductor:smf6-0ca",
@@ -110718,7 +112767,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c123791"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:hongjiacheng:smf6-5ca",
@@ -110925,7 +112975,8 @@
           "pages_scanned": 5,
           "source_id": "src:datasheet:c19077501"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:protek-devices:srv05-4-p-t7",
@@ -111153,7 +113204,8 @@
           "pages_scanned": 8,
           "source_id": "src:datasheet:c85364"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:texas-instruments:tpd1e10b06dpyr",
@@ -111349,7 +113401,8 @@
           "pages_scanned": 33,
           "source_id": "src:datasheet:c48260"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:brightking:udd32c03l01",
@@ -111561,7 +113614,8 @@
           "pages_scanned": 6,
           "source_id": "src:datasheet:c78439"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:seiko-epson:q13fc13500004",
@@ -111742,7 +113796,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c32346"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:seiko-epson:q13mc14620002",
@@ -111901,7 +113956,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c15482"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tkd:sx32y024000bc1t001",
@@ -112066,7 +114122,8 @@
           "pages_scanned": 13,
           "source_id": "src:datasheet:c7420736"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:seiko-epson:x1a0000610006",
@@ -112247,7 +114304,8 @@
           "pages_scanned": 3,
           "source_id": "src:datasheet:c99009"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x322512msb4si",
@@ -112413,7 +114471,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c9002"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x322516mlb4si",
@@ -112578,7 +114637,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c13738"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x322525mob4si",
@@ -112743,7 +114803,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c9006"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x49sm8msd2sc",
@@ -112930,7 +114991,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c12674"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x5032110592msb2gi",
@@ -113117,7 +115179,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c112574"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:x50328msb2gi",
@@ -113305,7 +115368,8 @@
           "pages_scanned": 0,
           "source_id": "src:datasheet:c115962"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:yxc-crystal-oscillators:ot3el89cji-111ylc-25m",
@@ -113463,7 +115527,8 @@
           "pages_scanned": 4,
           "source_id": "src:datasheet:c7471623"
         }
-      }
+      },
+      "electrical": null
     },
     {
       "part_id": "part:tognjing:xos32012000lt00351005",
@@ -113633,6 +115698,12 @@
           "status": "scanned",
           "pages_scanned": 1,
           "source_id": "src:datasheet:c37635414"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "supply_current 5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -113804,6 +115875,12 @@
           "status": "scanned",
           "pages_scanned": 1,
           "source_id": "src:datasheet:c37635416"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 16.5,
+          "basis": "supply_current 5 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -114023,6 +116100,21 @@
           "pages_scanned": 33,
           "source_id": "src:datasheet:c52495"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 4.0,
+          "unit": "V",
+          "quote": "VCC 至 GND -0.3 4 V",
+          "source_id": "src:datasheet:c52495",
+          "distributor_supply_voltage": 3.6,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.004,
+          "basis": "quiescent_current_iq 0.0012 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -114238,6 +116330,21 @@
           "status": "scanned",
           "pages_scanned": 13,
           "source_id": "src:datasheet:c8959"
+        }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "Supply Voltage VCC1, VCC2 VCC1, VCC2 (Notes 2, 10) 2.0 3.3 5.5 V",
+          "source_id": "src:datasheet:c8959",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.0,
+          "basis": "quiescent_current_iq 1e-06 mA x 3.3 V (distributor parametric data)"
         }
       }
     },
@@ -114459,6 +116566,21 @@
           "pages_scanned": 14,
           "source_id": "src:datasheet:c26858"
         }
+      },
+      "electrical": {
+        "vin_abs_max": {
+          "value": 5.5,
+          "unit": "V",
+          "quote": "Supply Voltage VCC 4.5 5.0 5.5 V",
+          "source_id": "src:datasheet:c26858",
+          "distributor_supply_voltage": 5.5,
+          "agrees_with_distributor": true,
+          "used": true
+        },
+        "power_mw_est": {
+          "value": 0.001,
+          "basis": "quiescent_current_iq 0.0003 mA x 3.3 V (distributor parametric data)"
+        }
       }
     },
     {
@@ -114679,6 +116801,12 @@
           "status": "unreadable",
           "pages_scanned": 0,
           "source_id": "src:datasheet:c22396390"
+        }
+      },
+      "electrical": {
+        "power_mw_est": {
+          "value": 0.001,
+          "basis": "quiescent_current_iq 0.00025 mA x 3.3 V (distributor parametric data)"
         }
       }
     }

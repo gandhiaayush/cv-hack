@@ -1,34 +1,23 @@
-"""Static design intent for the PPG wearable: what each subsystem must contain and what rail it sits on."""
+"""Design intent for a run, loaded from data/spec.json (SPEC_PATH=... to use another spec).
 
-# max_rail_v: highest voltage any part in the subsystem can see (rated parts must cover it)
-# allowed: part categories that make sense here; required_any: at least one part from this set
-SUBSYSTEMS = {
-    "power": {
-        "max_rail_v": 5.5,
-        "allowed": {"ldo", "dcdc", "charger", "load_switch", "battery_protection", "fuel_gauge", "supervisor",
-                    "power", "capacitor", "resistor", "inductor", "ferrite", "diode", "mosfet", "connector",
-                    "fuse", "passive", "led"},
-        "required_any": {"ldo", "dcdc", "charger", "power"},
-    },
-    "analog_fe": {
-        "max_rail_v": 3.6,
-        "allowed": {"afe", "analog", "opamp", "inst_amp", "adc", "light_sensor", "current_sense", "comparator",
-                    "accelerometer", "temperature_sensor", "temp_humidity_sensor", "pressure_sensor",
-                    "capacitor", "resistor", "passive", "led", "inductor", "ferrite", "ldo"},
-        "required_any": {"afe", "analog", "light_sensor", "opamp", "inst_amp", "adc"},
-    },
-    "mcu_comms": {
-        "max_rail_v": 3.6,
-        "allowed": {"mcu", "rf_module", "crystal", "oscillator", "flash", "eeprom", "rtc", "capacitor",
-                    "resistor", "passive", "inductor", "ferrite", "connector", "led", "switch"},
-        "required_any": {"mcu", "rf_module"},
-    },
-    "protection": {
-        "max_rail_v": 20.0,
-        "allowed": {"protection", "tvs", "fuse", "diode", "connector", "resistor", "passive", "capacitor",
-                    "mosfet", "ferrite"},
-        "required_any": {"protection", "tvs", "fuse"},
-    },
-}
-BUDGET = {"power_mw": 150.0, "cost_usd": 15.0}
-DEVICE = "battery-powered Class II PPG pulse-oximeter wearable"
+SUBSYSTEMS[name]: max_rail_v (highest voltage any part can see), allowed part categories, required_any
+(at least one part from this set), and the interface nets the subsystem drives / uses when wired.
+REQUIREMENTS: stable IDs with a machine check each, evaluated after the design is wired (src/requirements.py)."""
+import json
+import os
+from pathlib import Path
+
+SPEC_PATH = Path(os.environ.get("SPEC_PATH") or Path(__file__).resolve().parent.parent / "data" / "spec.json")
+SPEC = json.loads(SPEC_PATH.read_text())
+
+DEVICE = SPEC["device"]
+DEVICE_CLASS = SPEC.get("device_class", "II")
+DESIGN_NAME = SPEC.get("design_name", "design")
+BUDGET = {k: float(v) for k, v in SPEC["budget"].items() if not k.startswith("_")}
+SUBSYSTEMS = {name: {**{k: v for k, v in s.items() if not k.startswith("_")},
+                     "allowed": set(s["allowed"]), "required_any": set(s["required_any"]),
+                     "drives": list(s.get("drives", [])), "uses": list(s.get("uses", []))}
+              for name, s in SPEC["subsystems"].items()}
+INTERFACE_NETS: dict[str, str] = SPEC.get("interface_nets", {})
+POWER_FLAGS: list[str] = SPEC.get("power_flags", ["GND"])
+REQUIREMENTS: list[dict] = SPEC.get("requirements", [])

@@ -25,7 +25,7 @@ class RunState:
     updated: float | None = None
     n_events: int = 0
     inference: dict[str, dict[str, Any]] = field(default_factory=dict)   # per model: calls, tokens, latency
-    design_source: str | None = None     # "reference" | "selection" | "final" (real runs, via cvhack.synth)
+    design_source: str | None = None     # "reference" | "selection" | "final" (cvhack.synth) | "wired" (src/wiring.py)
     design_notes: dict[str, Any] | None = None
 
     def apply(self, e: AgentEvent) -> None:

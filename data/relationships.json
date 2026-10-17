@@ -994,13 +994,57 @@
       }
     },
     {
-      "id": "instance:ppg-wearable-class2:U4:pin:1",
+      "id": "instance:ppg-wearable-class2:U4:pin:2",
+      "type": "pin",
+      "label": "SCL",
+      "attributes": {
+        "number": "2",
+        "name": "SCL",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:3",
+      "type": "pin",
+      "label": "SDA",
+      "attributes": {
+        "number": "3",
+        "name": "SDA",
+        "electrical_type": "bidirectional",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:4",
+      "type": "pin",
+      "label": "PGND",
+      "attributes": {
+        "number": "4",
+        "name": "PGND",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:9",
       "type": "pin",
       "label": "VLED+",
       "attributes": {
-        "number": "1",
+        "number": "9",
         "name": "VLED+",
         "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:10",
+      "type": "pin",
+      "label": "VLED+",
+      "attributes": {
+        "number": "10",
+        "name": "VLED+",
+        "electrical_type": "passive",
         "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
       }
     },
@@ -1023,28 +1067,6 @@
         "number": "12",
         "name": "GND",
         "electrical_type": "power_in",
-        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
-      }
-    },
-    {
-      "id": "instance:ppg-wearable-class2:U4:pin:4",
-      "type": "pin",
-      "label": "SDA",
-      "attributes": {
-        "number": "4",
-        "name": "SDA",
-        "electrical_type": "bidirectional",
-        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
-      }
-    },
-    {
-      "id": "instance:ppg-wearable-class2:U4:pin:5",
-      "type": "pin",
-      "label": "SCL",
-      "attributes": {
-        "number": "5",
-        "name": "SCL",
-        "electrical_type": "input",
         "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
       }
     },
@@ -2080,13 +2102,13 @@
             {
               "operator": "pin_on_net",
               "ref": "U4",
-              "pin": "4",
+              "pin": "3",
               "net": "I2C_SDA"
             },
             {
               "operator": "pin_on_net",
               "ref": "U4",
-              "pin": "5",
+              "pin": "2",
               "net": "I2C_SCL"
             },
             {
@@ -3085,7 +3107,39 @@
     {
       "source": "instance:ppg-wearable-class2:U4",
       "relation": "has_pin",
-      "target": "instance:ppg-wearable-class2:U4:pin:1",
+      "target": "instance:ppg-wearable-class2:U4:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:3",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:9",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:10",
       "evidence_source_ids": [
         "source:repo:parts-mock"
       ]
@@ -3102,22 +3156,6 @@
       "source": "instance:ppg-wearable-class2:U4",
       "relation": "has_pin",
       "target": "instance:ppg-wearable-class2:U4:pin:12",
-      "evidence_source_ids": [
-        "source:repo:parts-mock"
-      ]
-    },
-    {
-      "source": "instance:ppg-wearable-class2:U4",
-      "relation": "has_pin",
-      "target": "instance:ppg-wearable-class2:U4:pin:4",
-      "evidence_source_ids": [
-        "source:repo:parts-mock"
-      ]
-    },
-    {
-      "source": "instance:ppg-wearable-class2:U4",
-      "relation": "has_pin",
-      "target": "instance:ppg-wearable-class2:U4:pin:5",
       "evidence_source_ids": [
         "source:repo:parts-mock"
       ]
@@ -4114,14 +4152,25 @@
       }
     },
     {
-      "source": "instance:ppg-wearable-class2:U4:pin:1",
+      "source": "instance:ppg-wearable-class2:U4:pin:9",
       "relation": "connected_to_net",
       "target": "net:ppg-wearable-class2:vbat",
       "evidence_source_ids": [
         "source:repo:design-wearable-mock"
       ],
       "attributes": {
-        "pin_number": "1"
+        "pin_number": "9"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:10",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "10"
       }
     },
     {
@@ -4136,25 +4185,25 @@
       }
     },
     {
-      "source": "instance:ppg-wearable-class2:U4:pin:4",
+      "source": "instance:ppg-wearable-class2:U4:pin:3",
       "relation": "connected_to_net",
       "target": "net:ppg-wearable-class2:i2c-sda",
       "evidence_source_ids": [
         "source:repo:design-wearable-mock"
       ],
       "attributes": {
-        "pin_number": "4"
+        "pin_number": "3"
       }
     },
     {
-      "source": "instance:ppg-wearable-class2:U4:pin:5",
+      "source": "instance:ppg-wearable-class2:U4:pin:2",
       "relation": "connected_to_net",
       "target": "net:ppg-wearable-class2:i2c-scl",
       "evidence_source_ids": [
         "source:repo:design-wearable-mock"
       ],
       "attributes": {
-        "pin_number": "5"
+        "pin_number": "2"
       }
     },
     {
@@ -4177,6 +4226,17 @@
       ],
       "attributes": {
         "pin_number": "12"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:4",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "4"
       }
     },
     {
@@ -5023,8 +5083,8 @@
     "all_design_parts_have_mock_metadata": true,
     "subsystems": 4,
     "nets": 17,
-    "mock_symbol_pins": 83,
-    "connected_pins": 81,
+    "mock_symbol_pins": 85,
+    "connected_pins": 83,
     "intentionally_unconnected_pins": 2,
     "unconnected_mock_symbol_pins": 0,
     "requirement_nodes": 0,

@@ -252,8 +252,8 @@
           {"operator": "part_value_is", "ref": "R6", "value": "4.7k"},
           {"operator": "pin_on_net", "ref": "R6", "pin": "1", "net": "3V3"},
           {"operator": "pin_on_net", "ref": "R6", "pin": "2", "net": "I2C_SCL"},
-          {"operator": "pin_on_net", "ref": "U4", "pin": "4", "net": "I2C_SDA"},
-          {"operator": "pin_on_net", "ref": "U4", "pin": "5", "net": "I2C_SCL"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "3", "net": "I2C_SDA"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "2", "net": "I2C_SCL"},
           {"operator": "pin_on_net", "ref": "U5", "pin": "10", "net": "I2C_SDA"},
           {"operator": "pin_on_net", "ref": "U5", "pin": "11", "net": "I2C_SCL"}
         ]

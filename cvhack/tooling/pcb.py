@@ -70,8 +70,23 @@ def footprint_dir() -> Path | None:
     return sym.parent / "footprints" if sym and (sym.parent / "footprints").is_dir() else None
 
 
+def bundled_models_dir() -> Path | None:
+    """The 3D models shipped inside the KiCad install (macOS bundle or Linux share dir), if present."""
+    cli = kicad_cli.cli_path()
+    if not cli:
+        return None
+    contents = Path(cli).resolve().parent.parent
+    for cand in (contents / "SharedSupport" / "3dmodels", contents / "share" / "kicad" / "3dmodels"):
+        if cand.is_dir() and any(cand.glob("*.3dshapes")):
+            return cand
+    return None
+
+
 def models_dir() -> Path:
-    return Path(os.environ.get("KICAD_3DMODEL_DIR", ROOT / "runs" / "_3dmodels"))
+    env = os.environ.get("KICAD_3DMODEL_DIR")
+    if env:
+        return Path(env)
+    return bundled_models_dir() or ROOT / "runs" / "_3dmodels"
 
 
 def java() -> str | None:
@@ -264,13 +279,28 @@ def drc(pcb: Path) -> dict:
                         for v in data.get("violations", []) if v.get("type") in real][:20]}
 
 
+def _ssl():
+    """certifi's CA bundle when available: some Python installs ship without system certificates."""
+    import ssl
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
+
+
 def fetch_models(pcb: Path) -> list[str]:
     """Download the 3D models the board's footprints reference (STEP), if missing. Returns failures."""
     text = Path(pcb).read_text()
     failed = []
+    bundled = models_dir() == bundled_models_dir()  # never write into the KiCad install
     for ref in sorted(set(re.findall(r'\(model "\$\{KICAD\d*_3DMODEL_DIR\}/([^"]+)"', text))):
         rel = re.sub(r"\.wrl$", ".step", ref)
         dest = models_dir() / rel
+        if bundled:
+            if not dest.exists():
+                failed.append(rel)
+            continue
         miss = dest.with_suffix(".missing")
         if dest.exists() or miss.exists():
             if miss.exists():
@@ -278,7 +308,7 @@ def fetch_models(pcb: Path) -> list[str]:
             continue
         dest.parent.mkdir(parents=True, exist_ok=True)
         try:
-            with urllib.request.urlopen(MODELS_URL + urllib.request.quote(rel), timeout=30) as r:
+            with urllib.request.urlopen(MODELS_URL + urllib.request.quote(rel), timeout=30, context=_ssl()) as r:
                 dest.write_bytes(r.read())
         except Exception:
             miss.write_text("not in kicad-packages3D")

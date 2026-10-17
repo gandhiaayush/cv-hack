@@ -7,11 +7,15 @@ from __future__ import annotations
 from cvhack.contracts import VerifierError
 from cvhack.parts import load_parts
 
-from . import completeness, design_apply
 from .spec import SUBSYSTEMS
 
 # parts whose voltage figure is not a limit the rail must stay under (TVS stand-off, diode Vf, ...)
 NO_RAIL_CHECK = {"tvs", "diode", "fuse", "led", "crystal", "oscillator", "inductor", "ferrite", "resistor"}
+# parts that draw real supply current; unknown power for these makes the power total a lower bound
+ACTIVE = {"ldo", "dcdc", "charger", "mcu", "rf_module", "afe", "analog", "opamp", "inst_amp", "adc",
+          "light_sensor", "accelerometer", "temperature_sensor", "temp_humidity_sensor", "pressure_sensor",
+          "current_sense", "comparator", "flash", "eeprom", "rtc", "isolator", "isolated_dcdc", "fuel_gauge",
+          "supervisor", "load_switch", "battery_protection", "power"}
 OUT_OF_STOCK: set[str] = set()  # set by the demo's constraint change; never touches data/parts.json
 
 
@@ -42,13 +46,12 @@ def rated_max_v(part) -> float | None:
     return min(vals) if vals else None
 
 
-def check_option(subsystem: str, items: list[dict], oos: set | None = None) -> dict:
+def check_option(subsystem: str, items: list[dict]) -> dict:
     """items: [{"mpn": str, "qty": int}]. Returns {ok, errors:[VerifierError], totals}."""
     sub = SUBSYSTEMS[subsystem]
-    stockout = set(oos or ()) | OUT_OF_STOCK
     parts = load_parts()
     errs: list[VerifierError] = []
-    cost, power, unknown_price, cats = 0.0, 0.0, [], set()
+    cost, power, unknown_price, unknown_power, cats = 0.0, 0.0, [], [], set()
     for it in items:
         mpn, qty = it["mpn"], int(it.get("qty", 1))
         p = parts.get(mpn)
@@ -61,13 +64,11 @@ def check_option(subsystem: str, items: list[dict], oos: set | None = None) -> d
             errs.append(VerifierError(code="CATEGORY_MISMATCH", part=mpn, message=
                 f"{mpn} is category '{p.category}', not allowed in {subsystem} "
                 f"(allowed: {sorted(sub['allowed'])})."))
-        if p.category in {"mcu", "afe", "ldo", "charger", "rf_module"}:  # the board must be able to draw it
-            ok, why = design_apply.wireable(subsystem, mpn, parts)
-            if not ok:
-                alts = design_apply.drawable_alternatives(subsystem, mpn, parts)
-                errs.append(VerifierError(code="NOT_DRAWABLE", part=mpn, message=
-                    f"{mpn} cannot be drawn on this board: {why}." + (f" Drawable {p.category} choices: {', '.join(alts)}." if alts else "")))
-        if mpn in stockout or p.stock == 0:
+        if not p.pins:
+            errs.append(VerifierError(code="PINOUT_UNKNOWN", part=mpn, message=
+                f"{mpn} has no known pinout, so it cannot be wired into the schematic. "
+                "Choose a part from search_parts with needs_pins=true."))
+        if mpn in OUT_OF_STOCK or p.stock == 0:
             errs.append(VerifierError(code="OUT_OF_STOCK", part=mpn, message=f"{mpn} is out of stock."))
         elif p.stock is None:
             errs.append(VerifierError(code="STOCK_UNKNOWN", part=mpn, severity="warning",
@@ -89,14 +90,16 @@ def check_option(subsystem: str, items: list[dict], oos: set | None = None) -> d
         else:
             cost += p.price_usd * qty
         power += (p.power_mw or 0.0) * qty
+        if p.category in ACTIVE and (p.ratings or {}).get("power_mw_known") is False:
+            unknown_power.append(mpn)
+            errs.append(VerifierError(code="POWER_UNKNOWN", part=mpn, severity="warning",
+                                      message=f"{mpn} has no power figure in the DB; power is a lower bound."))
     if not (sub["required_any"] & cats):
         errs.append(VerifierError(code="ROLE_MISSING", message=
             f"{subsystem} needs at least one part from categories {sorted(sub['required_any'])}."))
-    for need, hint in completeness.missing(subsystem, items):
-        errs.append(VerifierError(code="INCOMPLETE", message=f"{subsystem} is missing: {need}. To fix: {hint}."))
     return {
         "ok": not any(e.severity == "error" for e in errs),
         "errors": [e.model_dump(exclude_none=True) for e in errs],
         "totals": {"cost_usd": round(cost, 3), "power_mw": round(power, 3),
-                   "cost_is_lower_bound": bool(unknown_price)},
+                   "cost_is_lower_bound": bool(unknown_price), "power_is_lower_bound": bool(unknown_power)},
     }

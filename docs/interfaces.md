@@ -120,6 +120,20 @@ Events are appended to `runs/<run_id>/events.jsonl`, so the agents and the dashb
 
 **A's current agents** (`src/agent.py`) log to SQLite (`runs/run.db`) instead of calling `emit`. `python -m cvhack.bridge` tails that DB and translates the rows: `start` becomes `agent_spawned` plus a `delegate` from the parent, a sub-agent's JSON `final` becomes a `report` to its parent, and a root `final` becomes `run_done`. `demo/run_demo.sh --real` starts the bridge automatically. Once A emits events directly, drop the bridge.
 
+The wiring phase (`src/wiring.py`) and control channel add these rows, which the bridge maps as follows:
+
+| Row kind | Dashboard event |
+|---|---|
+| `wiring_gate` | `verifier_result` with `verifier = "wiring:<subsystem>"` |
+| `design` | `design_updated` (the merged, wired `Design`) |
+| `verifier` | `verifier_result` from `verifier.electrical` (native ERC, budgets, KiCad ERC) |
+| `requirement` | `requirement_status` for each requirement in `data/spec.json` |
+| `constraint_change` | `constraint_change` plus a `replan` |
+
+A root `final` maps to `run_done` with `ok` true only when the status is `accepted`, ERC passed and every non-advisory requirement passed.
+
+**Spec.** `data/spec.json` (or `SPEC_PATH`) holds the device, budget, subsystems (allowed and required categories, max rail voltage, the interface nets each drives and uses), the shared interface nets, power flags and requirements with machine checks. `src/spec.py` loads it.
+
 ## ControlCommand (dashboard → mother agent)
 
 The dashboard appends to `runs/<run_id>/control.jsonl`:

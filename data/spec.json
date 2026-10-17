@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "device": "battery-powered Class II PPG pulse-oximeter wearable",
+  "device_class": "II",
+  "design_name": "ppg-wearable",
+  "budget": {
+    "power_mw": 150.0,
+    "cost_usd": 30.0,
+    "area_mm2": 900.0,
+    "_note": "cost_usd is at LCSC qty-1 prices; the MAX30102 alone is about $14.60, so the old $15 budget could not be met with real prices."
+  },
+  "subsystems": {
+    "power": {
+      "max_rail_v": 5.5,
+      "allowed": ["ldo", "dcdc", "charger", "load_switch", "battery_protection", "fuel_gauge", "supervisor",
+                  "power", "capacitor", "resistor", "inductor", "ferrite", "diode", "mosfet", "bjt", "connector",
+                  "fuse", "passive", "led", "isolated_dcdc"],
+      "required_any": ["ldo", "dcdc", "charger", "power"],
+      "drives": ["VBAT", "3V3", "1V8"],
+      "uses": ["VBUS", "CHG_STAT", "GND"]
+    },
+    "analog_fe": {
+      "max_rail_v": 3.6,
+      "allowed": ["afe", "analog", "opamp", "inst_amp", "adc", "light_sensor", "current_sense", "comparator",
+                  "accelerometer", "temperature_sensor", "temp_humidity_sensor", "pressure_sensor",
+                  "capacitor", "resistor", "passive", "led", "inductor", "ferrite", "isolation_amp"],
+      "required_any": ["afe"],
+      "_required_note": "An integrated PPG/SpO2 front end is required: a real run with a looser rule chose a single LED plus an op-amp, which cannot measure SpO2.",
+      "drives": ["PPG_INT"],
+      "uses": ["VBAT", "3V3", "1V8", "I2C_SDA", "I2C_SCL", "GND"]
+    },
+    "mcu_comms": {
+      "max_rail_v": 3.6,
+      "allowed": ["mcu", "rf_module", "crystal", "oscillator", "flash", "eeprom", "rtc", "capacitor",
+                  "resistor", "passive", "inductor", "ferrite", "connector", "led", "switch", "isolator"],
+      "required_any": ["mcu", "rf_module"],
+      "drives": ["I2C_SDA", "I2C_SCL"],
+      "uses": ["3V3", "PPG_INT", "CHG_STAT", "GND"]
+    },
+    "protection": {
+      "max_rail_v": 20.0,
+      "allowed": ["protection", "tvs", "fuse", "diode", "connector", "resistor", "passive", "capacitor",
+                  "mosfet", "ferrite", "isolator", "optocoupler"],
+      "required_any": ["protection", "tvs", "fuse"],
+      "drives": ["VBUS"],
+      "uses": ["GND"]
+    }
+  },
+  "interface_nets": {
+    "GND": "ground; every block uses it",
+    "VBUS": "USB 5 V after the input fuse; off-board power (power flag)",
+    "VBAT": "battery rail, 3.0-4.2 V",
+    "3V3": "regulated 3.3 V rail",
+    "1V8": "regulated 1.8 V rail (optional; only if a part needs it)",
+    "I2C_SDA": "I2C data between the MCU and the sensors",
+    "I2C_SCL": "I2C clock between the MCU and the sensors",
+    "PPG_INT": "sensor interrupt to the MCU (optional)",
+    "CHG_STAT": "charger status to the MCU (optional)"
+  },
+  "power_flags": ["VBUS", "GND"],
+  "requirements": [
+    {"id": "REQ-01", "text": "USB 5 V charging input with overcurrent protection",
+     "check": {"type": "has_category", "subsystem": "protection", "categories": ["fuse"]}},
+    {"id": "REQ-02", "text": "ESD/surge protection on the external connector (IEC 61000-4-2)",
+     "check": {"type": "has_category", "subsystem": "protection", "categories": ["tvs"]}},
+    {"id": "REQ-03", "text": "Li-ion/LiPo charging from USB",
+     "check": {"type": "has_category", "subsystem": "power", "categories": ["charger"]}},
+    {"id": "REQ-04", "text": "Regulated 3.3 V rail driven by a regulator",
+     "check": {"type": "net_driven", "net": "3V3"}},
+    {"id": "REQ-05", "text": "SpO2 / heart-rate optical sensing",
+     "check": {"type": "has_category", "subsystem": "analog_fe", "categories": ["afe"]}},
+    {"id": "REQ-06", "text": "BLE connectivity",
+     "check": {"type": "has_interface", "subsystem": "mcu_comms", "interface": "ble"}},
+    {"id": "REQ-07", "text": "Total power within budget (parts with unknown power count as 0)",
+     "check": {"type": "budget", "key": "power_mw"}},
+    {"id": "REQ-08", "text": "BOM cost within budget at LCSC qty-1 prices",
+     "check": {"type": "budget", "key": "cost_usd"}},
+    {"id": "REQ-09", "text": "Schematic passes ERC",
+     "check": {"type": "verifier_ok", "verifier": "electrical"}},
+    {"id": "REQ-10", "text": "Every part is in stock",
+     "check": {"type": "all_in_stock"}},
+    {"id": "REQ-11", "text": "Advisory: no selected part's datasheet restricts life-support or medical use",
+     "advisory": true,
+     "check": {"type": "no_statement", "statement": "medical_use_restriction"}}
+  ]
+}

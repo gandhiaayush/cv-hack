@@ -15,12 +15,13 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
+from cvhack.control import read_commands
 from cvhack.parts import load_parts
 
-from . import completeness, gate, lessons, llm, store, verify_design
+from . import gate, llm, store, wiring
 from .llm import chat
 from .scheduler import SCHED
-from .spec import BUDGET, DEVICE, SUBSYSTEMS
+from .spec import BUDGET, DEVICE, DEVICE_CLASS, SUBSYSTEMS
 from .tools import kg, parts, regs, sandbox, supply
 
 MAX_SUBMITS = 3
@@ -34,18 +35,15 @@ class RunCtx:
     critic_rounds: int = 0
     delegations: dict = field(default_factory=dict)
     critic_failures: int = 0
-    first_round_blockers: int | None = None
-    applied_oos: set = field(default_factory=set)
     reviewed: bool = False
     objections: list = field(default_factory=list)
     result: dict | None = None
     agents_spawned: int = 0
-    device: str = DEVICE                                   # what the user asked for, from the run spec
-    budget: dict = field(default_factory=lambda: dict(BUDGET))
-    lessons_used: list = field(default_factory=list)
-    request: str = ""                                      # the user's original prompt, verbatim
     findings: list = field(default_factory=list)      # regulatory / sourcing findings that passed their gate
     fetched: dict = field(default_factory=dict)       # CFR section -> text actually returned by a tool this run
+    wiring: dict = field(default_factory=dict)        # subsystem -> {insts, block, ncs, ok, errors} (src/wiring.py)
+    ctrl_offset: int = 0                              # lines of runs/<run>/control.jsonl already applied
+    device_class: str = DEVICE_CLASS
     lock: threading.Lock = field(default_factory=threading.Lock)
 
 
@@ -160,15 +158,13 @@ Work in this order:
 2. search_parts: BROWSE the DB by category with no text (e.g. category="mcu", limit 15) and choose from what it lists. Do NOT search for part names you remember: the DB is a fixed ~500-part catalog and most names are absent. Valid categories for {role}: {cats}. Use find_alternates after a stock-out.
 3. run_python for any number (power, margins, cost). Each call is a fresh process; print() results.
 4. regulation tools only if a rule or clause matters; at most 2 lookups. get_part_medical gives a part's lifecycle, datasheet medical-use statements and isolation (MOPP) evidence; use it for parts at a patient or USB barrier.
-5. Every chip you choose must be DRAWABLE on the board: it needs a pinout (search_parts needs_pins=true) that matches the baseline part's pins by function, so prefer find_alternates of the part already in your subsystem. If your subsystem's key category has only ONE suitable part, build both options around it (they may differ in supporting parts and values). Do not hunt across unrelated categories.
+5. If your subsystem's key category has only ONE suitable part, build both options around it (they may differ in supporting parts and values). Do not hunt across unrelated categories.
 6. submit_report with 2 options, within about 6 tool calls total. Cite evidence (mpn, rule id, CFR section) for every option.
 A deterministic gate checks your options. If it rejects them, read the errors, fix the cause (do not argue),
 and resubmit. Be concise; you have a small step budget."""
 
-def mother_prompt(ctx) -> str:
-    req = f"\nThe customer asked for: \"{ctx.request}\"." if ctx.request else ""
-    return f"""You are the mother agent designing a {ctx.device}. Budget: {ctx.budget['power_mw']:.0f} mW, ${ctx.budget['cost_usd']:.0f} BOM.{req}
-1. Call list_subsystems. Then make ONE delegate_batch call with EXACTLY these 9 items (a queue runs at most {SCHED.n}
+MOTHER_PROMPT = f"""You are the mother agent designing a {DEVICE}. Budget: {BUDGET['power_mw']:.0f} mW, ${BUDGET['cost_usd']:.0f} BOM.
+1. Call list_subsystems. Then make ONE delegate_batch call with EXACTLY these 9 items (a queue runs at most {{conc}}
    model calls at once, so do not hold back):
    - agent_type=regulatory (once, no subsystem)
    - agent_type=specialist, strategy=lowest_cost, for each of: power, analog_fe, mcu_comms, protection   (4 calls)
@@ -180,15 +176,9 @@ def mother_prompt(ctx) -> str:
    options or re-delegating a subsystem with new constraints.
 3. Call finalize. Treat your own choice as probably wrong until the checks and the critic say otherwise:
    answer every objection with a change or with evidence. You cannot finish any other way."""
+MOTHER_PROMPT = MOTHER_PROMPT.replace("{conc}", str(SCHED.n))
 
-
-MOTHER_PROMPT = mother_prompt(RunCtx(run=""))  # default for scripts that do not build a run spec
-
-def critic_prompt(ctx) -> str:
-    known = lessons.active(None, limit=8)
-    seen_before = ("\nFailure modes found in earlier reviews; check these first:\n" + "\n".join(f"- {t}" for t in known)
-                   if known else "")
-    return seen_before + f"""You are an adversarial design reviewer for a {ctx.device}. Assume the design has a mistake and
+CRITIC_PROMPT = f"""You are an adversarial design reviewer for a {DEVICE}. Assume the design has a mistake and
 find it: wrong part for the function, voltage/current margin, missing protection, budget games, ignored rule,
 regulatory gap, supply risk. Use only the facts given. Return JSON only:
 {{"objections":[{{"id":"O1","severity":"blocker|concern","subsystem":str,"part":str,"issue":str,"evidence":str}}]}}
@@ -196,19 +186,10 @@ Return an empty list only if you genuinely find nothing. Do not praise."""
 
 
 # ------------------------------------------------------------------ handlers
-def _oos(ctx) -> set:
-    """Parts the user marked out of stock for THIS run from the dashboard (control channel), read live."""
-    from cvhack.control import read_commands
-    try:
-        return {c.payload.get('mpn') for c in read_commands(ctx.run)[0] if c.payload.get('type') == 'out_of_stock'} - {None}
-    except Exception:
-        return set()
-
-
-def _gate_report(args: dict, oos: set | None = None) -> dict:
+def _gate_report(args: dict) -> dict:
     sub = args["subsystem"]
     for o in args["options"]:
-        res = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in o.get("parts", [])], oos)
+        res = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in o.get("parts", [])])
         o["gate"] = res
     return args
 
@@ -220,7 +201,7 @@ def _submit_report(args, ctx: RunCtx, a: dict):
     if a.get("strategy"):  # explorers share a subsystem: keep option names unique and attributable
         for o in args["options"]:
             o["name"] = f"[{a['strategy']}] {o['name']}"
-    rep = _gate_report(args, _oos(ctx))
+    rep = _gate_report(args)
     passing = [o for o in rep["options"] if o["gate"]["ok"]]
     store.log(ctx.run, a["name"], a["parent"], "gate", {"subsystem": sub, "attempt": a["submits"],
               "passed": [o["name"] for o in passing],
@@ -304,16 +285,14 @@ def _finalize(args, ctx: RunCtx, a: dict):
         elif not opt["gate"]["ok"]:
             problems.append(f"{sub}: option '{opt['name']}' failed the gate")
         else:
-            chosen[sub] = opt
-    stockout = _oos(ctx)
-    for sub, opt in chosen.items():  # a stock-out can arrive after an option passed the gate
-        hit = [e for e in gate.check_option(sub, opt["parts"], stockout)["errors"] if e["code"] == "OUT_OF_STOCK"]
-        for e in hit:
-            if e["part"] not in ctx.applied_oos:
-                ctx.applied_oos.add(e["part"])
-                store.log(ctx.run, a["name"], a["parent"], "constraint", {"type": "out_of_stock", "mpn": e["part"]})
-            problems.append(f"{sub}: {e['part']} is now OUT OF STOCK (user constraint). Re-delegate {sub} to a specialist "
-                            "and tell it to replace that part with an in-stock alternative (find_alternates), then finalize again")
+            # re-check now: stock or constraints may have changed since the report was gated
+            regate = gate.check_option(sub, [{"mpn": p["mpn"], "qty": p.get("qty", 1)} for p in opt["parts"]])
+            if not regate["ok"]:
+                opt["gate"] = regate
+                problems.append(f"{sub}: option '{opt['name']}' no longer passes the gate: " + "; ".join(
+                    e["message"] for e in regate["errors"] if e["severity"] == "error"))
+            else:
+                chosen[sub] = opt
     if problems:
         return "REJECTED: " + " | ".join(problems)
     parts = load_parts()
@@ -322,16 +301,10 @@ def _finalize(args, ctx: RunCtx, a: dict):
     power = sum((parts[p["mpn"]].power_mw or 0.0) * p.get("qty", 1) for _, p in items)
     unknown = [p["mpn"] for _, p in items if parts[p["mpn"]].price_usd is None]
     totals = {"cost_usd": round(cost, 3), "power_mw": round(power, 3), "unknown_price_parts": unknown,
-              "budget": ctx.budget}
+              "budget": BUDGET}
     store.log(ctx.run, a["name"], a["parent"], "budget_check", totals)
-    if cost > ctx.budget["cost_usd"] or power > ctx.budget["power_mw"]:
+    if cost > BUDGET["cost_usd"] or power > BUDGET["power_mw"]:
         return f"REJECTED: over budget (DB-computed) {totals}. Choose cheaper/lower-power options."
-
-    vd = verify_design.verify({sub: o["parts"] for sub, o in chosen.items()})  # the board these parts really make
-    store.log(ctx.run, a["name"], a["parent"], "board_check", {"swapped": len(vd["report"]["swapped"]), "unplaced": len(vd["report"]["unplaced"]),
-              "rules_ok": vd["rules_ok"], "erc_ok": vd["erc_ok"], "problems": vd["problems"][:6]})
-    if vd["problems"]:
-        return "REJECTED: the board built from your selection is not valid. " + " | ".join(vd["problems"][:6])
 
     responses = {r["objection_id"]: r for r in args.get("responses", [])}
     open_objs = [o for o in ctx.objections if o["id"] not in responses]
@@ -349,8 +322,6 @@ def _finalize(args, ctx: RunCtx, a: dict):
             ctx.reviewed = True
             ctx.critic_rounds += 1
             ctx.objections = objs
-            if ctx.first_round_blockers is None:
-                ctx.first_round_blockers = sum(1 for o in objs if o.get("severity") == "blocker")
         store.log(ctx.run, "critic", a["name"], "critique",
                   {"round": ctx.critic_rounds, "objections": ctx.objections})
         if objs and ctx.objections:
@@ -369,7 +340,12 @@ def _finalize(args, ctx: RunCtx, a: dict):
                   "bom": [{"subsystem": s, **p} for s, p in items], "totals": totals,
                   "critic_rounds": ctx.critic_rounds, "objections": ctx.objections,
                   "responses": list(responses.values()), "unresolved": unresolved,
-                  "rationale": args["rationale"]}
+                  "rationale": args["rationale"], "device_class": ctx.device_class}
+    try:
+        ctx.result["wiring"] = wiring.wire(ctx, chosen, parent=a["name"])
+    except Exception as e:  # a wiring crash must not lose the accepted selection
+        store.log(ctx.run, a["name"], a["parent"], "llm_error", {"error": f"wiring: {type(e).__name__}: {e}"})
+        ctx.result["wiring"] = {"electrical_ok": False, "error": f"{type(e).__name__}: {e}"}
     a["done"] = json.dumps(ctx.result)
     return "ACCEPTED"
 
@@ -384,7 +360,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
                           "description": pt.description, "price_usd": pt.price_usd, "stock": pt.stock,
                           "power_mw": pt.power_mw, "max_voltage_v": gate.rated_max_v(pt)})
     rules = {s: kg.rules_for(s) for s in chosen}
-    msg = json.dumps({"bom": facts, "totals": totals, "mother_rationale": rationale,
+    msg = json.dumps({"device_class": ctx.device_class, "bom": facts, "totals": totals, "mother_rationale": rationale,
                       "options_chosen": {s: {"name": o["name"], "risks": o.get("risks", []),
                                              "warnings": [e["message"] for e in o["gate"]["errors"]
                                                           if e["severity"] == "warning"]}
@@ -393,7 +369,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
                       "regulatory_and_sourcing_findings": ctx.findings})
     try:
         with SCHED.slot(ctx.run, "critic"):
-            m = chat([{"role": "system", "content": critic_prompt(ctx)}, {"role": "user", "content": msg}],
+            m = chat([{"role": "system", "content": CRITIC_PROMPT}, {"role": "user", "content": msg}],
                      os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
             store.log(ctx.run, "critic", None, "llm_call", llm.last_call())
         text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
@@ -409,22 +385,7 @@ LEAF_TOOLS = [kg.SPEC, parts.SEARCH_SPEC, parts.ALTERNATES_SPEC, parts.MEDICAL_S
 REG_TOOLS = [regs.CLASSIFY_SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, parts.MEDICAL_SPEC, FINDINGS_SPEC]
 SOURCING_TOOLS = [supply.SPEC, parts.ALTERNATES_SPEC, FINDINGS_SPEC]
 MOTHER_TOOLS = [DELEGATE_SPEC, BATCH_SPEC, kg.LIST_SPEC, FINALIZE_SPEC]
-FINISHERS = ("submit_report", "submit_findings", "finalize")
-
-def _coerce(args: dict) -> dict:
-    """Models often send list/object arguments as JSON strings (or lists of JSON strings). Decode them."""
-    def dec(v):
-        if isinstance(v, str):
-            try:
-                return dec(json.loads(v))
-            except ValueError:
-                return v
-        if isinstance(v, list):
-            return [dec(x) for x in v]
-        return v
-    return {k: (dec(v) if k in ("responses", "selections", "options", "items", "parts") else v)
-            for k, v in args.items()}
-
+FINISHERS = ("submit_report", "submit_findings", "finalize", "submit_wiring")
 
 def _search_parts(a: dict) -> str:
     """Models send spec_ranges as a JSON string and numbers as strings; coerce instead of crashing."""
@@ -440,16 +401,7 @@ def _search_parts(a: dict) -> str:
         a["needs_pins"] = a["needs_pins"].lower() == "true"
     if isinstance(a.get("mopp_at_least"), str):
         a["mopp_at_least"] = int(a["mopp_at_least"]) if a["mopp_at_least"].isdigit() else None
-    out = parts.search_parts(**a)
-    from cvhack import custom_parts  # customer-supplied parts come first: the user asked for them
-    mine_rows = custom_parts.search(a.get("category"), a.get("text"))
-    if mine_rows:
-        try:
-            rows = json.loads(out) if out.strip().startswith("[") else []
-        except ValueError:
-            rows = []
-        return json.dumps(mine_rows + rows)
-    return out
+    return parts.search_parts(**a)
 
 
 PLAIN = {
@@ -463,37 +415,6 @@ PLAIN = {
     "check_supply": lambda a: supply.check_supply(**a),
     "get_part_medical": lambda a: parts.get_part_medical(**a),
 }
-
-
-def _needs_block(sub: str) -> str:
-    """The subsystem's completeness checklist, so options are buildable on the first submit."""
-    needs = completeness.NEEDS.get(sub, [])
-    if not needs:
-        return ""
-    return ("\n\nA COMPLETE " + sub + " subsystem must include (the gate refuses options without these):\n"
-            + "\n".join(f"- {n}: {h}" for n, _, h in needs))
-
-
-def _custom_block() -> str:
-    from cvhack import custom_parts
-    cp = list(custom_parts.load().values())
-    if not cp:
-        return ""
-    lines = [f"- {p.mpn}: {p.category}, {len(p.pins)} pins ({', '.join(x.name for x in p.pins[:10])}"
-             f"{'...' if len(p.pins) > 10 else ''}), price {p.price_usd if p.price_usd is not None else 'unknown'}"
-             for p in cp]
-    return ("\n\nCustomer-supplied custom parts (real options in the DB: prefer them when the request says so, "
-            "otherwise consider them like any part):\n" + "\n".join(lines))
-
-
-def _lessons_block(ctx: RunCtx, subsystem: str | None) -> str:
-    """Advice distilled from earlier runs' debates (unverified; the gate and critic still decide)."""
-    ls = lessons.active(subsystem)
-    if not ls:
-        return ""
-    ctx.lessons_used = sorted(set(ctx.lessons_used) | set(ls))
-    return "\n\nLessons from earlier design reviews (advice, unverified; the checks still decide):\n" + \
-        "\n".join(f"- {t}" for t in ls)
 
 
 def _delegate(args, ctx: RunCtx, parent: str, depth: int) -> str:
@@ -512,14 +433,13 @@ def _delegate(args, ctx: RunCtx, parent: str, depth: int) -> str:
         ctx.agents_spawned += 1
     model = os.environ["SUB_MODEL"]
     if typ == "regulatory":
-        role, tools, system = "regulatory", REG_TOOLS, REG_PROMPT.format(device=ctx.device)
+        role, tools, system = "regulatory", REG_TOOLS, REG_PROMPT.format(device=DEVICE)
     elif typ == "sourcing":
-        role, tools, system = "sourcing", SOURCING_TOOLS, SOURCING_PROMPT.format(device=ctx.device)
+        role, tools, system = "sourcing", SOURCING_TOOLS, SOURCING_PROMPT.format(device=DEVICE)
     else:
         role, tools = sub, LEAF_TOOLS
-        system = SUB_PROMPT.format(role=sub, device=ctx.device, strategy_line=STRATEGIES.get(strat, ""),
+        system = SUB_PROMPT.format(role=sub, device=DEVICE, strategy_line=STRATEGIES.get(strat, ""),
                                    cats=", ".join(sorted(SUBSYSTEMS[sub]["allowed"])))
-        system += _needs_block(sub) + _lessons_block(ctx, sub) + _custom_block()
     return run_agent(role, args["task"], model, tools, system, ctx, parent=parent, depth=depth + 1,
                      agent_type=typ, strategy=strat)
 
@@ -534,6 +454,10 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                                                "strategy": strategy})
     nudges = 0
     for step in range(max_steps):
+        if depth == 0:  # the mother picks up dashboard constraint changes between steps
+            note = apply_controls(ctx, name)
+            if note:
+                msgs.append({"role": "user", "content": note})
         last = step == max_steps - 1
         step_tools = tools
         finish = [t for t in tools if t["function"]["name"] in FINISHERS]
@@ -575,7 +499,7 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
             break
 
         def exec_call(tc):
-            args = _coerce(json.loads(tc.function.arguments or "{}"))
+            args = json.loads(tc.function.arguments or "{}")
             fn = tc.function.name
             store.log(ctx.run, name, parent, "tool_call", {"tool": fn, "args": args})
             try:
@@ -591,6 +515,8 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                     out = _submit_findings(args, ctx, a)
                 elif fn == "finalize":
                     out = _finalize(args, ctx, a)
+                elif fn == "submit_wiring":
+                    out = wiring.submit_wiring(args, ctx, a)
                 elif fn == "get_regulation_section":
                     out = regs.get_regulation_section(**args)
                     if not str(out).startswith("ERROR"):  # provenance: what this run has really read
@@ -611,3 +537,48 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
             return a["done"]
     store.log(ctx.run, name, parent, "final", "NO_ACCEPTED_OUTPUT")
     return json.dumps({"subsystem": role, "status": "no_accepted_output"})
+
+
+# ------------------------------------------------------------------ operator control channel
+def apply_controls(ctx: RunCtx, agent_name: str) -> str | None:
+    """Apply dashboard commands (runs/<run>/control.jsonl) and return a note for the mother, or None.
+
+    out_of_stock: the part fails the gate from now on; every report option using it is re-gated.
+    device_class: recorded on the run (the critic sees it); the mother is told to re-explore conservatively."""
+    cmds, ctx.ctrl_offset = read_commands(ctx.run, ctx.ctrl_offset)
+    notes = []
+    for c in cmds:
+        p = dict(c.payload)
+        typ = p.get("type")
+        if typ == "out_of_stock" and p.get("mpn"):
+            mpn = p["mpn"]
+            gate.OUT_OF_STOCK.add(mpn)
+            hit, dead = [], []
+            with ctx.lock:
+                for sub, rep in ctx.reports.items():
+                    for o in rep["options"]:
+                        if any(x.get("mpn") == mpn for x in o.get("parts", [])):
+                            o["gate"] = gate.check_option(sub, [{"mpn": x["mpn"], "qty": x.get("qty", 1)}
+                                                                for x in o["parts"]])
+                            hit.append(o["name"])
+                    if not any(o["gate"]["ok"] for o in rep["options"]):
+                        rep["status"] = "no_valid_option"
+                        dead.append(sub)
+            notes.append(f"{mpn} is now OUT OF STOCK. Options that used it now fail the gate: {hit or 'none'}. "
+                         + (f"Subsystems left with no passing option: {dead}; re-delegate each one (agent_type="
+                            f"specialist, strategy=robust_sourcing) telling it {mpn} is unavailable. " if dead else "")
+                         + "Then call finalize again with passing options.")
+        elif typ == "device_class" and p.get("value"):
+            ctx.device_class = str(p["value"])
+            notes.append(f"Device class raised to {ctx.device_class}: treat this as a higher-risk device. Re-delegate "
+                         "the analog_fe and protection specialists with strategy=medical_conservative (ask them to "
+                         "check get_part_medical for isolation and medical-use restrictions), then call finalize "
+                         "again. The critic will review against the new class.")
+        else:
+            notes.append(f"Constraint change: {json.dumps(p)}")
+        store.log(ctx.run, agent_name, None, "constraint_change", p)
+    if not notes:
+        return None
+    with ctx.lock:
+        ctx.result, ctx.critic_rounds, ctx.objections, ctx.reviewed = None, 0, [], False
+    return "CONSTRAINT CHANGE from the operator:\n- " + "\n- ".join(notes)

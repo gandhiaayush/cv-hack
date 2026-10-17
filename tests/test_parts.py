@@ -29,7 +29,7 @@ def test_catalog_adds_real_parts_with_pinouts():
 
 def test_catalog_does_not_override_mock_demo_values():
     p = PARTS["MAX30102EFD+T"]
-    assert p.price_usd == 4.10 and len(p.pins) == 6  # mock values; the real offer is kept alongside
+    assert p.price_usd == 4.10 and len(p.pins) == 8  # mock values; the real offer is kept alongside
     assert p.ratings["catalog"]["price_usd"] != p.price_usd
 
 

@@ -137,6 +137,7 @@ class Translator:
     by_role: dict[tuple[str, str], str] = field(default_factory=dict)      # (run, subsystem) -> latest agent
     roots: dict[str, str] = field(default_factory=dict)                     # run -> mother agent
     options: dict[tuple[str, str], dict[str, list]] = field(default_factory=dict)  # (run, subsystem) -> option -> parts
+    wired: set[str] = field(default_factory=set)                            # runs with a design from src/wiring.py
 
     def _design(self, r: Row, bom: list[dict] | None, source: str) -> list[AgentEvent]:
         """design_updated from the reference board, or from a BOM applied to it (see cvhack.synth)."""
@@ -266,6 +267,37 @@ class Translator:
                                 errors=[{"code": "FINDING_REJECTED", "message": str(x)[:300], "severity": "error"} for x in bad],
                                 details={"accepted": b.get("accepted"), "attempt": b.get("attempt")}))
             return out
+        if r.kind == "wiring_gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            sub = b.get("subsystem", role)
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"wiring:{sub}", ok=bool(b.get("ok")),
+                                errors=[{"code": str(x).split(":")[0], "message": str(x)[:300], "severity": "error"}
+                                        for x in b.get("errors") or []],
+                                details={"attempt": b.get("attempt"), "notes": b.get("notes")}))
+            out.append(self._ev(r, r.agent, "step", message=f"wiring attempt {b.get('attempt')}: "
+                                                            + ("accepted" if b.get("ok") else
+                                                               f"{len(b.get('errors') or [])} problem(s)")))
+            return out
+        if r.kind == "design":
+            self.wired.add(r.run)
+            root = self.roots.get(r.run, r.agent)
+            return [self._ev(r, root, "design_updated", design=r.body, source="wired")]
+        if r.kind == "verifier":
+            b = dict(r.body) if isinstance(r.body, dict) else {}
+            b.pop("round", None)
+            out = self._ensure(r, r.agent, "verifier", r.agent.replace("verifier.", "").title() + " verifier",
+                               self.roots.get(r.run))
+            return out + [self._ev(r, r.agent, "verifier_result", **b)]
+        if r.kind == "requirement":
+            return [self._ev(r, self.roots.get(r.run, r.agent), "requirement_status", **r.body)]
+        if r.kind == "constraint_change":
+            b = r.body if isinstance(r.body, dict) else {}
+            root = self.roots.get(r.run, r.agent)
+            what = b.get("mpn") or b.get("value") or ""
+            return [self._ev(r, root, "constraint_change", **b),
+                    self._ev(r, root, "replan", reason=f"operator: {b.get('type', 'change')} {what}".strip(),
+                             changes=[json.dumps(b)])]
         if r.kind in ("retry", "llm_error"):
             b = r.body if isinstance(r.body, dict) else {}
             return [self._ev(r, r.agent, "step", message=f"{r.kind}: {b.get('reason') or b.get('error') or ''}")]
@@ -301,14 +333,23 @@ class Translator:
                 res = r.body
                 status = str(res.get("status", ""))
                 t = res.get("totals") or {}
+                w = res.get("wiring") or {}
+                failed_reqs = [k for k, v in (w.get("requirements") or {}).items() if v != "pass"]
                 summary = (f"{status}: " + ", ".join(f"{k}={v}" for k, v in (res.get("selections") or {}).items())
                            + f" · ${t.get('cost_usd')} · {t.get('power_mw')} mW · critic rounds {res.get('critic_rounds')}"
-                           + (f" · {len(res['unresolved'])} unresolved objection(s)" if res.get("unresolved") else ""))
-                return [self._ev(r, r.agent, "step", message=summary)] + \
-                    (self._design(r, res["bom"], "final") if res.get("bom") else []) + [
+                           + (f" · {len(res['unresolved'])} unresolved objection(s)" if res.get("unresolved") else "")
+                           + (f" · contested blockers {res['contested_blockers']}" if res.get("contested_blockers") else "")
+                           + (" · ERC " + ("pass" if w.get("electrical_ok") else "FAIL") if w else "")
+                           + (f" · requirements not met: {failed_reqs}" if failed_reqs else ""))
+                # Green only for a clean result: accepted outright, ERC clean, no non-advisory requirement failing.
+                advisory = set(w.get("advisory_requirements") or [])
+                ok = status == "accepted" and (not w or (bool(w.get("electrical_ok"))  # pre-wiring results: status only
+                                                         and not [x for x in failed_reqs if x not in advisory]))
+                # The wired design (a `design` row) is the real schematic; only fall back to the synthesized one without it.
+                synth = self._design(r, res["bom"], "final") if res.get("bom") and r.run not in self.wired else []
+                return [self._ev(r, r.agent, "step", message=summary)] + synth + [
                         self._ev(r, r.agent, "agent_status", status="done"),
-                        self._ev(r, r.agent, "run_done", ok=status.startswith("accepted"), summary=summary[:400],
-                                 result=res)]
+                        self._ev(r, r.agent, "run_done", ok=ok, summary=summary[:600], result=res)]
             if text.strip() in ("STEP LIMIT", "NO_ACCEPTED_OUTPUT"):
                 out = [self._ev(r, r.agent, "step", message="hit the step limit"),
                        self._ev(r, r.agent, "agent_status", status="failed")]

@@ -207,11 +207,11 @@ export function DesignNote({ state }) {
   if (!src) return null;
   const n = state.design_notes || {};
   const title = { reference: "Reference board, before the agents' changes", selection: "Draft from the mother's selection",
-    final: "Final selection applied to the reference board" }[src] || src;
+    final: "Final selection applied to the reference board", wired: "Wired by the agents and ERC-checked" }[src] || src;
   return (
     <div className="design-note">
       <b>{title}</b>
-      {src !== "reference" && (
+      {src !== "reference" && src !== "wired" && (
         <span className="muted">
           {" "}· kept {n.kept?.length || 0} · added {n.added?.length || 0} · removed {n.removed?.length || 0}
           {n.unwired?.length ? <span className="warn" title={n.unwired.join("\n")}> · {n.unwired.length} pins still need wiring</span> : null}
