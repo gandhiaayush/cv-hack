@@ -19,6 +19,7 @@ from cvhack.tooling import kicad_sch
 _CANDIDATES = [
     os.environ.get("KICAD_CLI", ""),
     "/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli",
+    str(Path.home() / "Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli"),
     shutil.which("kicad-cli") or "",
 ]
 TIMEOUT = 60

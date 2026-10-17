@@ -73,6 +73,9 @@ def check(design: Design, parts: dict[str, Part]) -> list[VerifierError]:
         if counts["power_out"] > 1:
             errs.append(VerifierError(code="ERC_POWER_CONFLICT", net=name,
                                       message=f"net {name} has {counts['power_out']} power outputs shorted together"))
+        if counts["power_out"] and name in design.power_flags:
+            errs.append(VerifierError(code="ERC_POWER_CONFLICT", net=name,
+                                      message=f"net {name} is power-flagged but already driven by a power output"))
         if counts["power_in"] and not counts["power_out"] and name not in design.power_flags:
             errs.append(VerifierError(code="ERC_POWER_NOT_DRIVEN", net=name,
                                       message=f"net {name} feeds power inputs but nothing supplies it"))

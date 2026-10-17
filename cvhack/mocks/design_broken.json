@@ -647,7 +647,6 @@
   ],
   "power_flags": [
     "VBUS",
-    "VBAT",
     "GND"
   ]
 }

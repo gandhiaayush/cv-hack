@@ -94,7 +94,7 @@ def wearable() -> Design:
         blocks=[protection, power, analog_fe, mcu],
         budgets=Budgets(power_mw=30.0, cost_usd=15.0, area_mm2=700.0),
         no_connects=_nodes("U2.4 U3.4"),
-        power_flags=["VBUS", "VBAT", "GND"],
+        power_flags=["VBUS", "GND"],
     )
 
 
