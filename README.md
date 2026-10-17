@@ -242,3 +242,17 @@ demo/run_demo.sh --replay         # dashboard + recorded run (stage fallback)
 ```
 
 The dashboard opens at http://localhost:8000. Use **Mark out of stock** or **Raise to Class III** mid-run to trigger a re-plan, and open `/#negotiation` to show the mother/subsystem negotiation.
+
+## Desktop app
+
+PCB Studio runs as a local desktop app (a native window around the local server; your data stays on your machine).
+
+```
+python app.py                 # opens the window
+open "Run PCB Studio.command" # double-click version (runs in Terminal, which already has access to this folder)
+bash bin/make_app.sh          # builds "PCB Studio.app"
+```
+
+macOS note: this folder is under Desktop, which macOS protects. A Finder-launched `.app` needs Full Disk Access
+(System Settings > Privacy & Security > Full Disk Access > add "PCB Studio.app"), or keep the project outside Desktop.
+Routing needs Java 25 and Freerouting: `bash demo/setup_router.sh` (downloads into `runs/_tools`, no system install).

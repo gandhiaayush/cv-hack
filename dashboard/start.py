@@ -23,6 +23,7 @@ MAX_ACTIVE = 2  # each run is ~10 agents; the queue caps calls, this caps how ma
 
 class StartIn(BaseModel):
     prompt: str
+    instructions: str = ""
 
 
 @router.post("/api/start")
@@ -38,7 +39,8 @@ def start(body: StartIn):
     run_id = uuid.uuid4().hex[:6]
     (run_dir(run_id) / "events.jsonl").touch()  # so the UI can open the run's stream before the first event
     log = open(run_dir(run_id) / "agent.log", "w")
-    _procs[run_id] = subprocess.Popen([sys.executable, "-m", "src.run_prompt", run_id, prompt], cwd=ROOT,
+    env = {**__import__("os").environ, "TEAM_INSTRUCTIONS": body.instructions.strip()[:800]}
+    _procs[run_id] = subprocess.Popen([sys.executable, "-m", "src.run_prompt", run_id, prompt], cwd=ROOT, env=env,
                                       stdout=log, stderr=subprocess.STDOUT)
     return {"run_id": run_id}
 
@@ -99,7 +101,7 @@ def _cp(fn, *a):
 @router.get("/api/custom_parts")
 def list_custom():
     from cvhack import custom_parts
-    return {"categories": custom_parts.CATEGORIES,
+    return {"categories": [{"value": c, "label": custom_parts.CATEGORY_LABELS.get(c, c.title())} for c in custom_parts.CATEGORIES],
             "parts": [{"mpn": r["mpn"], "category": r["category"], "pins": len(r["pins"]),
                        "description": r["description"], "price_usd": r["price_usd"],
                        "footprint": r["footprint"], "footprint_assumed": r["ratings"].get("footprint_assumed")}
@@ -174,6 +176,46 @@ def real_runs():
         return []
     finally:
         c.close()
+
+
+@router.get("/api/parts")
+def parts_table():
+    """The whole parts database as rows for the Parts Database tab (catalog snapshot + your own parts)."""
+    from cvhack.custom_parts import CATEGORY_LABELS
+    from cvhack.parts import load_parts
+    from cvhack.part_meta import card
+    rows = []
+    for p in load_parts().values():
+        c = card(p.mpn, p.description)
+        rows.append({"mpn": p.mpn, "name": c.get("name", p.mpn).replace(" (custom)", ""), "manufacturer": c.get("manufacturer"),
+                     "category": CATEGORY_LABELS.get(p.category, p.category.replace("_", " ").title()),
+                     "category_key": p.category, "price_usd": p.price_usd, "stock": p.stock, "pins": len(p.pins),
+                     "package": (c.get("subtitle") or "").split(" · ")[-1], "links": c.get("links", {}),
+                     "custom": bool(p.ratings.get("custom")), "source": c.get("source")})
+    rows.sort(key=lambda r: (not r["custom"], r["category"], r["mpn"]))
+    return rows
+
+
+@router.get("/api/learning")
+def learning():
+    """Recursive improvement over time: every real run's results, plus the lessons carried between runs."""
+    from src import lessons
+    data = lessons.load()
+    runs = []
+    for r in reversed(real_runs()):  # oldest first
+        try:
+            L = ledger(r["run_id"])
+        except Exception:
+            continue
+        if not L or not L.get("system", {}).get("done"):
+            continue
+        sy = L["system"]
+        runs.append({"run_id": r["run_id"], "ts": r["ts"], "device": (L.get("spec") or {}).get("device"),
+                     "seconds": sy["seconds"], "objections": sy["objections"], "blockers": sy["blockers"], "fixed": sy["fixed"],
+                     "rebutted": sy["rebutted"], "refused": L["counts"]["options_refused"], "lessons_used": sy["lessons_used"],
+                     "status": sy["status"], "cost_usd": (sy.get("totals") or {}).get("cost_usd"),
+                     "complete": (sy.get("completeness") or {}).get("passed"), "of": (sy.get("completeness") or {}).get("total")})
+    return {"runs": runs, "lessons": data["lessons"]}
 
 
 class StatusIn(BaseModel):

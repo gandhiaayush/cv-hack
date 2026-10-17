@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from "react";
 
 // Plain names for the team and what they did. Raw agent ids and tool names never reach the screen.
-const ROLE = { mother: "Lead designer", critic: "Independent reviewer", regulatory: "Regulatory check", sourcing: "Supply check", board_shape: "Board shape",
-  power: "Power", analog_fe: "Sensor circuit", mcu_comms: "Microcontroller and radio", protection: "Protection" };
-const HOW = { lowest_cost: "lowest cost", robust_sourcing: "easy to buy", lowest_power: "lowest power", medical_conservative: "extra careful" };
-const DID = { search_parts: "Browsed parts", find_alternates: "Looked for alternatives", get_subsystem_context: "Read the design rules",
-  get_regulation_section: "Read an FDA rule", search_regulations: "Searched FDA rules", classify_device: "Looked up the FDA class",
-  run_python: "Ran a calculation", check_supply: "Checked stock", submit_report: "Handed in its options",
-  submit_findings: "Handed in its findings", finalize: "Proposed a design", list_subsystems: "Listed the parts of the board",
-  delegate_batch: "Handed out the work", delegate: "Handed out the work" };
+const ROLE = { mother: "Lead Designer", critic: "Independent Reviewer", regulatory: "Regulatory Check", sourcing: "Supply Check", board_shape: "Board Shape",
+  power: "Power", analog_fe: "Sensor Circuit", mcu_comms: "Microcontroller And Radio", protection: "Protection" };
+const HOW = { lowest_cost: "Lowest Cost", robust_sourcing: "Easy To Buy", lowest_power: "Lowest Power", medical_conservative: "Extra Careful" };
+const DID = { search_parts: "Browsed Parts", find_alternates: "Looked For Alternatives", get_subsystem_context: "Read The Design Rules",
+  get_regulation_section: "Read An FDA Rule", search_regulations: "Searched FDA Rules", classify_device: "Looked Up The FDA Class",
+  run_python: "Ran A Calculation", check_supply: "Checked Stock", submit_report: "Handed In Its Options",
+  submit_findings: "Handed In Its Findings", finalize: "Proposed A Design", list_subsystems: "Listed The Parts Of The Board",
+  delegate_batch: "Handed Out The Work", delegate: "Handed Out The Work" };
 
 export const name = (a) => `${ROLE[a.role_key] || ROLE[a.label?.replace(" ", "_")] || a.label}${a.strategy ? ` · ${HOW[a.strategy] || a.strategy}` : ""}`;
 const toolOf = (msg) => (/^(\w+)\s*(\(|→)/.exec(msg || "") || [])[1];
@@ -48,10 +48,10 @@ export default function Browser({ state, log, rows, sel, setSel }) {
   };
   return (
     <div className="browser">
-      <div className="bh">BROWSER</div>
+      <div className="bh">Browser</div>
       <div className="btree">
-        <div className="bgroup">Board{d && <small>{d.blocks.reduce((n, b) => n + b.parts.length, 0)} parts</small>}</div>
-        {!d && <div className="bn leaf" style={{ paddingLeft: 26 }}>Nothing yet</div>}
+        <div className="bgroup">Board{d && <small>{d.blocks.reduce((n, b) => n + b.parts.length, 0)} Parts</small>}</div>
+        {!d && <div className="bn leaf" style={{ paddingLeft: 26 }}>Nothing Yet</div>}
         {d?.blocks.map((b) => (
           <div key={b.subsystem}>
             <div className="bn" style={{ paddingLeft: 12 }} onClick={() => setOpen({ ...open, ["b" + b.subsystem]: !open["b" + b.subsystem] })}>
@@ -62,8 +62,8 @@ export default function Browser({ state, log, rows, sel, setSel }) {
                 <code>{p.ref}</code> {byRef[p.ref]?.name?.replace(/^\S+ /, "") || p.mpn}
               </div>))}
           </div>))}
-        <div className="bgroup">Team{agents.length > 0 && <small>{agents.filter((a) => a.status === "running").length} working</small>}</div>
-        {agents.length === 0 && <div className="bn leaf" style={{ paddingLeft: 26 }}>Not started</div>}
+        <div className="bgroup">Team{agents.length > 0 && <small>{agents.filter((a) => a.status === "running").length} Working</small>}</div>
+        {agents.length === 0 && <div className="bn leaf" style={{ paddingLeft: 26 }}>Not Started</div>}
         {roots.map((a) => node(a, 0))}
       </div>
     </div>
@@ -73,16 +73,16 @@ export default function Browser({ state, log, rows, sel, setSel }) {
 // Comments panel at the foot of the browser, like Fusion: everything people wrote, plus a box for the selected part.
 export function Comments({ notes, sel, selName, onAdd, onDelete }) {
   const [t, setT] = useState("");
-  const label = (n) => n.target.startsWith("sch@") ? "Circuit diagram" : n.target.startsWith("3d@") ? "Board" : n.target === "design" ? "Whole design" : n.target;
+  const label = (n) => n.target.startsWith("sch@") ? "Circuit Diagram" : n.target.startsWith("3d@") ? "Board" : n.target === "design" ? "Whole Design" : n.target;
   return (
     <div className="comments">
-      <div className="bh">COMMENTS<small>{notes.length}</small></div>
+      <div className="bh">Comments<small>{notes.length}</small></div>
       <div className="clist">
-        {notes.length === 0 && <div className="muted">None yet. Use 💬 on a view to pin one, or write below.</div>}
+        {notes.length === 0 && <div className="muted">None Yet. Use 💬 On A View To Pin One, Or Write Below.</div>}
         {notes.map((n) => <div key={n.id} className="cmt"><b>{label(n)}</b> {n.text}<button title="Delete" onClick={() => onDelete(n.id)}>×</button></div>)}
       </div>
       <div className="cadd">
-        <input value={t} placeholder={sel ? `Comment on ${selName || sel}…` : "Comment on the design…"} onChange={(e) => setT(e.target.value)}
+        <input value={t} placeholder={sel ? `Comment On ${selName || sel}…` : "Comment On The Design…"} onChange={(e) => setT(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter" && t.trim()) { onAdd(sel || "design", t); setT(""); } }} />
       </div>
     </div>

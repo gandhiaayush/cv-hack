@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from cvhack.parts import load_parts
 
-from . import completeness, gate, lessons, store
+from . import completeness, gate, lessons, store, verify_design
 from .llm import chat
 from .scheduler import SCHED
 from .spec import BUDGET, DEVICE, SUBSYSTEMS
@@ -160,7 +160,7 @@ Work in this order:
 2. search_parts: BROWSE the DB by category with no text (e.g. category="mcu", limit 15) and choose from what it lists. Do NOT search for part names you remember: the DB is a fixed ~500-part catalog and most names are absent. Valid categories for {role}: {cats}. Use find_alternates after a stock-out.
 3. run_python for any number (power, margins, cost). Each call is a fresh process; print() results.
 4. regulation tools only if a rule or clause matters; at most 2 lookups.
-5. If your subsystem's key category has only ONE suitable part, build both options around it (they may differ in supporting parts and values). Do not hunt across unrelated categories.
+5. Every chip you choose must be DRAWABLE on the board: it needs a pinout (search_parts needs_pins=true) that matches the baseline part's pins by function, so prefer find_alternates of the part already in your subsystem. If your subsystem's key category has only ONE suitable part, build both options around it (they may differ in supporting parts and values). Do not hunt across unrelated categories.
 6. submit_report with 2 options, within about 6 tool calls total. Cite evidence (mpn, rule id, CFR section) for every option.
 A deterministic gate checks your options. If it rejects them, read the errors, fix the cause (do not argue),
 and resubmit. Be concise; you have a small step budget."""
@@ -326,6 +326,12 @@ def _finalize(args, ctx: RunCtx, a: dict):
     store.log(ctx.run, a["name"], a["parent"], "budget_check", totals)
     if cost > ctx.budget["cost_usd"] or power > ctx.budget["power_mw"]:
         return f"REJECTED: over budget (DB-computed) {totals}. Choose cheaper/lower-power options."
+
+    vd = verify_design.verify({sub: o["parts"] for sub, o in chosen.items()})  # the board these parts really make
+    store.log(ctx.run, a["name"], a["parent"], "board_check", {"swapped": len(vd["report"]["swapped"]), "unplaced": len(vd["report"]["unplaced"]),
+              "rules_ok": vd["rules_ok"], "erc_ok": vd["erc_ok"], "problems": vd["problems"][:6]})
+    if vd["problems"]:
+        return "REJECTED: the board built from your selection is not valid. " + " | ".join(vd["problems"][:6])
 
     responses = {r["objection_id"]: r for r in args.get("responses", [])}
     open_objs = [o for o in ctx.objections if o["id"] not in responses]

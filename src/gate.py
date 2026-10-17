@@ -7,7 +7,7 @@ from __future__ import annotations
 from cvhack.contracts import VerifierError
 from cvhack.parts import load_parts
 
-from . import completeness
+from . import completeness, design_apply
 from .spec import SUBSYSTEMS
 
 # parts whose voltage figure is not a limit the rail must stay under (TVS stand-off, diode Vf, ...)
@@ -61,6 +61,12 @@ def check_option(subsystem: str, items: list[dict], oos: set | None = None) -> d
             errs.append(VerifierError(code="CATEGORY_MISMATCH", part=mpn, message=
                 f"{mpn} is category '{p.category}', not allowed in {subsystem} "
                 f"(allowed: {sorted(sub['allowed'])})."))
+        if p.category in {"mcu", "afe", "ldo", "charger", "rf_module"}:  # the board must be able to draw it
+            ok, why = design_apply.wireable(subsystem, mpn, parts)
+            if not ok:
+                alts = design_apply.drawable_alternatives(subsystem, mpn, parts)
+                errs.append(VerifierError(code="NOT_DRAWABLE", part=mpn, message=
+                    f"{mpn} cannot be drawn on this board: {why}." + (f" Drawable {p.category} choices: {', '.join(alts)}." if alts else "")))
         if mpn in stockout or p.stock == 0:
             errs.append(VerifierError(code="OUT_OF_STOCK", part=mpn, message=f"{mpn} is out of stock."))
         elif p.stock is None:

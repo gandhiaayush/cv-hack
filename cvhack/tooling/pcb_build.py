@@ -275,7 +275,7 @@ def find_spot(w, h, near, rects, bw, bh):
     return None if best is None else (best[1], best[2])
 
 
-def pack_fresh(board, groups):
+def pack_fresh(board, groups, target_w=None):
     """No previous board: clusters per subsystem, clusters packed roughly square."""
     clusters = []
     for sub, items in groups.items():
@@ -293,7 +293,8 @@ def pack_fresh(board, groups):
             row_h = max(row_h, h)
         clusters.append((sub, rel, used_w, cy + row_h + 2.5))   # 2.5 mm for the silkscreen title
     total = sum((cw + GROUP_GAP) * (ch + GROUP_GAP) for _, _, cw, ch in clusters)
-    board_w = max(max(cw for _, _, cw, _ in clusters), total ** 0.5 * 1.15)
+    auto_w = total ** 0.5 * 1.15
+    board_w = max(max(cw for _, _, cw, _ in clusters), (target_w - 2 * MARGIN) if target_w else auto_w)
     x = y = row_h = 0.0
     w_used = 0.0
     titles = []
@@ -379,7 +380,7 @@ def add_outline_holes_title(board, job, w, h):
         rect.SetWidth(MM(0.1))
         board.Add(rect)
     hole = pcbnew.FootprintLoad(job["footprint_dir"] + "/MountingHole.pretty", "MountingHole_2.2mm_M2")
-    if hole is not None:
+    if hole is not None and (job.get("board") or {}).get("holes", True):
         for i, (hx, hy) in enumerate(((2.5, 2.5), (w - 2.5, 2.5), (2.5, h - 2.5), (w - 2.5, h - 2.5))):
             mh = pcbnew.FOOTPRINT(hole)
             mh.SetReference("H%d" % (i + 1))
@@ -437,11 +438,22 @@ def build(job_path, out_path):
         groups.setdefault(p["subsystem"], []).append(fp)
 
     prev = job.get("previous")
-    if prev and prev.get("placements"):
+    opts = job.get("board") or {}
+    tw, th = opts.get("width_mm"), opts.get("height_mm")
+    needed = None
+    if prev and prev.get("placements") and not (tw or th):
         w, h, titles, new = place_incremental(fps, subs, prev, groups)
     else:
-        w, h, titles = pack_fresh(board, groups)
+        w, h, titles = pack_fresh(board, groups, tw)
         new = list(fps)
+        needed = {"width_mm": round(w, 2), "height_mm": round(h, 2)}
+        W, H = max(w, tw or 0), max(h, th or 0)          # a custom size never shrinks below what the parts need
+        dx, dy = (W - w) / 2, (H - h) / 2
+        if dx or dy:                                      # centre the parts on the larger board
+            for fp in fps.values():
+                fp.Move(pcbnew.VECTOR2I(MM(dx), MM(dy)))
+            titles = [(sub, x + dx, y + dy) for sub, x, y in titles]
+        w, h = W, H
     drawn = []
     for sub, x, y in titles:   # skip a subsystem title that would sit on top of another
         w_txt = len(sub) * 1.0
@@ -464,7 +476,7 @@ def build(job_path, out_path):
         placements[ref] = {"x": round(cx, 3), "y": round(cy, 3), "w": round(bw, 3), "h": round(bh, 3),
                            "rot": fp.GetOrientationDegrees(), "footprint": fp.GetFPIDAsString()}
     print(json.dumps({"width_mm": round(w, 2), "height_mm": round(h, 2), "footprints": len(fps),
-                      "thickness_mm": pcbnew.ToMM(board.GetDesignSettings().GetBoardThickness()),
+                      "needed": needed, "thickness_mm": pcbnew.ToMM(board.GetDesignSettings().GetBoardThickness()),
                       "placed_new": new, "placements": placements}))
 
 

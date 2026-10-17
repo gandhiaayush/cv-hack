@@ -15,6 +15,10 @@ def main(run_id: str, prompt: str) -> None:
     spec = extract(prompt)
     store.log(run_id, "mother", None, "spec", spec)
     threading.Thread(target=baseline.run, args=(run_id, spec), daemon=True).start()  # the skeptic's comparison
+    extra = os.environ.get("TEAM_INSTRUCTIONS", "").strip()
+    if extra:  # the customer's own standing instructions: written by them, followed by the team
+        spec["request"] += f"\nAdditional instructions from the customer (follow them): {extra}"
+        store.log(run_id, "mother", None, "spec", spec)
     ctx = RunCtx(run=run_id, device=spec["device"], request=spec["request"],
                  budget={"power_mw": spec["power_mw"], "cost_usd": spec["cost_usd"]})
     try:

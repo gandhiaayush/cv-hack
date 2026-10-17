@@ -25,6 +25,14 @@ CATEGORIES = ["mcu", "rf_module", "afe", "analog", "adc", "opamp", "ldo", "dcdc"
               "connector", "flash", "eeprom", "light_sensor", "accelerometer", "protection", "other"]
 
 
+CATEGORY_LABELS = {"mcu": "Microcontroller", "rf_module": "Radio Module", "afe": "Sensor Front-End", "analog": "Analog Chip",
+                   "adc": "Analog-to-Digital Converter", "opamp": "Op-Amp", "ldo": "Voltage Regulator", "dcdc": "DC-DC Converter",
+                   "charger": "Battery Charger", "tvs": "Surge Protector", "fuse": "Fuse", "connector": "Connector",
+                   "flash": "Flash Memory", "eeprom": "EEPROM", "light_sensor": "Light Sensor", "accelerometer": "Accelerometer",
+                   "protection": "Protection", "resistor": "Resistor", "capacitor": "Capacitor", "inductor": "Inductor",
+                   "led": "LED", "diode": "Diode", "mosfet": "Transistor", "crystal": "Crystal", "other": "Other"}
+
+
 class CustomPartError(ValueError):
     pass
 

@@ -189,6 +189,9 @@ def _place(run_id: str):
     of = RUNS_DIR / rid / "outline.json"  # custom board shape chosen by the board-shape agent
     if of.exists():
         d.outline = json.loads(of.read_text())
+    bf = RUNS_DIR / rid / "board_options.json"   # custom size / mounting holes
+    if bf.exists():
+        d.board = json.loads(bf.read_text())
     state_f = RUNS_DIR / rid / "board_state.json"
     with _board_lock:
         prev = json.loads(state_f.read_text()) if state_f.exists() else None
@@ -242,7 +245,18 @@ def board_info(run_id: str):
         from src import shape
         spec = json.loads(of.read_text())
         outline_info = {"spec": spec, **shape.fit_report(spec, info["width_mm"], info["height_mm"])}
-    return {**info, "outline": outline_info, "changes": changes, "route": route, "glb": glb, "build": b.dir.name,
+    size_info = None
+    bo = RUNS_DIR / rid / "board_options.json"
+    if bo.exists():
+        want = json.loads(bo.read_text())
+        need = info.get("needed") or {"width_mm": info["width_mm"], "height_mm": info["height_mm"]}
+        probs = []
+        if want.get("width_mm") and need["width_mm"] > want["width_mm"] + 0.05:
+            probs.append(f"these parts need at least {need['width_mm']} mm of width")
+        if want.get("height_mm") and need["height_mm"] > want["height_mm"] + 0.05:
+            probs.append(f"these parts need at least {need['height_mm']} mm of height")
+        size_info = {"requested": want, "needed": need, "fits": not probs, "problems": probs}
+    return {**info, "size": size_info, "outline": outline_info, "changes": changes, "route": route, "glb": glb, "build": b.dir.name,
             "glb_url": f"/api/runs/{rid}/board.glb?build={b.dir.name}&kind={glb}"}
 
 
@@ -314,6 +328,64 @@ def out_file(run_id: str, path: str):
     if base not in f.parents or not f.is_file():
         raise HTTPException(404)
     return FileResponse(f)
+
+
+class BoardOptsIn(BaseModel):
+    width_mm: float | None = None
+    height_mm: float | None = None
+    holes: bool = True
+
+
+@app.post("/api/runs/{run_id}/board_options")
+def board_options(run_id: str, body: BoardOptsIn):
+    rid = _resolve(run_id)
+    for v in (body.width_mm, body.height_mm):
+        if v is not None and not 5 <= v <= 500:
+            raise HTTPException(400, "Sizes must be between 5 and 500 mm.")
+    (RUNS_DIR / rid / "board_options.json").write_text(json.dumps(body.model_dump()))
+    return board_info(rid)
+
+
+@app.get("/api/runs/{run_id}/export.zip")
+def export_zip(run_id: str):
+    """One download: the netlist (.nt), KiCad schematic + project, the placed (and routed, if ready) board, parts list,
+    the circuit diagram, and every comment."""
+    import io
+    import re as _re
+    import zipfile
+    rid = _resolve(run_id)
+    s = _state(rid)
+    d = s.design_obj()
+    if d is None:
+        raise HTTPException(409, "There is no design to export yet.")
+    spec = None
+    try:
+        from dashboard.start import _row
+        spec = _row(rid, "spec")
+    except Exception:
+        pass
+    base = _re.sub(r"[^a-z0-9]+", "-", ((spec or {}).get("device") or d.name).lower()).strip("-")[:40] or "design"
+    parts = load_parts()
+    from dashboard.netlist_v import to_verilog
+    out = write_outputs(rid, s)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr(f"{base}.nt", to_verilog(d, parts, rid, s.design_version))
+        for f in sorted((out / "kicad").glob("*")):
+            z.write(f, f"kicad/{f.name}")
+        z.write(out / "bom.csv", f"{base}-parts-list.csv")
+        z.write(out / "schematic.svg", f"{base}-circuit-diagram.svg")
+        try:
+            _, _, b, _ = _place(rid)
+            z.write(b.routed_pcb if b.routed_pcb.exists() else b.pcb, f"kicad/{base}.kicad_pcb")
+        except Exception:
+            pass
+        nf = RUNS_DIR / rid / "annotations.json"
+        if nf.exists():
+            notes = json.loads(nf.read_text())
+            z.writestr(f"{base}-comments.txt", "\n".join(f"- [{n['target']}] {n['text']}" for n in notes) or "No comments.")
+    return Response(buf.getvalue(), media_type="application/zip",
+                    headers={"Content-Disposition": f'attachment; filename="{base}.zip"'})
 
 
 if WEB_DIST.exists():

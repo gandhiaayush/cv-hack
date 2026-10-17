@@ -38,22 +38,22 @@ export default function CustomParts({ onClose }) {
   return (
     <div className="modal-bg" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal">
-        <div className="modal-h"><h3>Custom parts</h3><button onClick={onClose}>✕</button></div>
+        <div className="modal-h"><h3>Add A Custom Part</h3><button onClick={onClose}>✕</button></div>
         <div className="cp-row">
           {inp("mpn", "Part number", "MY-MCU-1", 2)}
           <label className="cp-f" style={{ flex: 1 }}>Category
             <select value={f.category} onChange={(e) => setF({ ...f, category: e.target.value })}>
-              {list.categories.map((c) => <option key={c}>{c}</option>)}</select></label>
+              {list.categories.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></label>
         </div>
         {inp("description", "Description", "What it is")}
         <div className="cp-row">
           {inp("price_usd", "Price (USD)", "unknown")}{inp("stock", "Stock", "unknown")}
-          {inp("power_mw", "Active power (mW)", "0")}{inp("max_voltage_v", "Max supply (V)", "unknown")}
+          {inp("power_mw", "Active Power (mW)", "0")}{inp("max_voltage_v", "Max Supply (V)", "unknown")}
         </div>
         <div className="cp-tabs">
-          <button className={mode === "verilog" ? "on" : ""} onClick={() => setMode("verilog")}>Verilog module</button>
-          <button className={mode === "pins" ? "on" : ""} onClick={() => setMode("pins")}>Pin list</button>
-          {mode === "verilog" && <button onClick={() => setSrc(EXAMPLE)}>Insert example</button>}
+          <button className={mode === "verilog" ? "on" : ""} onClick={() => setMode("verilog")}>Verilog Module</button>
+          <button className={mode === "pins" ? "on" : ""} onClick={() => setMode("pins")}>Pin List</button>
+          {mode === "verilog" && <button onClick={() => setSrc(EXAMPLE)}>Insert Example</button>}
         </div>
         <textarea className="cp-src" spellCheck={false} value={src} onChange={(e) => setSrc(e.target.value)}
           placeholder={mode === "verilog" ? "module MY_MCU ( input VDD, input GND, inout SDA, ... );" : "One pin per line: name[,input|output|inout|power]\nVDD,power\nGND,power\nSDA,inout"} />
@@ -62,10 +62,10 @@ export default function CustomParts({ onClose }) {
           <div>{pre.pins.map((p) => <span key={p.num} className={`pin ${p.type}`}>{p.num}:{p.name}</span>)}</div></div>}
         {err && <div className="err">{err}</div>}
         {ok && <div className="cp-ok">{ok}</div>}
-        <div className="cp-actions"><button onClick={preview} disabled={!src.trim()}>Preview pins</button>
-          <button className="primary" onClick={save} disabled={!f.mpn || !src.trim()}>Add part</button></div>
+        <div className="cp-actions"><button onClick={preview} disabled={!src.trim()}>Preview Pins</button>
+          <button className="primary" onClick={save} disabled={!f.mpn || !src.trim()}>Add Part</button></div>
         {list.parts.length > 0 && (<>
-          <h4>Your parts</h4>
+          <h4>Your Parts</h4>
           <table className="cp-list"><tbody>{list.parts.map((p) => (
             <tr key={p.mpn}><td><b>{p.mpn}</b></td><td>{p.category}</td><td>{p.pins} pins</td>
               <td>{p.price_usd == null ? "price unknown" : `$${p.price_usd}`}</td>

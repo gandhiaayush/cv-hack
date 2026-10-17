@@ -97,15 +97,15 @@ def fact(kind: str, agent: str, b) -> tuple[str, str] | None:
             extra = f" It is answering {resp} reviewer objection(s)." if resp else ""
             return f"The lead designer proposes a final design ({sel}).{extra}", "info"
         if t == "search_parts":
-            return f"The {who} designer browses the parts catalog.", "info"
+            return f"The {who} designer browses the parts catalog.", "routine"
         if t == "get_regulation_section":
-            return f"The {who} designer reads FDA regulation section {a.get('section', '')}.", "info"
+            return f"The {who} designer reads FDA regulation section {a.get('section', '')}.", "routine"
         if t == "classify_device":
-            return f"The {who} designer looks up how the FDA classifies this device.", "info"
+            return f"The {who} designer looks up how the FDA classifies this device.", "routine"
         if t == "run_python":
-            return f"The {who} designer runs a calculation.", "info"
+            return f"The {who} designer runs a calculation.", "routine"
         if t == "get_subsystem_context":
-            return f"The {who} designer reads the design rules for its section.", "info"
+            return f"The {who} designer reads the design rules for its section.", "routine"
         return None
     if kind == "final" and isinstance(b, dict):
         if "selections" in b:
@@ -120,6 +120,8 @@ class Narrator:
     def __init__(self, db: str = DB):
         self.db, self.last, self.lines, self.lock = db, 0, [], threading.Lock()
         self.run = None
+        self.pending: list = []
+        self.pending_since = 0.0
 
     def poll(self) -> list[tuple[str, str]]:
         if not os.path.exists(self.db):
@@ -131,6 +133,7 @@ class Narrator:
             if (cur and cur[0] != self.run) or top < self.last:  # a new run started: commentary follows it
                 self.run = cur[0] if cur else None
                 self.last = 0
+                self.pending = []
                 with self.lock:
                     self.lines.clear()
             rows = c.execute("select id, agent, kind, body from messages where id > ? and run = ? order by id",
@@ -165,9 +168,15 @@ class Narrator:
             return text  # API slow or down: plain facts, never a stalled feed
 
     def step(self) -> None:
-        facts = self.poll()
-        if not facts:
-            return
+        new = self.poll()
+        if new:
+            if not self.pending:
+                self.pending_since = time.time()
+            self.pending += new
+        meaningful = any(t != "routine" for _, t in self.pending)
+        if not self.pending or not (meaningful or time.time() - self.pending_since > 60):
+            return  # routine browsing is folded into the next real update instead of getting its own bubble
+        facts, self.pending = self.pending, []
         tone = "warn" if any(t == "warn" for _, t in facts) else "good" if any(t == "good" for _, t in facts) else "info"
         line = {"ts": time.time(), "tone": tone, "text": self.say(facts)}
         with self.lock:

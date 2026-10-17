@@ -60,6 +60,63 @@ def _pin_map(old, new, connected: dict[str, str]) -> dict[str, str] | None:
     return out
 
 
+_BASE_CACHE: dict = {}
+
+
+def _base() -> Design:
+    if "d" not in _BASE_CACHE:
+        _BASE_CACHE["d"] = Design.model_validate(json.loads(BASE.read_text()))
+    return _BASE_CACHE["d"]
+
+
+def _connected_map(d: Design) -> dict[str, dict[str, str]]:
+    out: dict[str, dict[str, str]] = {}
+    for b in d.blocks:
+        for n in b.nets:
+            for nd in n.nodes:
+                out.setdefault(nd.ref, {})[nd.pin] = n.name
+    return out
+
+
+def wireable(subsystem: str, mpn: str, parts: dict) -> tuple[bool, str]:
+    """Can this part be drawn on the board in this subsystem? (It must be in the slot already, or have a pinout whose
+    connected pins match a same-category slot by function.)"""
+    d = _base()
+    block = next((b for b in d.blocks if b.subsystem == subsystem), None)
+    if block is None:
+        return False, "unknown subsystem"
+    if mpn in {pi.mpn for pi in block.parts}:
+        return True, ""
+    new = parts.get(mpn)
+    if new is None or not new.pins:
+        return False, "no pinout in the catalog"
+    conn = _connected_map(d)
+    same = False
+    for pi in block.parts:
+        old = parts.get(pi.mpn)
+        if old is None or old.category != new.category:
+            continue
+        same = True
+        if _pin_map(old, new, conn.get(pi.ref, {})) is not None:
+            return True, ""
+    return False, ("its pins cannot be matched to the board slot by function" if same else "this board has no slot for this kind of part")
+
+
+def drawable_alternatives(subsystem: str, mpn: str, parts: dict, n: int = 3) -> list[str]:
+    new = parts.get(mpn)
+    if new is None:
+        return []
+    cands = [p for p in parts.values() if p.category == new.category and p.mpn != mpn and p.stock != 0 and p.pins]
+    cands.sort(key=lambda p: (p.price_usd is None, p.price_usd or 0))
+    out = []
+    for p in cands:
+        if wireable(subsystem, p.mpn, parts)[0]:
+            out.append(p.mpn)
+            if len(out) == n:
+                break
+    return out
+
+
 def apply(chosen: dict[str, list[dict]], parts: dict) -> tuple[Design, dict]:
     """chosen: {subsystem: [{"mpn", "qty"}]}.  Returns (design, report)."""
     d = Design.model_validate(json.loads(BASE.read_text()))
