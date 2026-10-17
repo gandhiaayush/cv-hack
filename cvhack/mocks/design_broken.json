@@ -1,0 +1,652 @@
+{
+  "name": "ppg-wearable-class2-broken",
+  "blocks": [
+    {
+      "subsystem": "protection",
+      "parts": [
+        {
+          "ref": "J1",
+          "mpn": "USB4105-GF-A"
+        },
+        {
+          "ref": "F1",
+          "mpn": "0ZCJ0050FF2E"
+        },
+        {
+          "ref": "D1",
+          "mpn": "SMF5.0A"
+        },
+        {
+          "ref": "R1",
+          "mpn": "RC0402FR-075K1L"
+        },
+        {
+          "ref": "R2",
+          "mpn": "RC0402FR-075K1L"
+        }
+      ],
+      "nets": [
+        {
+          "name": "VBUS_RAW",
+          "nodes": [
+            {
+              "ref": "J1",
+              "pin": "A9"
+            },
+            {
+              "ref": "F1",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "VBUS",
+          "nodes": [
+            {
+              "ref": "F1",
+              "pin": "2"
+            },
+            {
+              "ref": "D1",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "CC1",
+          "nodes": [
+            {
+              "ref": "J1",
+              "pin": "A5"
+            },
+            {
+              "ref": "R1",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "CC2",
+          "nodes": [
+            {
+              "ref": "J1",
+              "pin": "B5"
+            },
+            {
+              "ref": "R2",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "GND",
+          "nodes": [
+            {
+              "ref": "J1",
+              "pin": "A12"
+            },
+            {
+              "ref": "D1",
+              "pin": "2"
+            },
+            {
+              "ref": "R1",
+              "pin": "2"
+            },
+            {
+              "ref": "R2",
+              "pin": "2"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        "VBUS",
+        "GND"
+      ]
+    },
+    {
+      "subsystem": "power",
+      "parts": [
+        {
+          "ref": "U1",
+          "mpn": "MCP73831T-2ACI/OT"
+        },
+        {
+          "ref": "C1",
+          "mpn": "GRM188R61A475KE15D"
+        },
+        {
+          "ref": "C2",
+          "mpn": "GRM188R61A475KE15D"
+        },
+        {
+          "ref": "R3",
+          "mpn": "RC0402FR-072KL"
+        },
+        {
+          "ref": "BT1",
+          "mpn": "BM02B-PASS-TBT"
+        },
+        {
+          "ref": "U2",
+          "mpn": "AP2112K-3.3TRG1"
+        },
+        {
+          "ref": "C3",
+          "mpn": "GRM188R61A105KA61D"
+        },
+        {
+          "ref": "C4",
+          "mpn": "GRM188R61A105KA61D"
+        },
+        {
+          "ref": "U3",
+          "mpn": "TLV70018DDCR"
+        },
+        {
+          "ref": "C5",
+          "mpn": "GRM188R61A105KA61D"
+        },
+        {
+          "ref": "C6",
+          "mpn": "GRM188R61A105KA61D"
+        },
+        {
+          "ref": "R4",
+          "mpn": "RC0402FR-071KL"
+        },
+        {
+          "ref": "D2",
+          "mpn": "LTST-C191KGKT"
+        }
+      ],
+      "nets": [
+        {
+          "name": "VBUS",
+          "nodes": [
+            {
+              "ref": "U1",
+              "pin": "4"
+            },
+            {
+              "ref": "C1",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "VBAT",
+          "nodes": [
+            {
+              "ref": "U1",
+              "pin": "3"
+            },
+            {
+              "ref": "C2",
+              "pin": "1"
+            },
+            {
+              "ref": "BT1",
+              "pin": "1"
+            },
+            {
+              "ref": "U2",
+              "pin": "1"
+            },
+            {
+              "ref": "U2",
+              "pin": "3"
+            },
+            {
+              "ref": "C3",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "PROG",
+          "nodes": [
+            {
+              "ref": "U1",
+              "pin": "5"
+            },
+            {
+              "ref": "R3",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "3V3",
+          "nodes": [
+            {
+              "ref": "U2",
+              "pin": "5"
+            },
+            {
+              "ref": "C4",
+              "pin": "1"
+            },
+            {
+              "ref": "U3",
+              "pin": "1"
+            },
+            {
+              "ref": "C5",
+              "pin": "1"
+            },
+            {
+              "ref": "R4",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "1V8",
+          "nodes": [
+            {
+              "ref": "U3",
+              "pin": "5"
+            },
+            {
+              "ref": "C6",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "CHG_STAT",
+          "nodes": [
+            {
+              "ref": "U1",
+              "pin": "1"
+            },
+            {
+              "ref": "D2",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "LED_A",
+          "nodes": [
+            {
+              "ref": "D2",
+              "pin": "2"
+            },
+            {
+              "ref": "R4",
+              "pin": "2"
+            }
+          ]
+        },
+        {
+          "name": "GND",
+          "nodes": [
+            {
+              "ref": "U1",
+              "pin": "2"
+            },
+            {
+              "ref": "C1",
+              "pin": "2"
+            },
+            {
+              "ref": "C2",
+              "pin": "2"
+            },
+            {
+              "ref": "R3",
+              "pin": "2"
+            },
+            {
+              "ref": "BT1",
+              "pin": "2"
+            },
+            {
+              "ref": "U2",
+              "pin": "2"
+            },
+            {
+              "ref": "C3",
+              "pin": "2"
+            },
+            {
+              "ref": "C4",
+              "pin": "2"
+            },
+            {
+              "ref": "U3",
+              "pin": "2"
+            },
+            {
+              "ref": "C5",
+              "pin": "2"
+            },
+            {
+              "ref": "C6",
+              "pin": "2"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        "VBUS",
+        "VBAT",
+        "3V3",
+        "1V8",
+        "CHG_STAT",
+        "GND"
+      ]
+    },
+    {
+      "subsystem": "analog_fe",
+      "parts": [
+        {
+          "ref": "U4",
+          "mpn": "MAX30102EFD+T"
+        },
+        {
+          "ref": "C7",
+          "mpn": "GRM155R71C104KA88D"
+        },
+        {
+          "ref": "C8",
+          "mpn": "GRM188R61A475KE15D"
+        }
+      ],
+      "nets": [
+        {
+          "name": "1V8",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "11"
+            },
+            {
+              "ref": "C7",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "VBAT",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "1"
+            },
+            {
+              "ref": "C8",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "I2C_SDA",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "4"
+            }
+          ]
+        },
+        {
+          "name": "I2C_SCL",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "5"
+            }
+          ]
+        },
+        {
+          "name": "PPG_INT",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "13"
+            }
+          ]
+        },
+        {
+          "name": "GND",
+          "nodes": [
+            {
+              "ref": "U4",
+              "pin": "12"
+            },
+            {
+              "ref": "C7",
+              "pin": "2"
+            },
+            {
+              "ref": "C8",
+              "pin": "2"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        "1V8",
+        "VBAT",
+        "I2C_SDA",
+        "I2C_SCL",
+        "PPG_INT",
+        "GND"
+      ]
+    },
+    {
+      "subsystem": "mcu_comms",
+      "parts": [
+        {
+          "ref": "U5",
+          "mpn": "ESP32-C3-MINI-1-N4"
+        },
+        {
+          "ref": "C9",
+          "mpn": "GRM155R71C104KA88D"
+        },
+        {
+          "ref": "C10",
+          "mpn": "GRM188R61A106KE69D"
+        },
+        {
+          "ref": "R5",
+          "mpn": "RC0402FR-074K7L"
+        },
+        {
+          "ref": "R6",
+          "mpn": "RC0402FR-074K7L"
+        },
+        {
+          "ref": "R7",
+          "mpn": "RC0402FR-0710KL"
+        },
+        {
+          "ref": "R8",
+          "mpn": "RC0402FR-0710KL"
+        },
+        {
+          "ref": "J2",
+          "mpn": "TC2030-IDC-NL"
+        }
+      ],
+      "nets": [
+        {
+          "name": "3V3",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "1"
+            },
+            {
+              "ref": "C9",
+              "pin": "1"
+            },
+            {
+              "ref": "C10",
+              "pin": "1"
+            },
+            {
+              "ref": "R5",
+              "pin": "1"
+            },
+            {
+              "ref": "R6",
+              "pin": "1"
+            },
+            {
+              "ref": "R7",
+              "pin": "1"
+            },
+            {
+              "ref": "J2",
+              "pin": "1"
+            }
+          ]
+        },
+        {
+          "name": "I2C_SDA",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "10"
+            },
+            {
+              "ref": "R5",
+              "pin": "2"
+            }
+          ]
+        },
+        {
+          "name": "I2C_SCL",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "11"
+            },
+            {
+              "ref": "R6",
+              "pin": "2"
+            }
+          ]
+        },
+        {
+          "name": "PPG_INT",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "20"
+            },
+            {
+              "ref": "R7",
+              "pin": "2"
+            }
+          ]
+        },
+        {
+          "name": "CHG_STAT",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "21"
+            }
+          ]
+        },
+        {
+          "name": "SWDIO",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "30"
+            },
+            {
+              "ref": "J2",
+              "pin": "2"
+            }
+          ]
+        },
+        {
+          "name": "SWDCLK",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "31"
+            },
+            {
+              "ref": "J2",
+              "pin": "4"
+            }
+          ]
+        },
+        {
+          "name": "nRESET",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "32"
+            },
+            {
+              "ref": "R8",
+              "pin": "2"
+            },
+            {
+              "ref": "J2",
+              "pin": "3"
+            }
+          ]
+        },
+        {
+          "name": "GND",
+          "nodes": [
+            {
+              "ref": "U5",
+              "pin": "2"
+            },
+            {
+              "ref": "C9",
+              "pin": "2"
+            },
+            {
+              "ref": "C10",
+              "pin": "2"
+            },
+            {
+              "ref": "J2",
+              "pin": "5"
+            }
+          ]
+        }
+      ],
+      "ports": [
+        "3V3",
+        "I2C_SDA",
+        "I2C_SCL",
+        "PPG_INT",
+        "CHG_STAT",
+        "GND"
+      ]
+    }
+  ],
+  "budgets": {
+    "power_mw": 30.0,
+    "cost_usd": 15.0,
+    "area_mm2": 700.0
+  },
+  "no_connects": [
+    {
+      "ref": "U2",
+      "pin": "4"
+    },
+    {
+      "ref": "U3",
+      "pin": "4"
+    }
+  ],
+  "power_flags": [
+    "VBUS",
+    "GND"
+  ]
+}
