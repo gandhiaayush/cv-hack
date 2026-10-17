@@ -138,6 +138,12 @@ EventKind = Literal[
     "agent_spawned",       # payload: {role, label}
     "agent_status",        # payload: {status: "running"|"waiting"|"done"|"failed"}
     "step",                # payload: {message, step_no?, tokens?}
+    # Negotiation loop (see README). agent_id is the sender; `to` is the receiver.
+    "delegate",            # mother/parent -> child. payload: {to, subsystem, budget:{...}, constraints:[str]}
+    "report",              # child -> parent. payload: {to, options:[{name, cost?, power_mw?, notes?}],
+                           #   conflicts:[str], cannot_meet:[str], needs:[str]}
+    "decision",            # parent -> child. payload: {to, chosen?, budget_changes?:{...},
+                           #   extra_constraints?:[str], spawn?:[str], message?}
     "verifier_result",     # payload: VerifierResult.model_dump() + {target_subsystem?}
     "replan",              # payload: {reason, changes:[str]}
     "requirement_status",  # payload: {req_id, text, status: "pending"|"pass"|"fail", parts:[ref], rule_ids:[id]}
