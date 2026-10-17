@@ -79,10 +79,14 @@ def report_payload(rep: dict, to: str) -> dict:
             opts.append({"name": str(o)})
             continue
         opt = {"name": o.get("name", "?")}
-        for k in ("cost", "power_mw"):
-            if isinstance(o.get(k), (int, float)):
-                opt[k] = o[k]
-        notes = "; ".join(filter(None, [o.get("summary", ""), *map(str, o.get("risks") or [])]))
+        totals = o.get("totals") or {}
+        for k, src in (("cost", ("cost", "cost_usd")), ("power_mw", ("power_mw",))):
+            val = next((x for x in (o.get(k2, totals.get(k2)) for k2 in src) if isinstance(x, (int, float))), None)
+            if val is not None:
+                opt[k] = round(val, 3)
+        parts = ", ".join(p.get("mpn", "") for p in o.get("parts") or [] if isinstance(p, dict))
+        gate = "" if o.get("gate_ok", True) else "GATE FAILED: " + ", ".join(o.get("gate_errors") or [])
+        notes = "; ".join(filter(None, [gate, o.get("summary", ""), parts, *map(str, o.get("risks") or [])]))
         if notes:
             opt["notes"] = notes
         opts.append(opt)
@@ -90,7 +94,8 @@ def report_payload(rep: dict, to: str) -> dict:
         "to": to,
         "options": opts,
         "conflicts": [str(c) for c in rep.get("conflicts") or []],
-        "cannot_meet": [str(c) for c in rep.get("cannot_meet") or []],
+        "cannot_meet": [str(c) for c in rep.get("cannot_meet") or []] +
+                       (["no option passed the gate"] if rep.get("status") == "no_valid_option" else []),
         "needs": [str(c) for c in rep.get("needs_from_others") or rep.get("needs") or []],
         "quantitative": rep.get("quantitative_constraints") or [],
         "qualitative": rep.get("qualitative_constraints") or [],
@@ -101,6 +106,15 @@ def report_payload(rep: dict, to: str) -> dict:
 class Translator:
     """Stateful: remembers each agent's parent so every event carries its tree edge."""
     parents: dict[tuple[str, str], str | None] = field(default_factory=dict)
+    by_role: dict[tuple[str, str], str] = field(default_factory=dict)      # (run, subsystem) -> latest agent
+    roots: dict[str, str] = field(default_factory=dict)                     # run -> mother agent
+
+    def _ensure(self, r: Row, agent: str, role: str, label: str, parent: str | None) -> list[AgentEvent]:
+        """Spawn agents A's log never `start`s (the critic, the gate)."""
+        if (r.run, agent) in self.parents:
+            return []
+        self.parents[(r.run, agent)] = parent
+        return [self._ev(r, agent, "agent_spawned", role=role, label=label)]
 
     def _ev(self, r: Row, agent: str, kind: str, **payload) -> AgentEvent:
         return AgentEvent(run_id=r.run, agent_id=agent, parent_id=self.parents.get((r.run, agent)),
@@ -110,6 +124,9 @@ class Translator:
         role = r.agent.split(":")[0]
         if r.kind == "start":
             self.parents[(r.run, r.agent)] = r.parent
+            self.by_role[(r.run, role)] = r.agent
+            if not r.parent:
+                self.roots[r.run] = r.agent
             out = [self._ev(r, r.agent, "agent_spawned", role="subsystem" if r.parent else "mother",
                             label=role.replace("_", " ")),
                    self._ev(r, r.agent, "agent_status", status="running")]
@@ -118,23 +135,100 @@ class Translator:
                 out.append(self._ev(r, r.parent, "delegate", to=r.agent, subsystem=role, budget={},
                                     constraints=[_short(task, 400)] if task else []))
             return out
+        if r.kind == "llm_call":
+            b = r.body if isinstance(r.body, dict) else {}
+            if not b:
+                return []
+            out = []
+            if r.agent == "critic":
+                out += self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run))
+            return out + [self._ev(r, r.agent, "inference", provider="Crusoe", **b)]
+        if r.kind == "gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            failed = b.get("failed") or {}
+            errors = [{"code": c.split(":")[0], "message": f"{opt}: {c}", "part": (c.split(":", 1) + [""])[1] or None,
+                       "severity": "error"} for opt, codes in failed.items() for c in codes]
+            ok = bool(b.get("passed"))
+            sub = b.get("subsystem", role)
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"gate:{sub}", ok=ok, errors=errors,
+                                details={"attempt": b.get("attempt"), "passed": b.get("passed")}))
+            out.append(self._ev(r, r.agent, "step", message=(f"gate attempt {b.get('attempt')}: passed {b.get('passed')}"
+                                                            if ok else f"gate attempt {b.get('attempt')}: rejected {list(failed)}")))
+            return out
+        if r.kind == "critique":
+            b = r.body if isinstance(r.body, dict) else {}
+            objs = b.get("objections") or []
+            errors = [{"code": "CRITIC_" + str(o.get("severity", "concern")).upper(),
+                       "message": f"{o.get('id', '')} [{o.get('subsystem', '')}] {o.get('issue', '')}"
+                                  + (f" — {o.get('evidence')}" if o.get("evidence") else ""),
+                       "part": o.get("part") or None,
+                       "severity": "error" if o.get("severity") == "blocker" else "warning"} for o in objs]
+            out = self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run))
+            out.append(self._ev(r, "critic", "verifier_result", verifier="critic",
+                                ok=not any(e["severity"] == "error" for e in errors), errors=errors,
+                                details={"round": b.get("round")}))
+            return out
+        if r.kind == "critique_failed":
+            return self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run)) + \
+                [self._ev(r, "critic", "step", message="review unavailable (not a verdict); retrying")]
+        if r.kind == "budget_check":
+            b = r.body if isinstance(r.body, dict) else {}
+            bud = b.get("budget") or {}
+            return [self._ev(r, r.agent, "step", message=f"budget check: ${b.get('cost_usd')} / ${bud.get('cost_usd')}, "
+                                                        f"{b.get('power_mw')} / {bud.get('power_mw')} mW"
+                                                        + (f", {len(b['unknown_price_parts'])} unpriced" if b.get("unknown_price_parts") else ""))]
+        if r.kind == "queue":
+            b = r.body if isinstance(r.body, dict) else {}
+            return [self._ev(r, r.agent, "step", message=f"waited {b.get('waited_s')}s in the Crusoe request queue "
+                                                        f"({b.get('running')}/{b.get('cap')} in flight)")]
+        if r.kind == "findings_gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            bad = b.get("rejected") or []
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"findings:{b.get('type', role)}", ok=not bad,
+                                errors=[{"code": "FINDING_REJECTED", "message": str(x)[:300], "severity": "error"} for x in bad],
+                                details={"accepted": b.get("accepted"), "attempt": b.get("attempt")}))
+            return out
+        if r.kind in ("retry", "llm_error"):
+            b = r.body if isinstance(r.body, dict) else {}
+            return [self._ev(r, r.agent, "step", message=f"{r.kind}: {b.get('reason') or b.get('error') or ''}")]
         if r.kind == "tool_call":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
+            if b.get("tool") == "finalize":
+                args = b.get("args") or {}
+                out = [self._ev(r, r.agent, "decision", to=self.by_role.get((r.run, s.get("subsystem")), s.get("subsystem")),
+                                chosen=s.get("option"), message=args.get("rationale", "")[:300])
+                       for s in args.get("selections") or [] if isinstance(s, dict)]
+                return out + [self._ev(r, r.agent, "step", message="finalize: " + ", ".join(
+                    f"{s.get('subsystem')}={s.get('option')}" for s in args.get("selections") or [] if isinstance(s, dict)))]
             return [self._ev(r, r.agent, "step", message=f"{b.get('tool')}({_short(b.get('args', {}), 100)})")]
         if r.kind == "tool_result":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
             return [self._ev(r, r.agent, "step", message=f"{b.get('tool')} → {_short(b.get('result', ''))}")]
         if r.kind == "final":
             text = r.body if isinstance(r.body, str) else json.dumps(r.body)
-            if text.strip() == "STEP LIMIT":
+            if not r.parent and isinstance(r.body, dict) and "selections" in r.body:
+                res = r.body
+                status = str(res.get("status", ""))
+                t = res.get("totals") or {}
+                summary = (f"{status}: " + ", ".join(f"{k}={v}" for k, v in (res.get("selections") or {}).items())
+                           + f" · ${t.get('cost_usd')} · {t.get('power_mw')} mW · critic rounds {res.get('critic_rounds')}"
+                           + (f" · {len(res['unresolved'])} unresolved objection(s)" if res.get("unresolved") else ""))
+                return [self._ev(r, r.agent, "step", message=summary),
+                        self._ev(r, r.agent, "agent_status", status="done"),
+                        self._ev(r, r.agent, "run_done", ok=status.startswith("accepted"), summary=summary[:400],
+                                 result=res)]
+            if text.strip() in ("STEP LIMIT", "NO_ACCEPTED_OUTPUT"):
                 out = [self._ev(r, r.agent, "step", message="hit the step limit"),
                        self._ev(r, r.agent, "agent_status", status="failed")]
                 if not r.parent:
-                    out.append(self._ev(r, r.agent, "run_done", ok=False, summary="Mother agent hit the step limit"))
+                    out.append(self._ev(r, r.agent, "run_done", ok=False,
+                                        summary="Mother agent finished without an accepted design"))
                 return out
             out = []
             rep = parse_report(text) if r.parent else None
