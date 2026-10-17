@@ -110,6 +110,14 @@ export default function App() {
               <a className="dl" href={`/api/runs/${runId}/matrix.csv`}>csv</a>
             </h2>
             <div className="mwrap"><Matrix reqs={state?.requirements || []} /></div>
+            {state?.rules?.length > 0 && (
+              <>
+                <h2>Design rules
+                  <small>{state.rules.filter((r) => r.status === "pass").length}/{state.rules.filter((r) => r.status !== "not_applicable").length}</small>
+                </h2>
+                <div className="mwrap"><Rules rules={state.rules} /></div>
+              </>
+            )}
             <h2>Run log <small>{state?.n_events || 0} events</small></h2>
             <Log events={log} />
           </section>
@@ -243,6 +251,26 @@ function Matrix({ reqs }) {
               {(r.parts?.length > 0 || r.rule_ids?.length > 0) && (
                 <div className="trace">{r.parts?.join(" ")}{r.rule_ids?.length ? ` · ${r.rule_ids.join(" ")}` : ""}</div>
               )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+const RULE_CHIP = { pass: "pass", fail: "fail", indeterminate: "fail", not_applicable: "pending" };
+
+function Rules({ rules }) {
+  return (
+    <table className="matrix">
+      <tbody>
+        {rules.map((r) => (
+          <tr key={r.rule_id} className={RULE_CHIP[r.status]}>
+            <td><span className={`chip ${RULE_CHIP[r.status]}`} title={r.status}>{r.status === "indeterminate" ? "unknown" : r.status === "not_applicable" ? "n/a" : r.status}</span></td>
+            <td><b>{r.rule_id}</b> {r.title}
+              <div className="trace">{r.refs.join(" ")}</div>
+              {r.messages?.length > 0 && <div className="trace bad">{r.messages.slice(0, 3).join("; ")}</div>}
             </td>
           </tr>
         ))}

@@ -11,6 +11,7 @@ These are the seams between A (agents), B (data and rules) and C (tooling and de
 | A | `cvhack.control.read_commands(run_id, offset) -> (cmds, new_offset)`, polled between steps | C |
 | A | `cvhack.outputs.write_outputs(run_id)` on `run_done` (optional; the dashboard has an Export button too) | C |
 | A, C | `cvhack.parts.load_parts() -> dict[mpn, Part]` | B's DB through the hook in `parts.py` (mock until then) |
+| A | `RuleVerifier().verify(design, parts) -> VerifierResult` (evaluates B's `data/rules.json`) | C (rules by B) |
 | A | `ComplianceVerifier().verify(design, parts)`, `RedTeamVerifier().verify(design, parts)` | B |
 
 Every verifier follows the same `Verifier` protocol (a `name` attribute plus `verify(design, parts) -> VerifierResult`), so A can run them all in one loop.
@@ -83,6 +84,8 @@ Electrical error codes:
 | Structural | `PART_UNKNOWN`, `PIN_UNKNOWN`, `REF_UNKNOWN`, `REF_CONFLICT` |
 | Budget / BOM | `BUDGET_POWER`, `BUDGET_COST`, `BUDGET_AREA`, `BOM_OUT_OF_STOCK`, `BOM_STOCK_UNKNOWN` (warning), `BOM_PRICE_UNKNOWN` (warning) |
 | KiCad's own ERC | `KICAD_<TYPE>`, e.g. `KICAD_PIN_NOT_CONNECTED`, `KICAD_POWER_PIN_NOT_DRIVEN` |
+
+Design-rule codes (`cvhack/tooling/rules.py`): each failed rule reports its own `failure_code` (e.g. `DEMO_USB_CC_TERMINATION`) with `rule_id` set. `RULE_INDETERMINATE` means a rule couldn't be evaluated (missing ref, unknown part, unsupported operator), and it fails the gate. `RULES_NOT_APPLICABLE` (warning) means no rule targets this design's name. `details.rules` has one row per rule with `status`: `pass`, `fail`, `indeterminate` or `not_applicable`. The dashboard evaluates the rules on every design it receives, even if the agents never call the verifier.
 
 For B's verifiers, set `rule_id` and put the clause in `message`, so the matrix can cite it.
 
