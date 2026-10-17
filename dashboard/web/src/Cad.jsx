@@ -3,17 +3,23 @@ import Board3D from "./Board3D.jsx";
 import BomPlus from "./BomPlus.jsx";
 import Netlist from "./Netlist.jsx";
 import Proof from "./Proof.jsx";
+import Pane, { Guard } from "./Pane.jsx";
 import Console from "./Console.jsx";
 import CustomParts from "./CustomParts.jsx";
 import "./Cad.css";
 
 const j = (r) => (r.ok ? r.json() : Promise.reject(new Error(r.statusText)));
 const usd = (n, d = 3) => (n == null ? "?" : `$${Number(n).toFixed(d)}`);
-const VIEWS = [["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM & Cost"], ["netlist", "Netlist"], ["negotiation", "Negotiation"], ["proof", "Proof"]];
+const VIEWS = [["split", "Schematic + 3D"], ["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM & Cost"], ["netlist", "Netlist"], ["negotiation", "Negotiation"], ["proof", "Proof"]];
 
 // Fusion/EDA-style workspace: ribbon, browser tree, viewport with document tabs, inspector, console, status bar.
 export default function Cad({ c }) {
-  const { runId, state, log, svg, tab, setTab, sendControl, doExport, bom, P } = c;
+  const { runId, state, log, svg, sendControl, doExport, bom, P } = c;
+  const [tab, setTab] = useState("split");
+  const [shapeText, setShapeText] = useState("");
+  const [shapeTick, setShapeTick] = useState(0);
+  const [shapeNote, setShapeNote] = useState("");
+  const [con, setCon] = useState(true);
   const [ribbon, setRibbon] = useState("DESIGN");
   const [sel, setSel] = useState(null);
   const [rows, setRows] = useState([]);
@@ -36,8 +42,23 @@ export default function Cad({ c }) {
   const t0 = log.length ? log[0].ts : null;
   const addNote = () => { if (!draft.trim()) return; fetch(`/api/runs/${runId}/annotations`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ target: sel || "design", text: draft }) }).then(() => { setDraft(""); loadNotes(); }); };
 
-  const view = tab === "schematic" ? <P.Schematic svg={svg} />
-    : tab === "board" ? (d ? <Board3D runId={runId} designVersion={ver} failing={state.failing_refs || []} /> : <div className="empty small">Waiting for the first design…</div>)
+  const applyShape = () => {
+    if (!shapeText.trim()) return;
+    setShapeNote("Board-shape agent working…");
+    fetch(`/api/runs/${runId}/shape`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: shapeText }) })
+      .then(j).then((sp) => { setShapeTick((t) => t + 1); return fetch(`/api/runs/${runId}/board.json`).then(j).then((b) => {
+        const o = b.outline; setShapeNote(o ? `${sp.kind.replace("_", " ")}: board ${o.width_mm} × ${o.height_mm} mm${o.fits ? "" : " (" + o.problems.join("; ") + ")"}` : sp.note); }); })
+      .catch((e) => setShapeNote(`Shape failed: ${e.message}`));
+  };
+  const board3d = d ? <Guard what="The 3D board"><Board3D runId={runId} designVersion={ver * 1000 + shapeTick} failing={state.failing_refs || []} /></Guard> : <div className="empty small">Waiting for the first design…</div>;
+  const split = (
+    <div className="split">
+      <Pane title="Schematic" kind="sch" runId={runId} notes={notes} reload={loadNotes}><P.Schematic svg={svg} /></Pane>
+      <Pane title="3D board" kind="3d" runId={runId} notes={notes} reload={loadNotes}>{board3d}</Pane>
+    </div>
+  );
+  const view = tab === "split" ? split : tab === "schematic" ? <P.Schematic svg={svg} />
+    : tab === "board" ? board3d
     : tab === "bom" ? <BomPlus runId={runId} designVersion={ver} />
     : tab === "proof" ? <Proof runId={runId} />
     : tab === "netlist" ? <Netlist runId={runId} version={ver} sel={sel} onSel={setSel} />
@@ -55,6 +76,9 @@ export default function Cad({ c }) {
         <div className="rbody">
           {ribbon === "DESIGN" && (<>
             <div className="rgroup"><span className="gl">VIEW</span><div>{VIEWS.map(([k, l]) => <button key={k} className={tab === k ? "on" : ""} onClick={() => setTab(k)}>{l}</button>)}</div></div>
+            <div className="rgroup"><span className="gl">BOARD SHAPE (agent)</span><div>
+              <input className="shape-in" value={shapeText} placeholder="e.g. round 38 mm, capsule wristband pod" onChange={(e) => setShapeText(e.target.value)} onKeyDown={(e) => e.key === "Enter" && applyShape()} />
+              <button onClick={applyShape}>Apply</button>{shapeNote && <span className="muted shape-note">{shapeNote}</span>}</div></div>
             <div className="rgroup"><span className="gl">PARTS</span><div><button onClick={() => setShowCustom(true)}>＋ Custom MCU / chip</button></div></div>
           </>)}
           {ribbon === "VALIDATE" && (<>
@@ -97,7 +121,7 @@ export default function Cad({ c }) {
 
         <aside className="cinspect">
           <div className="ph">INSPECTOR</div>
-          <div className="itabs">{["Properties", "Checks", "Requirements"].map((t) => <button key={t} className={insp === t ? "on" : ""} onClick={() => setInsp(t)}>{t}</button>)}</div>
+          <div className="itabs">{["Properties", "Comments", "Checks", "Requirements"].map((t) => <button key={t} className={insp === t ? "on" : ""} onClick={() => setInsp(t)}>{t}</button>)}</div>
           <div className="ibody">
             {insp === "Properties" && (row ? (
               <div>
@@ -129,18 +153,22 @@ export default function Cad({ c }) {
                 {notes.filter((n) => n.target === (sel || "design")).map((n) => <div key={n.id} className="note">{n.text}</div>)}
                 <div className="addnote"><input value={draft} placeholder="Add a note…" onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addNote()} /><button onClick={addNote}>Add</button></div>
               </div>)}
+            {insp === "Comments" && (<div>
+              {notes.length === 0 && <div className="muted">No comments yet. Use 💬 Comment on a pane and click to drop a pin.</div>}
+              {notes.map((n) => <div key={n.id} className="note"><b>{n.target.includes("@") ? `${n.target.startsWith("sch") ? "Schematic" : "3D"} pin` : n.target}</b> · {n.text}</div>)}</div>)}
             {insp === "Checks" && (<><P.Verifiers verifiers={state?.verifiers || {}} />{state?.rules?.length > 0 && <div className="mwrap rules"><P.Rules rules={state.rules} /></div>}</>)}
             {insp === "Requirements" && <P.Matrix reqs={state?.requirements || []} />}
           </div>
         </aside>
       </div>
 
-      <section className="cconsole"><Console events={log} t0={t0} /></section>
+      <section className={`cconsole ${con ? "" : "closed"}`}><Console events={log} t0={t0} /></section>
       <footer className="cstatus">
         <span>{status === "running" ? "● Running" : status === "complete" ? "✓ Complete" : status}</span>
         <span>{state?.agents?.length || 0} agents</span>
         <span>{state?.n_events || 0} events</span>
         <span className="grow"><P.Budgets totals={state?.totals} budgets={state?.budgets} /></span>
+        <span className="tog" onClick={() => setCon(!con)}>{con ? "Hide console" : "Show console"}</span>
         <span>{sel ? `Selected ${sel}` : "Nothing selected"}</span>
       </footer>
       {showCustom && <CustomParts onClose={() => setShowCustom(false)} />}

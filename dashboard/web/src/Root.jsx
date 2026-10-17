@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import App from "./App.jsx";
 import Home from "./Home.jsx";
-import Chat from "./Chat.jsx";
+import PromptBar from "./PromptBar.jsx";
 
 // ?run=<id> keeps a workspace across refreshes; #/dashboard is the original follow-latest dashboard.
 export default function Root() {
@@ -27,8 +27,8 @@ export default function Root() {
   if (location.hash.startsWith("#/dashboard")) return <App />;
   if (!runId) return <Home onStart={start} error={error} busy={busy} />;
   return (
-    <div className="shell">
-      <Chat runId={runId} prompt={prompt} busy={busy} onNew={(t) => (typeof t === "string" ? start(t) : home())} />
+    <div className="shell2">
+      <PromptBar runId={runId} busy={busy} onStart={(t) => start(t)} />
       <div className="work"><App fixedRunId={runId} /></div>
     </div>
   );

@@ -236,7 +236,13 @@ def board_info(run_id: str):
         route, glb = {"status": "unavailable", "error": "Freerouting not set up (demo/setup_router.sh)"}, "placed"
     else:
         route, glb = {"status": "routing"}, "placed"
-    return {**info, "changes": changes, "route": route, "glb": glb, "build": b.dir.name,
+    outline_info = None
+    of = RUNS_DIR / rid / "outline.json"
+    if of.exists():
+        from src import shape
+        spec = json.loads(of.read_text())
+        outline_info = {"spec": spec, **shape.fit_report(spec, info["width_mm"], info["height_mm"])}
+    return {**info, "outline": outline_info, "changes": changes, "route": route, "glb": glb, "build": b.dir.name,
             "glb_url": f"/api/runs/{rid}/board.glb?build={b.dir.name}&kind={glb}"}
 
 
