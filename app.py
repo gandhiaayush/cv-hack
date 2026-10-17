@@ -39,7 +39,7 @@ def main() -> None:
     port = free_port()
     server = uvicorn.Server(uvicorn.Config("dashboard.server:app", host="127.0.0.1", port=port, log_level="warning"))
     threading.Thread(target=server.run, daemon=True).start()
-    url = f"http://127.0.0.1:{port}/"
+    url = f"http://127.0.0.1:{port}/?fresh=1"
     for _ in range(120):  # wait until the server answers
         try:
             urllib.request.urlopen(url, timeout=1)

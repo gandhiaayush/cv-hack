@@ -11,7 +11,7 @@ export default function Root() {
   const [open, setOpenState] = useState(() => { try { return localStorage.getItem("oak-open") !== "0"; } catch { return true; } });
   const setOpen = (v) => { setOpenState(v); try { localStorage.setItem("oak-open", v ? "1" : "0"); } catch {} };
   useEffect(() => {
-    if (runId) return;
+    if (runId || new URLSearchParams(location.search).get("fresh")) return;  // the desktop app opens clean
     fetch("/api/real_runs").then((r) => r.json()).then((rs) => { if (rs.length) setRunId(rs[0].run_id); }).catch(() => {});
   }, [runId]);
   const start = useCallback(async (text, instructions) => {
