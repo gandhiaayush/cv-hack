@@ -47,12 +47,15 @@ Then reply with a JSON report only:
  "conflicts": [str], "needs_from_others": [str]}}"""
 
 
-def run_agent(role, task, model, tools, system, run, parent=None, depth=0, max_steps=12):
+def run_agent(role, task, model, tools, system, run, parent=None, depth=0, max_steps=10):
     name = f"{role}:{uuid.uuid4().hex[:4]}"
     msgs = [{"role": "system", "content": system}, {"role": "user", "content": task}]
     store.log(run, name, parent, "start", {"task": task, "depth": depth})
-    for _ in range(max_steps):
-        m = chat(msgs, model, tools=tools)
+    for step in range(max_steps):
+        if step == max_steps - 1:  # out of budget: force a final answer from what it has
+            msgs.append({"role": "user", "content": "Step budget exhausted. Reply NOW with your final answer "
+                         "(JSON report) from what you have learned. Make no more tool calls."})
+        m = chat(msgs, model, tools=None if step == max_steps - 1 else tools)
         msgs.append(m.model_dump(exclude_none=True))
         if not m.tool_calls:
             store.log(run, name, parent, "final", m.content)

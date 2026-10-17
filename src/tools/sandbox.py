@@ -9,7 +9,7 @@ SPEC = {
     "function": {
         "name": "run_python",
         "description": "Run Python to compute quantitative constraints (power budget, voltage margins, "
-        "derating, thermal rise, cost totals). Use print() for results. Stdlib only, 10s limit.",
+        "derating, thermal rise, cost totals). Each call is a FRESH process: define all variables in the same snippet and print() every result. Stdlib only, 10s limit.",
         "parameters": {
             "type": "object",
             "properties": {"code": {"type": "string"}},

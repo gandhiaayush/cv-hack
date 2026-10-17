@@ -61,6 +61,11 @@ def search_regulations(query: str) -> str:
 
 
 def get_regulation_section(part: str, section: str) -> str:
+    # models pass "2720", "870.2720" or "§ 870.2720"; normalise to part + "part.section"
+    section = section.replace("§", "").strip()
+    if "." not in section:
+        section = f"{part}.{section}"
+    part = section.split(".")[0]
     date = requests.get(f"{ECFR}/versioner/v1/titles.json", timeout=20).json()
     d = next(t["up_to_date_as_of"] for t in date["titles"] if t["number"] == 21)
     r = requests.get(
@@ -69,6 +74,9 @@ def get_regulation_section(part: str, section: str) -> str:
         headers={"Accept-Encoding": "gzip"},
         timeout=30,
     )
+    if r.status_code in (404, 406):
+        return (f"ERROR: section {section} not found (it may have been removed or renumbered). "
+                "Use search_regulations to find a current section id.")
     r.raise_for_status()
     r.encoding = "utf-8"
     text = re.sub(r"<[^>]+>", " ", r.text)
