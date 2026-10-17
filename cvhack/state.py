@@ -25,6 +25,8 @@ class RunState:
     updated: float | None = None
     n_events: int = 0
     inference: dict[str, dict[str, Any]] = field(default_factory=dict)   # per model: calls, tokens, latency
+    design_source: str | None = None     # "reference" | "selection" | "final" (real runs, via cvhack.synth)
+    design_notes: dict[str, Any] | None = None
 
     def apply(self, e: AgentEvent) -> None:
         self.n_events += 1
@@ -55,6 +57,8 @@ class RunState:
         elif e.kind == "design_updated":
             self.design = p.get("design")
             self.design_version += 1
+            self.design_source = p.get("source")
+            self.design_notes = p.get("notes")
         elif e.kind == "replan":
             self.replans.append({**p, "ts": e.ts})
             self.done = None
@@ -97,6 +101,7 @@ class RunState:
             "design_version": self.design_version, "done": self.done,
             "started": self.started, "updated": self.updated, "n_events": self.n_events,
             "inference": sorted(self.inference.values(), key=lambda m: -m["calls"]),
+            "design_source": self.design_source, "design_notes": self.design_notes,
         }
 
 

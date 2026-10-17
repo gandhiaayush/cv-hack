@@ -31,6 +31,9 @@ from typing import Any, Iterable
 
 from cvhack.contracts import AgentEvent
 from cvhack.events import RUNS_DIR, emit
+from cvhack.mocks import designs
+from cvhack.parts import load_parts
+from cvhack.synth import apply_selection
 
 DEFAULT_DB = RUNS_DIR / "run.db"
 
@@ -50,6 +53,30 @@ def _short(x: Any, n: int = 140) -> str:
     s = x if isinstance(x, str) else json.dumps(x, default=str)
     s = " ".join(s.split())
     return s if len(s) <= n else s[: n - 1] + "…"
+
+
+def tool_phrase(tool: str, args: dict) -> str:
+    """One short line per tool call, e.g. 'searched parts: tvs' instead of the raw arguments."""
+    a = args if isinstance(args, dict) else {}
+    if tool == "search_parts":
+        what = " ".join(str(x) for x in (a.get("category"), a.get("text"), a.get("interface")) if x)
+        return f"searched parts: {what or 'all'}"
+    if tool == "find_alternates":
+        return f"looked for alternates to {a.get('mpn', '?')}"
+    if tool == "run_python":
+        first = next((l.strip("# ").strip() for l in str(a.get("code", "")).splitlines() if l.strip().startswith("#")), "")
+        return "calculated" + (f": {first[:60]}" if first else "")
+    if tool == "get_subsystem_context":
+        return f"read {a.get('subsystem', '')} context"
+    if tool == "list_subsystems":
+        return "listed subsystems"
+    if tool in ("search_regulations", "get_regulation_section", "classify_device"):
+        return f"checked regulations: {a.get('query') or a.get('section') or a.get('device_name') or ''}".strip()
+    if tool == "submit_report":
+        n = a.get("options")
+        n = len(n) if isinstance(n, list) else "?"
+        return f"submitted {n} option(s)"
+    return tool.replace("_", " ")
 
 
 def parse_report(text: str) -> dict | None:
@@ -108,6 +135,16 @@ class Translator:
     parents: dict[tuple[str, str], str | None] = field(default_factory=dict)
     by_role: dict[tuple[str, str], str] = field(default_factory=dict)      # (run, subsystem) -> latest agent
     roots: dict[str, str] = field(default_factory=dict)                     # run -> mother agent
+    options: dict[tuple[str, str], dict[str, list]] = field(default_factory=dict)  # (run, subsystem) -> option -> parts
+
+    def _design(self, r: Row, bom: list[dict] | None, source: str) -> list[AgentEvent]:
+        """design_updated from the reference board, or from a BOM applied to it (see cvhack.synth)."""
+        if bom is None:
+            d, notes = designs.wearable(), {"kept": [], "removed": [], "added": [], "unwired": []}
+        else:
+            d, notes = apply_selection(bom, load_parts())
+        return [self._ev(r, self.roots.get(r.run, r.agent), "design_updated", design=d.model_dump(),
+                         source=source, notes=notes)]
 
     def _ensure(self, r: Row, agent: str, role: str, label: str, parent: str | None) -> list[AgentEvent]:
         """Spawn agents A's log never `start`s (the critic, the gate)."""
@@ -127,9 +164,12 @@ class Translator:
             self.by_role[(r.run, role)] = r.agent
             if not r.parent:
                 self.roots[r.run] = r.agent
+                out_ref = self._design(r, None, "reference")
+            else:
+                out_ref = []
             out = [self._ev(r, r.agent, "agent_spawned", role="subsystem" if r.parent else "mother",
                             label=role.replace("_", " ")),
-                   self._ev(r, r.agent, "agent_status", status="running")]
+                   self._ev(r, r.agent, "agent_status", status="running")] + out_ref
             if r.parent:
                 task = (r.body or {}).get("task", "") if isinstance(r.body, dict) else str(r.body)
                 out.append(self._ev(r, r.parent, "delegate", to=r.agent, subsystem=role, budget={},
@@ -199,17 +239,26 @@ class Translator:
                 return []
             if b.get("tool") == "finalize":
                 args = b.get("args") or {}
+                sels = [s for s in args.get("selections") or [] if isinstance(s, dict)]
                 out = [self._ev(r, r.agent, "decision", to=self.by_role.get((r.run, s.get("subsystem")), s.get("subsystem")),
                                 chosen=s.get("option"), message=args.get("rationale", "")[:300])
-                       for s in args.get("selections") or [] if isinstance(s, dict)]
+                       for s in sels]
+                bom = [{"subsystem": s.get("subsystem"), **p}
+                       for s in sels for p in self.options.get((r.run, s.get("subsystem")), {}).get(s.get("option"), [])]
+                if bom:
+                    out += self._design(r, bom, "selection")
                 return out + [self._ev(r, r.agent, "step", message="finalize: " + ", ".join(
                     f"{s.get('subsystem')}={s.get('option')}" for s in args.get("selections") or [] if isinstance(s, dict)))]
-            return [self._ev(r, r.agent, "step", message=f"{b.get('tool')}({_short(b.get('args', {}), 100)})")]
+            return [self._ev(r, r.agent, "step", message=tool_phrase(b.get("tool", ""), b.get("args", {})))]
         if r.kind == "tool_result":
             b = r.body if isinstance(r.body, dict) else {}
             if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
-            return [self._ev(r, r.agent, "step", message=f"{b.get('tool')} → {_short(b.get('result', ''))}")]
+            res = str(b.get("result", ""))
+            # Only outcomes worth reading: verdicts and errors. Search results etc. are noise in the log.
+            if b.get("tool") in ("submit_report", "finalize") or res.startswith(("ERROR", "REJECTED")) or res == "no matching parts":
+                return [self._ev(r, r.agent, "step", message=f"{b.get('tool', '').replace('_', ' ')}: {_short(res, 110)}")]
+            return []
         if r.kind == "final":
             text = r.body if isinstance(r.body, str) else json.dumps(r.body)
             if not r.parent and isinstance(r.body, dict) and "selections" in r.body:
@@ -219,7 +268,8 @@ class Translator:
                 summary = (f"{status}: " + ", ".join(f"{k}={v}" for k, v in (res.get("selections") or {}).items())
                            + f" · ${t.get('cost_usd')} · {t.get('power_mw')} mW · critic rounds {res.get('critic_rounds')}"
                            + (f" · {len(res['unresolved'])} unresolved objection(s)" if res.get("unresolved") else ""))
-                return [self._ev(r, r.agent, "step", message=summary),
+                return [self._ev(r, r.agent, "step", message=summary)] + \
+                    (self._design(r, res["bom"], "final") if res.get("bom") else []) + [
                         self._ev(r, r.agent, "agent_status", status="done"),
                         self._ev(r, r.agent, "run_done", ok=status.startswith("accepted"), summary=summary[:400],
                                  result=res)]
@@ -232,6 +282,10 @@ class Translator:
                 return out
             out = []
             rep = parse_report(text) if r.parent else None
+            if rep is not None and rep.get("subsystem"):
+                self.options[(r.run, rep["subsystem"])] = {
+                    o.get("name"): [p for p in o.get("parts") or [] if isinstance(p, dict) and p.get("mpn")]
+                    for o in rep.get("options") or [] if isinstance(o, dict)}
             if rep is not None:
                 out.append(self._ev(r, r.agent, "report", **report_payload(rep, r.parent)))
             else:
