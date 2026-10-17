@@ -23,7 +23,7 @@
   {"mpn": "TLV70018DDCR", "category": "ldo", "description": "200mA LDO 1.8V SOT-23-5", "footprint": "Package_TO_SOT_SMD:SOT-23-5", "symbol_lib": "Regulator_Linear", "symbol_name": "TLV70018_SOT23-5",
    "pins": [{"num": "1", "name": "IN", "type": "power_in"}, {"num": "2", "name": "GND", "type": "power_in"}, {"num": "3", "name": "EN", "type": "input"}, {"num": "4", "name": "NC", "type": "no_connect"}, {"num": "5", "name": "OUT", "type": "power_out"}],
    "price_usd": 0.19, "stock": 45000, "power_mw": 0.1, "area_mm2": 9, "ratings": {"vin_max": 5.5, "vout": 1.8, "iout_max_a": 0.2}},
-  {"mpn": "MAX30102EFD+T", "category": "afe", "description": "Pulse oximetry and heart-rate sensor, I2C", "footprint": "Package_LGA:Maxim_OLGA-14_3.3x5.6mm_P0.8mm", "symbol_lib": "Sensor_Optical", "symbol_name": "MAX30102",
+  {"mpn": "MAX30102EFD+T", "category": "afe", "description": "Pulse oximetry and heart-rate sensor, I2C", "footprint": "OptoDevice:Maxim_OLGA-14_3.3x5.6mm_P0.8mm", "symbol_lib": "Sensor_Optical", "symbol_name": "MAX30102",
    "pins": [{"num": "1", "name": "VLED+", "type": "power_in"}, {"num": "11", "name": "VDD", "type": "power_in"}, {"num": "12", "name": "GND", "type": "power_in"}, {"num": "4", "name": "SDA", "type": "bidirectional"}, {"num": "5", "name": "SCL", "type": "input"}, {"num": "13", "name": "INT", "type": "open_collector"}],
    "price_usd": 4.10, "stock": 2500, "power_mw": 4.0, "area_mm2": 25, "ratings": {"vdd": 1.8, "vled_min": 3.1, "vled_max": 5.0, "patient_contact": true}},
   {"mpn": "MDBT42Q-512KV2", "category": "mcu", "description": "nRF52832 BLE module with chip antenna", "footprint": "RF_Module:Raytac_MDBT42Q", "symbol_lib": "RF_Module", "symbol_name": "MDBT42Q-512KV2",

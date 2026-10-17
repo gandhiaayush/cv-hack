@@ -974,7 +974,7 @@
         "mpn": "MAX30102EFD+T",
         "category": "afe",
         "description": "Pulse oximetry and heart-rate sensor, I2C",
-        "footprint": "Package_LGA:Maxim_OLGA-14_3.3x5.6mm_P0.8mm",
+        "footprint": "OptoDevice:Maxim_OLGA-14_3.3x5.6mm_P0.8mm",
         "mock_ratings": {
           "vdd": 1.8,
           "vled_min": 3.1,
