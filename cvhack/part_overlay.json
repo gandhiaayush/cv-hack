@@ -1,0 +1,29 @@
+{
+  "_note": "C's electrical overlay for parts in B's data/parts.json: KiCad symbol, footprint, pins (with ERC types), power and area. Only the electrical fields listed in parts.ELECTRICAL are read. Parts with no entry here have no pins, so the electrical verifier reports PIN_UNKNOWN until an entry is added from the datasheet pin table.",
+  "_missing": ["ESP32-C6-MINI-1-N4", "TPS63031DSKR", "TPS63070RNMR", "SHTC3-DIS-B", "SHT40-AD1B-R2", "SHT45-AD1B-R2", "OPT3001DNPR", "BQ27441DRZR-G1", "BQ27421YZFR-G1", "TPD1E10B06DPYR", "TPD2E2U06DQAR"],
+  "GRM188R71C104KA01D": {
+    "footprint": "Capacitor_SMD:C_0603_1608Metric", "symbol_lib": "Device", "symbol_name": "C",
+    "pins": [{"num": "1", "name": "~", "type": "passive"}, {"num": "2", "name": "~", "type": "passive"}],
+    "power_mw": 0, "area_mm2": 4.3
+  },
+  "GRM188R60J475KE19D": {
+    "footprint": "Capacitor_SMD:C_0603_1608Metric", "symbol_lib": "Device", "symbol_name": "C",
+    "pins": [{"num": "1", "name": "~", "type": "passive"}, {"num": "2", "name": "~", "type": "passive"}],
+    "power_mw": 0, "area_mm2": 4.3
+  },
+  "CRCW060310K0FKEA": {
+    "footprint": "Resistor_SMD:R_0603_1608Metric", "symbol_lib": "Device", "symbol_name": "R",
+    "pins": [{"num": "1", "name": "~", "type": "passive"}, {"num": "2", "name": "~", "type": "passive"}],
+    "power_mw": 0, "area_mm2": 4.3
+  },
+  "CRCW06031K00FKEA": {
+    "footprint": "Resistor_SMD:R_0603_1608Metric", "symbol_lib": "Device", "symbol_name": "R",
+    "pins": [{"num": "1", "name": "~", "type": "passive"}, {"num": "2", "name": "~", "type": "passive"}],
+    "power_mw": 0, "area_mm2": 4.3
+  },
+  "B2B-PH-K-S(LF)(SN)": {
+    "footprint": "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical", "symbol_lib": "Connector_Generic", "symbol_name": "Conn_01x02",
+    "pins": [{"num": "1", "name": "Pin_1", "type": "passive"}, {"num": "2", "name": "Pin_2", "type": "passive"}],
+    "power_mw": 0, "area_mm2": 30
+  }
+}

@@ -211,20 +211,21 @@ function Schematic({ svg }) {
 }
 
 function Bom({ rows, runId }) {
-  const total = rows.reduce((s, r) => s + r.ext_usd, 0);
+  const total = rows.reduce((s, r) => s + (r.ext_usd ?? 0), 0);
+  const unpriced = rows.filter((r) => r.ext_usd == null).length;
   return (
     <div className="bom">
       <table>
         <thead><tr><th>Refs</th><th>Qty</th><th>MPN</th><th>Description</th><th className="num">Unit</th><th className="num">Ext</th><th className="num">Stock</th></tr></thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.mpn} className={r.stock < r.qty ? "oos" : ""}>
+            <tr key={r.mpn} className={r.stock != null && r.stock < r.qty ? "oos" : ""}>
               <td>{r.refs}</td><td>{r.qty}</td><td><code>{r.mpn}</code></td><td>{r.description}</td>
-              <td className="num">{r.unit_usd.toFixed(3)}</td><td className="num">{r.ext_usd.toFixed(2)}</td><td className="num">{r.stock}</td>
+              <td className="num">{money(r.unit_usd, 3)}</td><td className="num">{money(r.ext_usd, 2)}</td><td className="num">{r.stock ?? <span className="muted" title="stock not checked">?</span>}</td>
             </tr>
           ))}
         </tbody>
-        <tfoot><tr><td colSpan={5}>Total</td><td className="num">${total.toFixed(2)}</td><td><a href={`/api/runs/${runId}/bom.csv`}>csv</a></td></tr></tfoot>
+        <tfoot><tr><td colSpan={5}>Total{unpriced ? <span className="muted"> ({unpriced} line{unpriced > 1 ? "s" : ""} unpriced)</span> : null}</td><td className="num">${total.toFixed(2)}</td><td><a href={`/api/runs/${runId}/bom.csv`}>csv</a></td></tr></tfoot>
       </table>
     </div>
   );
@@ -286,4 +287,5 @@ function describe(e) {
 }
 
 const fmtBudget = (b) => (b ? Object.entries(b).map(([k, v]) => `${k}=${v}`).join(" ") : "");
+const money = (n, d) => (n == null ? <span className="muted" title="price unknown">?</span> : n.toFixed(d));
 const fmt = (n) => (n == null ? "–" : Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 }));

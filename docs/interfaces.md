@@ -15,7 +15,13 @@ These are the seams between A (agents), B (data and rules) and C (tooling and de
 
 Every verifier follows the same `Verifier` protocol (a `name` attribute plus `verify(design, parts) -> VerifierResult`), so A can run them all in one loop.
 
-**B: plugging in the parts DB.** Create `cvhack/data/parts_db.py` with `all_parts() -> list[Part | dict]`. `load_parts()` picks it up automatically. You can also set `PARTS_SOURCE=path/to/parts.json`.
+**Where parts come from.** `load_parts()` merges three sources by MPN:
+
+1. `cvhack/mocks/parts.json`: C's mock catalogue, with full electrical data.
+2. `data/parts.json`: B's sourced dataset, in B's schema (`part_id`, `specs`, `price.unit_amount`, `stock.status`). `cvhack.parts.from_b_record` maps it onto `Part`. B's description, specs, price and stock override the mock, but the mock's pins and symbol are kept.
+3. `cvhack/part_overlay.json`: C's KiCad symbol, footprint, pins, `power_mw` and `area_mm2` for B's parts. A B part with no overlay entry has no pins, so the electrical gate reports `PIN_UNKNOWN` instead of guessing a pinout. The `_missing` list in that file shows which parts still need one.
+
+`PARTS_SOURCE=path/to/parts.json` (a plain list of `Part` records) replaces all three. A `cvhack/data/parts_db.py` with `all_parts()` replaces source 2.
 
 ## Part (B)
 
@@ -27,6 +33,8 @@ Every verifier follows the same `Verifier` protocol (a `name` attribute plus `ve
  "price_usd": 0.21, "stock": 60000, "power_mw": 0.3, "area_mm2": 9,
  "ratings": {"vin_max": 6.0, "vout": 3.3}}
 ```
+
+`price_usd` and `stock` may be `null`, which means **unknown**. `stock: 0` means out of stock. Unknown values produce `BOM_PRICE_UNKNOWN` and `BOM_STOCK_UNKNOWN` warnings, and an unknown price counts as $0 in the cost total.
 
 Pin `type` is one of the KiCad electrical types: `input, output, bidirectional, passive, power_in, power_out, open_collector, tri_state, no_connect, unspecified`. ERC depends on these types, so get them right, especially `power_in` and `power_out`. Every pin a design uses must appear in `pins`.
 
@@ -73,7 +81,7 @@ Electrical error codes:
 |---|---|
 | Native ERC | `ERC_UNCONNECTED`, `ERC_SINGLE_PIN_NET`, `ERC_POWER_NOT_DRIVEN`, `ERC_POWER_CONFLICT`, `ERC_OUTPUT_CONFLICT`, `ERC_INPUT_NOT_DRIVEN`, `ERC_NC_CONNECTED`, `BLOCK_PORT_DANGLING` (warning) |
 | Structural | `PART_UNKNOWN`, `PIN_UNKNOWN`, `REF_UNKNOWN`, `REF_CONFLICT` |
-| Budget / BOM | `BUDGET_POWER`, `BUDGET_COST`, `BUDGET_AREA`, `BOM_OUT_OF_STOCK` |
+| Budget / BOM | `BUDGET_POWER`, `BUDGET_COST`, `BUDGET_AREA`, `BOM_OUT_OF_STOCK`, `BOM_STOCK_UNKNOWN` (warning), `BOM_PRICE_UNKNOWN` (warning) |
 | KiCad's own ERC | `KICAD_<TYPE>`, e.g. `KICAD_PIN_NOT_CONNECTED`, `KICAD_POWER_PIN_NOT_DRIVEN` |
 
 For B's verifiers, set `rule_id` and put the clause in `message`, so the matrix can cite it.

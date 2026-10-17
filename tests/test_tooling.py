@@ -45,7 +45,9 @@ def test_esp32_draft_fails_only_on_power():
     d.blocks = [b for b in d.blocks if b.subsystem != "mcu_comms"] + [designs.esp32_mcu_block()]
     d.no_connects += designs._nodes("U5.26 U5.27")
     res = ElectricalVerifier(use_kicad=False).verify(d, PARTS)
-    assert not res.ok and codes(res.errors) == {"BUDGET_POWER"}
+    assert not res.ok and codes(e for e in res.errors if e.severity == "error") == {"BUDGET_POWER"}
+    # ESP32-C3 comes from B's dataset, where price and stock are unknown: flagged, not invented.
+    assert {"BOM_PRICE_UNKNOWN", "BOM_STOCK_UNKNOWN"} <= codes(res.errors)
 
 
 def test_out_of_stock_and_swap():

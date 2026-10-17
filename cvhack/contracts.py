@@ -37,8 +37,8 @@ class Part(BaseModel):
     symbol_lib: str = "Device"     # KiCad symbol library
     symbol_name: str = ""          # KiCad symbol name
     pins: list[Pin] = Field(default_factory=list)
-    price_usd: float = 0.0
-    stock: int = 0
+    price_usd: float | None = None  # None = unknown (B never invents a price)
+    stock: int | None = None       # None = unknown; 0 = out of stock
     power_mw: float = 0.0          # typical active consumption
     area_mm2: float = 0.0          # footprint area incl. courtyard
     ratings: dict[str, Any] = Field(default_factory=dict)  # e.g. {"vin_max": 6.0, "iso_10993": true}
