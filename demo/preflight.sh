@@ -24,6 +24,10 @@ fi
 $PY -c "from cvhack.tooling import kicad_cli as k; import sys; sys.exit(0 if k.available() else 1)" \
   && ok "kicad-cli found (real KiCad ERC + PDF export)" || warn "kicad-cli not found: native ERC only, no PDF export"
 
+$PY -c "from cvhack.tooling import pcb; import sys; sys.exit(0 if pcb.can_route() else 1)" \
+  && ok "3D board + autorouter (Freerouting) ready" \
+  || warn "autorouter not set up: 3D board will be unrouted (run demo/setup_router.sh)"
+
 RID="_preflight"
 rm -rf "runs/$RID"
 $PY -m cvhack.mocks.fake_run --run-id "$RID" --speed 50 --linger 0 >/dev/null 2>&1
