@@ -1,0 +1,269 @@
+{
+  "_about": "Isolation-barrier ratings transcribed from each part's manufacturer datasheet (the catalog datasheet_url). Every entry quotes the datasheet text it came from; tests/test_parts_graph.py checks each quote still appears in that datasheet. Values are the package/ordering code listed, not the family maximum. '>' and 'min' bounds are stored as the bound. mopp is set only when the datasheet states a MOPP count that applies to this package.",
+  "_not_transcribed": {
+    "ADUM1201ARZ-JSM": "JSMSEMI second-source datasheet has no insulation table.",
+    "FN1-24S12H6": "Datasheet link is a 121-page multi-product catalog; values cannot be attributed to this part.",
+    "EL817(C)-F": "Datasheet PDF text could not be extracted."
+  },
+  "ISOW7841DWER": {
+    "isolation_voltage_vrms": 5000, "working_voltage_vrms": 1000, "repetitive_peak_vpk": 1414,
+    "clearance_mm": 8, "creepage_mm": 8, "dti_um": 21, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 3.5,
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 60950-1", "UL 1577", "DIN V VDE 0884-11", "GB 4943.1", "EN 61010-1"],
+    "mopp": {"count": 2, "working_voltage_vrms": 250, "standard": "CSA 60601-1:14 and IEC 60601-1 3rd ed. + A1"},
+    "evidence": [
+      {"field": "clearance_mm", "quote": "CLR 外部间隙(1) 端子间的最短空间距离 >8 mm"},
+      {"field": "creepage_mm", "quote": "CPG 外部爬电距离(1) 端子间的最短封装表面距离 >8 mm"},
+      {"field": "isolation_voltage_vrms", "quote": "VTEST = VISO(UL)= 5000VRMS，t = 60s（鉴定测试）"},
+      {"field": "working_voltage_vrms", "quote": "VIOWM 最大工作隔离电压 交流电压；时间依赖型电介质击穿 (TDDB) 测试；请参 阅图 10-5 1000 VRMS"},
+      {"field": "repetitive_peak_vpk", "quote": "VIORM 最大重复峰值隔离电压 交流电压（双极） 1414 VPK"},
+      {"field": "dti_um", "quote": "最小内部间隙（内部间隙 – 电容式信号隔离） > 21 µm"},
+      {"field": "barrier_capacitance_pf", "quote": "CIO 势垒电容，输入至输出(5) VIO = 0.4 × sin (2πft)，f = 1 MHz ~3.5 pF"},
+      {"field": "mopp", "quote": "符合 CSA 60601-1:14 和 IEC 60601-1 第 3 版 +A1 的 2 MOPP （患者保护措施），250VRMS 最 大工作电压"}
+    ]
+  },
+  "ADUM4160BRWZ-RL": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 846,
+    "clearance_mm": 8.0, "creepage_mm": 7.7, "dti_um": 17, "cti_v": 175, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.2,
+    "certifications": ["IEC 60601-1", "IEC 60950-1", "UL 1577", "DIN V VDE V 0884-10"],
+    "mopp": null,
+    "iec60601_rating": {"insulation": "reinforced", "working_voltage_vrms": 125, "package": "RW-16",
+                        "note": "The 250 Vrms IEC 60601-1 rating on page 1 is for the RI-16 package (ADuM4160BRIZ), not this RW-16 part. No MOPP count is stated."},
+    "evidence": [
+      {"field": "iec60601_rating", "quote": "加强绝缘符合IEC 60601-1标准，125 V rms（176 V PEAK）最大工作电压，RW-16封装"},
+      {"field": "clearance_mm", "quote": "L(I01) 最小值8.0 mm"},
+      {"field": "creepage_mm", "quote": "L(I02) L(I02) 最小值7.7 最小值8.5 mm"},
+      {"field": "isolation_voltage_vrms", "quote": "UL认证：5000 V rms(1分钟)，符合UL 1577标准"},
+      {"field": "repetitive_peak_vpk", "quote": "最大工作绝缘电压 VIORM 846 V 峰值"},
+      {"field": "barrier_capacitance_pf", "quote": "CI-O 2.2 pF f = 1 MHz"}
+    ]
+  },
+  "ADUM3160BRWZ": {
+    "isolation_voltage_vrms": 2500, "repetitive_peak_vpk": 560,
+    "clearance_mm": 8.0, "creepage_mm": 7.7, "dti_um": 17, "cti_v": 175, "insulation": null,
+    "barrier_capacitance_pf": 2.2,
+    "certifications": ["UL 1577", "CSA Component Acceptance Notice 5A", "DIN V VDE V 0884-10"],
+    "mopp": null,
+    "evidence": [
+      {"field": "clearance_mm", "quote": "最小外部气隙( 间隙) L(I01) 8.0 min mm"},
+      {"field": "creepage_mm", "quote": "最小外部爬电距离 L(I02) 7.7 min mm"},
+      {"field": "isolation_voltage_vrms", "quote": "UL认证：依据UL 1577，1分钟2,500 V rms"},
+      {"field": "repetitive_peak_vpk", "quote": "最大工作绝缘电压 VIORM 560 V峰值"},
+      {"field": "barrier_capacitance_pf", "quote": "电容(输入至输出)1 CI-O 2.2 pF f = 1 MHz"}
+    ]
+  },
+  "ISO1540DR": {
+    "isolation_voltage_vrms": 2500, "repetitive_peak_vpk": 566,
+    "clearance_mm": 4, "creepage_mm": 4, "dti_um": 14, "cti_v": 400, "insulation": "basic",
+    "barrier_capacitance_pf": 1,
+    "certifications": ["DIN EN IEC 60747-17 (VDE 0884-17)", "UL 1577", "IEC 62368-1"],
+    "mopp": null,
+    "evidence": [
+      {"field": "clearance_mm", "quote": "CLR External clearance(1) Shortest terminal-to-terminal distance through air >4 mm"},
+      {"field": "creepage_mm", "quote": "CPG External creepage(1) Shortest terminal-to-terminal distance across the package surface >4 mm"},
+      {"field": "dti_um", "quote": "DTI Distance through the insulation Minimum internal gap (internal clearance) 0.014 mm"},
+      {"field": "isolation_voltage_vrms", "quote": "VTEST = VISO = 2500 VRMS, t = 60 s (qualification)"},
+      {"field": "repetitive_peak_vpk", "quote": "VIORM Maximum repetitive peak isolation voltage AC voltage (bipolar) 566 VPK"},
+      {"field": "barrier_capacitance_pf", "quote": "CIO Barrier capacitance, input to output(4) VIO = 0.4 sin (2πft), f = 1 MHz ~1 pF"}
+    ]
+  },
+  "SI8641BD-B-IS": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 1200,
+    "clearance_mm": 8.0, "creepage_mm": 8.0, "dti_um": 14, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.0, "package_column": "WB SOIC-16",
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 60950-1", "UL 1577", "VDE 0884-10", "GB 4943.1"],
+    "mopp": {"count": 2, "working_voltage_vrms": 250, "standard": "IEC 60601-1 (CSA Component Acceptance Notice 5A)"},
+    "evidence": [
+      {"field": "package_column", "quote": "Si8641BD-B-IS Si8641BD-AS 3 1 150 Low 5.0 WB SOIC-16"},
+      {"field": "clearance_mm", "quote": "Nominal External Air Gap (Clearance) 1 CLR 8.0 4.9 3.6 mm"},
+      {"field": "creepage_mm", "quote": "Nominal External Tracking (Creepage) 1 CPG 8.0 4.01 3.6 mm"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-Output) 2 CIO f = 1 MHz 2.0 2.0 2.0 pF"},
+      {"field": "mopp", "quote": "60601-1: Up to 250 VRMS working voltage and 2 MOPP (Means of Patient Protection)."}
+    ]
+  },
+  "SI8642BD-B-IS2": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 1200,
+    "clearance_mm": 8.0, "creepage_mm": 8.0, "dti_um": 14, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.0, "package_column": "WB SOIC-16",
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 60950-1", "UL 1577", "VDE 0884-10", "GB 4943.1"],
+    "mopp": {"count": 2, "working_voltage_vrms": 250, "standard": "IEC 60601-1 (CSA Component Acceptance Notice 5A)"},
+    "evidence": [
+      {"field": "package_column", "quote": "Si8642BD-B-IS2 Si8642BD-AS2 2 2 150 Low 5.0 WB SOIC-16(8 mm creepage)"},
+      {"field": "clearance_mm", "quote": "Nominal External Air Gap (Clearance) 1 CLR 8.0 4.9 3.6 mm"},
+      {"field": "creepage_mm", "quote": "Nominal External Tracking (Creepage) 1 CPG 8.0 4.01 3.6 mm"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-Output) 2 CIO f = 1 MHz 2.0 2.0 2.0 pF"},
+      {"field": "mopp", "quote": "60601-1: Up to 250 VRMS working voltage and 2 MOPP (Means of Patient Protection)."}
+    ]
+  },
+  "SI8642ED-B-IS2": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 1200,
+    "clearance_mm": 8.0, "creepage_mm": 8.0, "dti_um": 14, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.0, "package_column": "WB SOIC-16",
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 60950-1", "UL 1577", "VDE 0884-10", "GB 4943.1"],
+    "mopp": {"count": 2, "working_voltage_vrms": 250, "standard": "IEC 60601-1 (CSA Component Acceptance Notice 5A)"},
+    "evidence": [
+      {"field": "package_column", "quote": "Si8642ED-B-IS2 Si8642ED-AS2 2 2 150 High 5.0 WB SOIC-16(8 mm creepage)"},
+      {"field": "clearance_mm", "quote": "Nominal External Air Gap (Clearance) 1 CLR 8.0 4.9 3.6 mm"},
+      {"field": "creepage_mm", "quote": "Nominal External Tracking (Creepage) 1 CPG 8.0 4.01 3.6 mm"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-Output) 2 CIO f = 1 MHz 2.0 2.0 2.0 pF"},
+      {"field": "mopp", "quote": "60601-1: Up to 250 VRMS working voltage and 2 MOPP (Means of Patient Protection)."}
+    ]
+  },
+  "SI8661BD-B-ISR": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 1200,
+    "clearance_mm": 8.0, "creepage_mm": 8.0, "dti_um": 14, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.0, "package_column": "WB SOIC-16",
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 60950-1", "UL 1577", "VDE 0884-10", "GB 4943.1"],
+    "mopp": {"count": 2, "working_voltage_vrms": 250, "standard": "IEC 60601-1 (CSA Component Acceptance Notice 5A)"},
+    "evidence": [
+      {"field": "package_column", "quote": "Si8661BD-B-IS Si8661BD-AS 5 1 150 Low 5.0 WB SOIC-16"},
+      {"field": "clearance_mm", "quote": "Nominal External Air Gap (Clearance)1 CLR 8.0 4.9 3.6 mm"},
+      {"field": "creepage_mm", "quote": "Nominal External Tracking (Creepage) 1 CPG 8.0 4.01 3.6 mm"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-Output)2 CIO f = 1 MHz 2.0 2.0 2.0 pF"},
+      {"field": "mopp", "quote": "60601-1: Up to 250 VRMS working voltage and 2 MOPP (Means of Patient Protection)."}
+    ]
+  },
+  "SI8661BC-B-IS1": {
+    "isolation_voltage_vrms": 3750, "repetitive_peak_vpk": 630,
+    "clearance_mm": 4.9, "creepage_mm": 4.01, "dti_um": 14, "cti_v": 600, "insulation": null,
+    "barrier_capacitance_pf": 2.0, "package_column": "NB SOIC-16",
+    "certifications": ["IEC 62368-1", "IEC 60950-1", "UL 1577", "VDE 0884-10", "GB 4943.1"],
+    "mopp": null,
+    "notes": "The family-level CSA line '60601-1: Up to 250 VRMS working voltage and 2 MOPP' cannot apply to this narrow-body package: its 4.01 mm creepage is below the 8 mm that 2 MOPP needs at 250 Vrms.",
+    "evidence": [
+      {"field": "package_column", "quote": "Si8661BC-B-IS1 Si8661BC-AS1 5 1 150 Low 3.75 NB SOIC-16"},
+      {"field": "clearance_mm", "quote": "Nominal External Air Gap (Clearance)1 CLR 8.0 4.9 3.6 mm"},
+      {"field": "creepage_mm", "quote": "Nominal External Tracking (Creepage) 1 CPG 8.0 4.01 3.6 mm"}
+    ]
+  },
+  "ADUM262N1WBRIZ": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 849,
+    "clearance_mm": 8.3, "creepage_mm": 8.3, "dti_um": 25.5, "cti_v": 400, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.2,
+    "certifications": ["IEC 60601-1", "IEC 62368-1", "IEC 61010-1", "UL 1577", "DIN V VDE V 0884-11"],
+    "mopp": {"count": 2, "working_voltage_vrms": 276, "standard": "IEC 60601-1 Edition 3 + A1"},
+    "evidence": [
+      {"field": "clearance_mm", "quote": "Minimum External Air Gap (Clearance) L (I01) 8.3 mm min"},
+      {"field": "creepage_mm", "quote": "Minimum External Tracking (Creepage) L (I02) 8.3 mm min"},
+      {"field": "dti_um", "quote": "Minimum Internal Gap (Internal Clearance) 25.5 μm min"},
+      {"field": "isolation_voltage_vrms", "quote": "UL recognition: 5000 V rms for 1 minute per UL 1577"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input to Output)1 CI-O 2.2 pF f = 1 MHz"},
+      {"field": "mopp", "quote": "IEC 60601-1 Edition 3 + A1 2 MOPP for 276Vrms"}
+    ]
+  },
+  "ADUM1412ARWZ-RL": {
+    "isolation_voltage_vrms": 3750, "repetitive_peak_vpk": 560,
+    "clearance_mm": 7.7, "creepage_mm": 8.1, "dti_um": 17, "cti_v": 400, "insulation": "reinforced",
+    "barrier_capacitance_pf": 2.2,
+    "certifications": ["IEC 60950-1", "UL 1577", "DIN V VDE V 0884-10"],
+    "mopp": null,
+    "evidence": [
+      {"field": "clearance_mm", "quote": "Minimum External Air Gap (Clearance) L(I01) 7.7 mm min"},
+      {"field": "creepage_mm", "quote": "Minimum External Tracking (Creepage) L(I02) 8.1 mm min"},
+      {"field": "isolation_voltage_vrms", "quote": "UL recognition: 3750 V rms for 1 minute per UL 1577"},
+      {"field": "insulation", "quote": "Reinforced Insulation 560 V peak Maximum approved working voltage per IEC 60950-1 and VDE V 0884-10"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-to-Output)1 CI-O 2.2 pF f = 1 MHz"}
+    ]
+  },
+  "AMC1301DWVR": {
+    "isolation_voltage_vrms": 5000, "working_voltage_vrms": 1000,
+    "clearance_mm": 8.5, "creepage_mm": 8.5, "dti_um": 21, "cti_v": 600, "insulation": "reinforced",
+    "barrier_capacitance_pf": 1.2,
+    "certifications": ["DIN EN IEC 60747-17 (VDE 0884-17)", "UL 1577"],
+    "mopp": null,
+    "evidence": [
+      {"field": "clearance_mm", "quote": "CLR External clearance(1) Shortest pin-to-pin distance through air ≥ 8.5 mm"},
+      {"field": "creepage_mm", "quote": "CPG External creepage(1) Shortest pin-to-pin distance across the package surface ≥ 8.5 mm"},
+      {"field": "dti_um", "quote": "Minimum internal gap (internal clearance) of the double insulation ≥ 0.021 mm"},
+      {"field": "working_voltage_vrms", "quote": "VIOWM Maximum-rated isolationworking voltage At AC voltage (sine wave) 1000 VRMS"},
+      {"field": "barrier_capacitance_pf", "quote": "CIO Barrier capacitance, input to output(5) VIO = 0.5 VPP at 1 MHz ~1.2 pF"}
+    ]
+  },
+  "AMC1200BDWVR": {
+    "isolation_voltage_vpk": 4250, "repetitive_peak_vpk": 1200,
+    "barrier_capacitance_pf": 1.2,
+    "certifications": ["UL 1577", "VDE V 0884-10"],
+    "mopp": null,
+    "notes": "Isolation is rated 4250 V peak; the distributor lists it as 4.25 kV rms.",
+    "evidence": [
+      {"field": "isolation_voltage_vpk", "quote": "隔离电压：4250 VPEAK (AMC1200B)"},
+      {"field": "repetitive_peak_vpk", "quote": "VIORM Maximum workinginsulation voltage 1200 VPEAK"},
+      {"field": "barrier_capacitance_pf", "quote": "CIO Barrier capacitance input tooutput VI = 0.5 VPP at 1 MHz 1.2 pF"}
+    ]
+  },
+  "ACPL-C87B-500E": {
+    "isolation_voltage_vrms": 5000, "repetitive_peak_vpk": 1414,
+    "clearance_mm": 8.0, "creepage_mm": 8.0, "dti_um": 500, "cti_v": 175,
+    "barrier_capacitance_pf": 0.5,
+    "certifications": ["UL 1577", "IEC/EN/DIN EN 60747-5-5"],
+    "mopp": null,
+    "evidence": [
+      {"field": "clearance_mm", "quote": "Minimum External Air Gap (External Clearance) L(101) 8.0 mm"},
+      {"field": "creepage_mm", "quote": "Minimum External Tracking (External Creepage) L(102) 8.0 mm"},
+      {"field": "dti_um", "quote": "Minimum Internal Plastic Gap (Internal Clearance) 0.5 mm"},
+      {"field": "isolation_voltage_vrms", "quote": "UL Approval under UL 1577, component recognition program up to VISO = 5000 Vrms/1 min."},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-Output) C I-O — 0.5 — pF"}
+    ]
+  },
+  "ADUM5000ARWZ-RL": {
+    "isolation_voltage_vrms": 2500, "repetitive_peak_vpk": 560, "creepage_mm": 7.6,
+    "barrier_capacitance_pf": 2.2,
+    "certifications": ["UL 1577"],
+    "mopp": null,
+    "evidence": [
+      {"field": "creepage_mm", "quote": "16-lead SOIC package with 7.6 mm creepage"},
+      {"field": "isolation_voltage_vrms", "quote": "2500 V rms for 1 minute per UL 1577"},
+      {"field": "barrier_capacitance_pf", "quote": "Capacitance (Input-to-Output)1 CI-O 2.2 pF f = 1 MHz"}
+    ]
+  },
+  "B0505S-1WR3": {
+    "isolation_voltage_vdc": 1500, "barrier_capacitance_pf": 20,
+    "certifications": [],
+    "mopp": null,
+    "notes": "Rated 1500 VDC for 1 minute (the distributor lists 1.5 kV rms). No insulation class or creepage stated; not a medical-grade barrier.",
+    "evidence": [
+      {"field": "isolation_voltage_vdc", "quote": "隔离电压1500VDC/min"},
+      {"field": "barrier_capacitance_pf", "quote": "输⼊-输出，100KHz/0.1V隔离电容 20 pF"}
+    ]
+  },
+  "H0505S-1WR2": {
+    "isolation_voltage_vdc": 6000, "barrier_capacitance_pf": 30,
+    "certifications": ["EN 60601-1-2 (EMC only)"],
+    "mopp": null,
+    "notes": "Rated 6000 VDC (the distributor lists 6 kV rms). Its 60601 references are to the EMC collateral standard 60601-1-2, not safety isolation.",
+    "evidence": [
+      {"field": "isolation_voltage_vdc", "quote": "隔离电压6000VDC"},
+      {"field": "barrier_capacitance_pf", "quote": "输⼊-输出，100KHz/0.1V隔离电容 30 pF"},
+      {"field": "certifications", "quote": "辐射骚扰 EN60601-1-2/CISPR11GROUP1CLASSB"}
+    ]
+  },
+  "H0505S-2WR3": {
+    "isolation_voltage_vdc": 6000, "insulation": "reinforced", "barrier_capacitance_pf": 40,
+    "certifications": [],
+    "mopp": null,
+    "notes": "Rated 6000 VDC reinforced (the distributor lists 6 kV rms). Marketed as suitable for medical use, but no IEC 60601-1 certification is stated.",
+    "evidence": [
+      {"field": "isolation_voltage_vdc", "quote": "●隔离电压：6000VDC（加强绝缘）"},
+      {"field": "barrier_capacitance_pf", "quote": "隔离电容 输入-输出,100KHz/0.1V -- 40 -- pF"}
+    ]
+  },
+  "LTV-357T-C": {
+    "isolation_voltage_vrms": 3750,
+    "certifications": [],
+    "mopp": null,
+    "evidence": [
+      {"field": "isolation_voltage_vrms", "quote": "*1 Isolation Voltage Viso 3,750 Vrms"}
+    ]
+  },
+  "PC817C": {
+    "isolation_voltage_vrms": 5000, "creepage_mm": 7.0, "barrier_capacitance_pf": 0.6,
+    "certifications": [],
+    "mopp": null,
+    "evidence": [
+      {"field": "isolation_voltage_vrms", "quote": "Isolation Voltage Viso 5000 Vrms"},
+      {"field": "creepage_mm", "quote": "Creepage distance > 7.0mm"},
+      {"field": "barrier_capacitance_pf", "quote": "Isolation capacitance CISO V=0,f=1MHz - 0.6 - pF"}
+    ]
+  }
+}

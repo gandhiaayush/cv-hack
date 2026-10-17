@@ -6,3 +6,4 @@ httpx>=0.27
 openai
 python-dotenv
 requests
+pypdf>=4
