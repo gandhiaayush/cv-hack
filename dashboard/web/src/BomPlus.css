@@ -1,0 +1,22 @@
+.bomplus { padding: 12px; overflow: auto; height: calc(100% - 40px); }
+.bomplus .cost { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px; }
+.bomplus .card { background: var(--panel2, rgba(127,127,127,.08)); border: 1px solid var(--line, rgba(127,127,127,.25)); border-radius: 6px; padding: 8px 10px; }
+.bomplus .card small { display: block; color: var(--muted, #8a93a6); font-size: 11px; text-transform: uppercase; letter-spacing: .6px; }
+.bomplus .card b { font-size: 18px; }
+.bomplus .card.over b { color: #f85149; }
+.bomplus .bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 4px 0 12px; background: rgba(127,127,127,.15); }
+.bomplus .bar i { display: block; height: 100%; }
+.bomplus .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--muted, #8a93a6); margin-bottom: 4px; }
+.bomplus table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.bomplus th { text-align: left; font-weight: 600; color: var(--muted, #8a93a6); font-size: 11px; padding: 4px 6px; border-bottom: 1px solid var(--line, rgba(127,127,127,.25)); }
+.bomplus td { padding: 6px; vertical-align: top; border-bottom: 1px solid var(--line, rgba(127,127,127,.15)); }
+.bomplus .num { text-align: right; font-variant-numeric: tabular-nums; }
+.bomplus .pname { font-weight: 600; }
+.bomplus .sub { color: var(--muted, #8a93a6); font-size: 11px; }
+.bomplus .links a { margin-right: 8px; font-size: 11px; }
+.bomplus .note { display: inline-block; background: rgba(210,153,34,.15); border: 1px solid rgba(210,153,34,.5); border-radius: 10px; padding: 1px 8px; margin: 3px 4px 0 0; font-size: 11px; }
+.bomplus .note button { background: none; border: 0; color: inherit; cursor: pointer; padding: 0 0 0 4px; }
+.bomplus .addnote { display: flex; gap: 6px; margin-top: 4px; }
+.bomplus .addnote input { flex: 1; font-size: 12px; padding: 3px 6px; }
+.bomplus .foot { color: var(--muted, #8a93a6); font-size: 11px; margin-top: 10px; }
+.bomplus .oos td { background: rgba(248,81,73,.08); }

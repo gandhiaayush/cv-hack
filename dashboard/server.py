@@ -56,6 +56,11 @@ def _state(run_id: str):
     return fold(run_id, events)
 
 
+from dashboard import bom_plus  # noqa: E402
+
+bom_plus.install(app, _resolve, _state)
+
+
 @app.get("/api/runs")
 def runs():
     if not RUNS_DIR.exists():
