@@ -370,6 +370,21 @@ SOURCING_TOOLS = [supply.SPEC, parts.ALTERNATES_SPEC, FINDINGS_SPEC]
 MOTHER_TOOLS = [DELEGATE_SPEC, BATCH_SPEC, kg.LIST_SPEC, FINALIZE_SPEC]
 FINISHERS = ("submit_report", "submit_findings", "finalize")
 
+def _coerce(args: dict) -> dict:
+    """Models often send list/object arguments as JSON strings (or lists of JSON strings). Decode them."""
+    def dec(v):
+        if isinstance(v, str):
+            try:
+                return dec(json.loads(v))
+            except ValueError:
+                return v
+        if isinstance(v, list):
+            return [dec(x) for x in v]
+        return v
+    return {k: (dec(v) if k in ("responses", "selections", "options", "items", "parts") else v)
+            for k, v in args.items()}
+
+
 def _search_parts(a: dict) -> str:
     """Models send spec_ranges as a JSON string and numbers as strings; coerce instead of crashing."""
     a = dict(a)
@@ -474,7 +489,7 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
             break
 
         def exec_call(tc):
-            args = json.loads(tc.function.arguments or "{}")
+            args = _coerce(json.loads(tc.function.arguments or "{}"))
             fn = tc.function.name
             store.log(ctx.run, name, parent, "tool_call", {"tool": fn, "args": args})
             try:

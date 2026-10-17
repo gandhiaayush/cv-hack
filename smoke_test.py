@@ -17,5 +17,5 @@ if len(sys.argv) == 1:
     print("tool call:", r.tool_calls)
 else:
     ctx = RunCtx(run=uuid.uuid4().hex[:6])
-    run_agent("mother", "Begin.", os.environ["MOTHER_MODEL"], MOTHER_TOOLS, MOTHER_PROMPT, ctx)
+    run_agent("mother", "Begin.", os.environ["MOTHER_MODEL"], MOTHER_TOOLS, MOTHER_PROMPT, ctx, max_steps=18)
     print(json.dumps(ctx.result, indent=1) if ctx.result else "NO ACCEPTED DESIGN")
