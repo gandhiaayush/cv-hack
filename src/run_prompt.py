@@ -4,19 +4,22 @@ writes a result row."""
 import os
 import sys
 
-from . import lessons, store
-from .agent import MOTHER_TOOLS, RunCtx, _lessons_block, mother_prompt, run_agent
+import threading
+
+from . import baseline, lessons, store
+from .agent import MOTHER_TOOLS, RunCtx, _custom_block, _lessons_block, mother_prompt, run_agent
 from .runspec import extract
 
 
 def main(run_id: str, prompt: str) -> None:
     spec = extract(prompt)
     store.log(run_id, "mother", None, "spec", spec)
+    threading.Thread(target=baseline.run, args=(run_id, spec), daemon=True).start()  # the skeptic's comparison
     ctx = RunCtx(run=run_id, device=spec["device"], request=spec["request"],
                  budget={"power_mw": spec["power_mw"], "cost_usd": spec["cost_usd"]})
     try:
         run_agent("mother", "Begin.", os.environ["MOTHER_MODEL"], MOTHER_TOOLS,
-                  mother_prompt(ctx) + _lessons_block(ctx, None), ctx, max_steps=18)
+                  mother_prompt(ctx) + _lessons_block(ctx, None) + _custom_block(), ctx, max_steps=18)
     except Exception as e:  # never leave the UI waiting on a crashed run
         store.log(run_id, "mother", None, "result", {"status": "crashed", "error": f"{type(e).__name__}: {e}"})
         raise

@@ -26,7 +26,7 @@ SYSTEM = ("You are the live commentator for a demo of an AI team designing a med
           "Turn the events below into 1 to 3 short, plain-English sentences for a non-expert audience, in the "
           "present tense. Summarise what the team is doing and why it matters instead of repeating the facts "
           "word for word. Use ONLY the facts given: do not add numbers, part names, reasons or claims that "
-          "are not in them. If earlier commentary is given, do NOT repeat it: say only what is new. Describe actions and results only: never judge or promise quality (no 'ensures', "
+          "are not in them. Refer to agents as 'the lead agent', 'the power agent' etc. and use 'it' if a pronoun is needed; never 'he', 'she', 'him' or 'her'. If earlier commentary is given, do NOT repeat it: say only what is new. Describe actions and results only: never judge or promise quality (no 'ensures', "
           "'guarantees', 'correctly', 'perfect', 'safe'). No markdown, no lists.")
 BANNED = ("ensure", "guarantee", "correct", "perfect", "safe", "flawless", "reliab", "optimal")
 
@@ -35,7 +35,8 @@ def _grounded(out: str, src: str) -> bool:
     """Code check on the narrator itself: no numbers that are not in the facts, no judgement words."""
     import re
     nums = set(re.findall(r"\d+(?:\.\d+)?", out)) - set(re.findall(r"\d+(?:\.\d+)?", src))
-    return not nums and not any(w in out.lower() for w in BANNED)
+    gendered = re.search(r"\b(he|she|his|hers?|him|himself|herself)\b", out, re.I)
+    return not nums and not gendered and not any(w in out.lower() for w in BANNED)
 
 
 def _collapse(facts):

@@ -9,3 +9,6 @@ node_modules/
 dashboard/web/dist/
 .pytest_cache/
 .cache/
+.gstack/
+data/custom_parts.json
+data/lessons.json

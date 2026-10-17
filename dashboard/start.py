@@ -75,6 +75,59 @@ def result(run_id: str):
     return _row(run_id, "result")
 
 
+class CustomIn(BaseModel):
+    mpn: str = ""
+    category: str = "mcu"
+    description: str = ""
+    price_usd: float | None = None
+    stock: int | None = None
+    power_mw: float | None = None
+    max_voltage_v: float | None = None
+    footprint: str = ""
+    verilog: str = ""
+    pins: str = ""
+
+
+def _cp(fn, *a):
+    from cvhack import custom_parts
+    try:
+        return fn(*a)
+    except custom_parts.CustomPartError as e:
+        raise HTTPException(400, str(e))
+
+
+@router.get("/api/custom_parts")
+def list_custom():
+    from cvhack import custom_parts
+    return {"categories": custom_parts.CATEGORIES,
+            "parts": [{"mpn": r["mpn"], "category": r["category"], "pins": len(r["pins"]),
+                       "description": r["description"], "price_usd": r["price_usd"],
+                       "footprint": r["footprint"], "footprint_assumed": r["ratings"].get("footprint_assumed")}
+                      for r in custom_parts.load_raw()]}
+
+
+@router.post("/api/custom_parts/preview")
+def preview_custom(body: CustomIn):
+    from cvhack import custom_parts
+    rec = _cp(custom_parts.build, {**body.model_dump(), "mpn": body.mpn or "PREVIEW"})
+    return {"pins": rec["pins"], "footprint": rec["footprint"], "footprint_assumed": rec["ratings"]["footprint_assumed"]}
+
+
+@router.post("/api/custom_parts")
+def add_custom(body: CustomIn):
+    from cvhack import custom_parts
+    rec = _cp(custom_parts.add, body.model_dump())
+    return {"mpn": rec["mpn"], "pins": len(rec["pins"])}
+
+
+@router.delete("/api/custom_parts/{mpn:path}")
+def del_custom(mpn: str):
+    from cvhack import custom_parts
+    if not custom_parts.delete(mpn):
+        raise HTTPException(404, "no such custom part")
+    return {"ok": True}
+
+
 class StatusIn(BaseModel):
     status: str
 
@@ -93,6 +146,69 @@ def set_lesson(lesson_id: str, body: StatusIn):
     if not lessons.set_status(lesson_id, body.status):
         raise HTTPException(404, "no such lesson")
     return {"ok": True}
+
+
+@router.get("/api/runs/{run_id}/ledger")
+def ledger(run_id: str):
+    """What the run did and what the checks caught, computed from the log. Also the one-shot baseline."""
+    import json
+    import sqlite3
+    from src import completeness
+    if not bridge.DEFAULT_DB.exists():
+        return None
+    c = sqlite3.connect(f"file:{bridge.DEFAULT_DB}?mode=ro", uri=True)
+    try:
+        rows = [(k, a, json.loads(b), ts) for k, a, b, ts in
+                c.execute("select kind, agent, body, ts from messages where run=? order by id", (run_id,))]
+    except sqlite3.OperationalError:
+        return None
+    finally:
+        c.close()
+    if not rows:
+        return None
+    caught, objections, answered = [], [], {}
+    n = {"agents": 0, "tool_calls": 0, "gate_checks": 0, "options_refused": 0, "findings_dropped": 0}
+    base, result, spec = None, None, None
+    for k, a, b, ts in rows:
+        if k == "start":
+            n["agents"] += 1
+        elif k == "tool_call":
+            n["tool_calls"] += 1
+            if b.get("tool") == "finalize":
+                for r in b["args"].get("responses", []) or []:
+                    if isinstance(r, dict):
+                        answered[r.get("objection_id")] = r.get("stance")
+        elif k == "gate":
+            n["gate_checks"] += 1
+            for name, errs in (b.get("failed") or {}).items():
+                n["options_refused"] += 1
+                if len(caught) < 12:
+                    caught.append({"agent": a.split(":")[0], "option": name, "codes": sorted({e.split(":")[0] for e in errs}),
+                                   "parts": sorted({e.split(":", 1)[1] for e in errs if ":" in e and e.split(":", 1)[1]})})
+        elif k == "findings_gate":
+            n["findings_dropped"] += len(b.get("rejected") or [])
+        elif k == "critique":
+            objections += b.get("objections") or []
+        elif k == "baseline":
+            base = b
+        elif k == "result":
+            result = b
+        elif k == "spec":
+            spec = b
+    sysc = None
+    if result and result.get("bom"):
+        bom: dict = {}
+        for x in result["bom"]:
+            bom.setdefault(x["subsystem"], []).append({"mpn": x["mpn"], "qty": x.get("qty", 1)})
+        sysc = completeness.score(bom)
+    blockers = [o for o in objections if o.get("severity") == "blocker"]
+    return {"counts": n, "caught": caught, "baseline": base, "system": {
+        "completeness": sysc, "seconds": round(rows[-1][3] - rows[0][3], 1), "done": bool(result),
+        "status": (result or {}).get("status"), "totals": (result or {}).get("totals"),
+        "objections": len(objections), "blockers": len(blockers),
+        "fixed": sum(1 for o in objections if answered.get(o["id"]) == "accept"),
+        "rebutted": sum(1 for o in objections if answered.get(o["id"]) == "rebut"),
+        "lessons_used": len((result or {}).get("lessons_used") or [])}, "spec": spec}
 
 
 def _bridge_loop():

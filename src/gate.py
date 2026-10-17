@@ -7,6 +7,7 @@ from __future__ import annotations
 from cvhack.contracts import VerifierError
 from cvhack.parts import load_parts
 
+from . import completeness
 from .spec import SUBSYSTEMS
 
 # parts whose voltage figure is not a limit the rail must stay under (TVS stand-off, diode Vf, ...)
@@ -84,6 +85,8 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
     if not (sub["required_any"] & cats):
         errs.append(VerifierError(code="ROLE_MISSING", message=
             f"{subsystem} needs at least one part from categories {sorted(sub['required_any'])}."))
+    for need, hint in completeness.missing(subsystem, items):
+        errs.append(VerifierError(code="INCOMPLETE", message=f"{subsystem} is missing: {need}. To fix: {hint}."))
     return {
         "ok": not any(e.severity == "error" for e in errs),
         "errors": [e.model_dump(exclude_none=True) for e in errs],

@@ -64,6 +64,10 @@ from dashboard import start as _start  # noqa: E402
 
 _start.install(app)
 
+from dashboard import netlist_v as _netlist  # noqa: E402
+
+_netlist.install(app, _resolve, _state)
+
 
 @app.get("/api/runs")
 def runs():

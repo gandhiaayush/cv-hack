@@ -7,7 +7,7 @@ SUBSYSTEMS = {
         "max_rail_v": 5.5,
         "allowed": {"ldo", "dcdc", "charger", "load_switch", "battery_protection", "fuel_gauge", "supervisor",
                     "power", "capacitor", "resistor", "inductor", "ferrite", "diode", "mosfet", "connector",
-                    "fuse", "passive"},
+                    "fuse", "passive", "led"},
         "required_any": {"ldo", "dcdc", "charger", "power"},
     },
     "analog_fe": {

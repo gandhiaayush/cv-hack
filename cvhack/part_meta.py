@@ -26,6 +26,12 @@ def _kind(r: dict) -> str:
 
 def card(mpn: str, mock_description: str = "") -> dict:
     r = _catalog().get(mpn)
+    from cvhack import custom_parts
+    cp = custom_parts.load().get(mpn)
+    if cp and not r:
+        return {"mpn": mpn, "name": f"{mpn} (custom)", "subtitle": f"{cp.category} · {len(cp.pins)} pins · {cp.description}",
+                "manufacturer": "Customer-supplied", "links": {}, "tiers": [], "category": cp.category,
+                "stock_qty": cp.stock, "source": "user-defined custom part (price/stock as entered, not from a distributor)"}
     if not r:
         return {"mpn": mpn, "name": mpn, "subtitle": mock_description, "manufacturer": None, "links": {},
                 "tiers": [], "source": "mock catalogue (no distributor data)"}

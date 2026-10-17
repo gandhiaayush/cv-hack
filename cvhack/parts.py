@@ -159,5 +159,8 @@ def load_parts() -> dict[str, Part]:
     if src:
         return {p.mpn: p for p in (Part.model_validate(x) for x in json.loads(Path(src).read_text()))}
     overlay = json.loads(OVERLAY_PATH.read_text()) if OVERLAY_PATH.exists() else {}
-    return merge_sources(json.loads(MOCK_PATH.read_text()), _b_records(), overlay, _catalog_records(),
-                         catalog_prices=os.environ.get("PARTS_PRICES") == "catalog")
+    parts = merge_sources(json.loads(MOCK_PATH.read_text()), _b_records(), overlay, _catalog_records(),
+                          catalog_prices=os.environ.get("PARTS_PRICES") == "catalog")
+    from cvhack import custom_parts  # user-defined MCUs and chips (data/custom_parts.json)
+    parts.update(custom_parts.load())
+    return parts

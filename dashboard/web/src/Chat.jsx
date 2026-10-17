@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BRAND } from "./brand.js";
 import { Composer } from "./Home.jsx";
 import Lessons from "./Lessons.jsx";
+import CustomParts from "./CustomParts.jsx";
 
 const j = (r) => (r.ok ? r.json() : Promise.reject(new Error(r.statusText)));
 const usd = (n) => (n == null ? "?" : `$${Number(n).toFixed(2)}`);
@@ -12,6 +13,7 @@ export default function Chat({ runId, prompt, onNew, busy }) {
   const [spec, setSpec] = useState(null);
   const [result, setResult] = useState(null);
   const end = useRef(null);
+  const [showCustom, setShowCustom] = useState(false);
 
   useEffect(() => {
     setLines([]); setSpec(null); setResult(null);
@@ -41,7 +43,7 @@ export default function Chat({ runId, prompt, onNew, busy }) {
     <aside className="chat">
       <div className="chat-head">
         <span className="name">{BRAND}</span>
-        <button onClick={onNew}>＋ New design</button>
+        <span><button onClick={() => setShowCustom(true)} title="Add your own MCU or chip">＋ Custom part</button> <button onClick={onNew}>＋ New design</button></span>
       </div>
       <div className="chat-body">
         <div className="bubble-u">{prompt || spec?.request}</div>
@@ -61,6 +63,7 @@ export default function Chat({ runId, prompt, onNew, busy }) {
       <div className="chat-foot">
         <Composer onSubmit={onNew && ((t) => onNew(t))} busy={busy} placeholder="Describe another design…" />
       </div>
+      {showCustom && <CustomParts onClose={() => setShowCustom(false)} />}
     </aside>
   );
 }

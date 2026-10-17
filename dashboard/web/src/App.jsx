@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { api } from "./api.js";
 import Board3D from "./Board3D.jsx";
 import BomPlus from "./BomPlus.jsx";
+import Cad from "./Cad.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
 
@@ -69,6 +70,10 @@ export default function App({ fixedRunId } = {}) {
       .catch((e) => flash(`Export failed: ${e.message}`));
 
   const running = state && !state.done;
+  if (fixedRunId) {
+    return <Cad c={{ runId, state, log, svg, bom, tab, setTab, sendControl, doExport,
+      P: { Schematic, Negotiation, Verifiers, Rules, Matrix, Controls, Budgets, AgentTree } }} />;
+  }
   return (
     <div className="app">
       <header className="top">

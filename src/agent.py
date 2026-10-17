@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from cvhack.parts import load_parts
 
-from . import gate, lessons, store
+from . import completeness, gate, lessons, store
 from .llm import chat
 from .scheduler import SCHED
 from .spec import BUDGET, DEVICE, SUBSYSTEMS
@@ -412,7 +412,16 @@ def _search_parts(a: dict) -> str:
         a["limit"] = int(a["limit"]) if a["limit"].isdigit() else 10
     if isinstance(a.get("needs_pins"), str):
         a["needs_pins"] = a["needs_pins"].lower() == "true"
-    return parts.search_parts(**a)
+    out = parts.search_parts(**a)
+    from cvhack import custom_parts  # customer-supplied parts come first: the user asked for them
+    mine = custom_parts.search(a.get("category"), a.get("text"))
+    if mine:
+        try:
+            rows = json.loads(out) if out.strip().startswith("[") else []
+        except ValueError:
+            rows = []
+        return json.dumps(mine + rows)
+    return out
 
 
 PLAIN = {
@@ -425,6 +434,27 @@ PLAIN = {
     "find_alternates": lambda a: parts.find_alternates(**a),
     "check_supply": lambda a: supply.check_supply(**a),
 }
+
+
+def _needs_block(sub: str) -> str:
+    """The subsystem's completeness checklist, so options are buildable on the first submit."""
+    needs = completeness.NEEDS.get(sub, [])
+    if not needs:
+        return ""
+    return ("\n\nA COMPLETE " + sub + " subsystem must include (the gate refuses options without these):\n"
+            + "\n".join(f"- {n}: {h}" for n, _, h in needs))
+
+
+def _custom_block() -> str:
+    from cvhack import custom_parts
+    cp = list(custom_parts.load().values())
+    if not cp:
+        return ""
+    lines = [f"- {p.mpn}: {p.category}, {len(p.pins)} pins ({', '.join(x.name for x in p.pins[:10])}"
+             f"{'...' if len(p.pins) > 10 else ''}), price {p.price_usd if p.price_usd is not None else 'unknown'}"
+             for p in cp]
+    return ("\n\nCustomer-supplied custom parts (real options in the DB: prefer them when the request says so, "
+            "otherwise consider them like any part):\n" + "\n".join(lines))
 
 
 def _lessons_block(ctx: RunCtx, subsystem: str | None) -> str:
@@ -460,7 +490,7 @@ def _delegate(args, ctx: RunCtx, parent: str, depth: int) -> str:
         role, tools = sub, LEAF_TOOLS
         system = SUB_PROMPT.format(role=sub, device=ctx.device, strategy_line=STRATEGIES.get(strat, ""),
                                    cats=", ".join(sorted(SUBSYSTEMS[sub]["allowed"])))
-        system += _lessons_block(ctx, sub)
+        system += _needs_block(sub) + _lessons_block(ctx, sub) + _custom_block()
     return run_agent(role, args["task"], model, tools, system, ctx, parent=parent, depth=depth + 1,
                      agent_type=typ, strategy=strat)
 

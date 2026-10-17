@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { BRAND, TAGLINE, EXAMPLES } from "./brand.js";
+import CustomParts from "./CustomParts.jsx";
 
 // ChatGPT-style landing: one big prompt box.
 export function Composer({ onSubmit, busy, placeholder, autoFocus }) {
@@ -18,6 +19,7 @@ export function Composer({ onSubmit, busy, placeholder, autoFocus }) {
 }
 
 export default function Home({ onStart, error, busy }) {
+  const [showCustom, setShowCustom] = useState(false);
   return (
     <div className="home">
       <div className="mast"><div className="name">{BRAND}</div><div className="rule" /></div>
@@ -29,8 +31,10 @@ export default function Home({ onStart, error, busy }) {
           {EXAMPLES.map((e) => <button key={e} className="chip2" disabled={busy} onClick={() => onStart(e)}>{e}</button>)}
         </div>
         {error && <div className="err">{error}</div>}
+        <div className="chips"><button className="chip2" onClick={() => setShowCustom(true)}>＋ Add a custom MCU or chip</button></div>
         <div className="fine">Designs are demonstrations built from a public parts catalog and prototype rules. They are not regulatory advice.</div>
       </div>
+      {showCustom && <CustomParts onClose={() => setShowCustom(false)} />}
     </div>
   );
 }

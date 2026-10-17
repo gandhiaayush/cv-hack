@@ -9,10 +9,10 @@ import json
 import re
 from pathlib import Path
 
-from cvhack.contracts import Design
+from cvhack.contracts import Design, Node
 
 BASE = Path(__file__).resolve().parent.parent / "cvhack" / "mocks" / "design_wearable.json"
-SYN = [{"VIN", "IN", "VI", "VBUS", "VCC_IN", "VIN1"}, {"VOUT", "OUT", "VO", "VOUT1"}, {"GND", "VSS", "AGND", "PGND", "EP", "GND_EP"},
+SYN = [{"RESET", "NRST", "RST", "NRESET", "~RESET", "RESETN"}, {"VIN", "IN", "VI", "VBUS", "VCC_IN", "VIN1"}, {"VOUT", "OUT", "VO", "VOUT1"}, {"GND", "VSS", "AGND", "PGND", "EP", "GND_EP"},
        {"EN", "CE", "ENABLE", "SHDN", "~SHDN"}, {"VDD", "VCC", "V+", "VDDIO", "VDD_IO"}, {"SDA"}, {"SCL", "SCK"}]
 
 
@@ -28,20 +28,35 @@ def _canon(name: str) -> str:
     return n
 
 
-def _pin_map(old, new, connected: set[str]) -> dict[str, str] | None:
-    """old pin num -> new pin num for every CONNECTED old pin, or None if any cannot be matched."""
-    by_name: dict[str, list[str]] = {}
-    for p in new.pins:
-        by_name.setdefault(_canon(p.name), []).append(p.num)
+def _tokens(name: str) -> set[str]:
+    """Function words in a pin or net name: 'P0.26/SDA' -> {SDA}, 'I2C_SDA' -> {I2C, SDA}. Generic port prefixes
+    and bare numbers are dropped, synonyms collapsed (NRST/RESET/nRESET)."""
+    toks = {t for t in re.split(r"[^A-Za-z0-9]+", name.upper()) if t and not t.isdigit()}
+    toks = {t for t in toks if not re.fullmatch(r"P\d+|PA\d*|PB\d*|PC\d*|GPIO\d*|IO\d*|PIN\d*", t)}
+    return {_canon(t) for t in toks if len(t) >= 2}
+
+
+def _pin_map(old, new, connected: dict[str, str]) -> dict[str, str] | None:
+    """old pin num -> new pin num for every CONNECTED old pin (pin num -> net name), or None if any cannot be
+    matched. Matching order: same canonical name, then shared function token with the old pin name or its net."""
+    new_tok = {p.num: (_canon(p.name), _tokens(p.name)) for p in new.pins}
     used, out = set(), {}
     for p in old.pins:
         if p.num not in connected:
             continue
-        cands = [n for n in by_name.get(_canon(p.name), []) if n not in used]
-        if not cands:
+        net = connected[p.num]
+        want = {_canon(p.name)} | _tokens(p.name) | _tokens(net)
+        best, score = None, 0
+        for num, (canon, toks) in new_tok.items():
+            if num in used:
+                continue
+            sc = (3 if canon == _canon(p.name) else 0) + len(toks & want)
+            if sc > score:
+                best, score = num, sc
+        if best is None:
             return None
-        out[p.num] = cands[0]
-        used.add(cands[0])
+        out[p.num] = best
+        used.add(best)
     return out
 
 
@@ -49,11 +64,11 @@ def apply(chosen: dict[str, list[dict]], parts: dict) -> tuple[Design, dict]:
     """chosen: {subsystem: [{"mpn", "qty"}]}.  Returns (design, report)."""
     d = Design.model_validate(json.loads(BASE.read_text()))
     report = {"swapped": [], "kept": [], "unplaced": []}
-    connected: dict[str, set[str]] = {}
+    connected: dict[str, dict[str, str]] = {}  # ref -> {pin num: net name}
     for b in d.blocks:
         for n in b.nets:
             for nd in n.nodes:
-                connected.setdefault(nd.ref, set()).add(nd.pin)
+                connected.setdefault(nd.ref, {})[nd.pin] = n.name
     taken: set[str] = set()
     for sub, items in chosen.items():
         block = next((b for b in d.blocks if b.subsystem == sub), None)
@@ -77,7 +92,7 @@ def apply(chosen: dict[str, list[dict]], parts: dict) -> tuple[Design, dict]:
                 old = parts.get(pi.mpn)
                 if pi.ref in taken or old is None or old.category != new.category or pi.mpn in {m for m, _ in want}:
                     continue
-                mp = _pin_map(old, new, connected.get(pi.ref, set()))
+                mp = _pin_map(old, new, connected.get(pi.ref, {}))
                 if mp is None:
                     continue
                 for b in d.blocks:
@@ -85,7 +100,11 @@ def apply(chosen: dict[str, list[dict]], parts: dict) -> tuple[Design, dict]:
                         for nd in n.nodes:
                             if nd.ref == pi.ref and nd.pin in mp:
                                 nd.pin = mp[nd.pin]
-                report["swapped"].append({"ref": pi.ref, "from": pi.mpn, "to": mpn, "subsystem": sub})
+                spare = [p.num for p in new.pins if p.num not in mp.values() and p.type != "power_in"]
+                for num in spare:  # unused GPIO/outputs on the new part are intentionally left open
+                    d.no_connects.append(Node(ref=pi.ref, pin=num))
+                report["swapped"].append({"ref": pi.ref, "from": pi.mpn, "to": mpn, "subsystem": sub,
+                                          "no_connect_pins": len(spare)})
                 pi.mpn = mpn
                 taken.add(pi.ref)
                 done = True

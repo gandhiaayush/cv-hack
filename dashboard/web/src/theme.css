@@ -75,9 +75,32 @@ button:hover:not(:disabled) { border-color: var(--text); }
 .work { min-width: 0; min-height: 0; }
 @media (max-width: 900px) { .shell { grid-template-columns: 1fr; grid-auto-rows: minmax(300px, auto); } }
 
-/* the embedded dashboard shares the width with the chat column */
-.work .grid { grid-template-columns: 210px minmax(0, 1fr) 270px; }
+/* the CAD workspace fills the area beside the chat column */
 .work .tabs button { white-space: nowrap; }
 @media (min-width: 1700px) { .work .grid { grid-template-columns: 260px minmax(0, 1fr) 380px; } }
 .sch-wrap { background: var(--panel-2); }
 .sch svg { box-shadow: 0 1px 6px rgba(0,0,0,.12); }
+
+/* ---------- custom parts modal ---------- */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: grid; place-items: center; z-index: 50; padding: 20px; }
+.modal { background: var(--bg); border-radius: 14px; width: min(680px, 100%); max-height: 92vh; overflow: auto; padding: 18px 20px; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+.modal-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.modal-h h3 { font-family: var(--serif); margin: 0; font-size: 20px; }
+.modal h4 { font-family: var(--serif); margin: 16px 0 6px; }
+.cp-row { display: flex; gap: 10px; }
+.cp-f { display: flex; flex-direction: column; font-size: 12px; color: var(--muted); margin-bottom: 8px; gap: 3px; }
+.cp-f input, .cp-f select { font: 14px inherit; color: var(--text); padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.cp-tabs { display: flex; gap: 6px; margin: 4px 0 6px; }
+.cp-tabs button.on { background: var(--text); color: #fff; border-color: var(--text); }
+.cp-src { width: 100%; min-height: 150px; font: 12.5px/1.5 ui-monospace, Menlo, monospace; padding: 10px; border: 1px solid var(--line); border-radius: 8px; resize: vertical; background: var(--panel); color: var(--text); }
+.cp-hint { font-size: 12px; color: var(--muted); margin: 6px 0; }
+.cp-pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 12px; margin: 8px 0; }
+.pin { display: inline-block; font: 11px ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; margin: 3px 3px 0 0; background: var(--bg); }
+.pin.power_in, .pin.power_out { border-color: var(--bad); }
+.cp-ok { color: var(--ok); font-size: 13px; margin: 6px 0; }
+.cp-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+.cp-list { width: 100%; font-size: 13px; border-collapse: collapse; }
+.cp-list td { padding: 5px 6px; border-bottom: 1px solid var(--line); }
+.cp-row { flex-wrap: wrap; } .cp-f { min-width: 0; } .cp-f input, .cp-f select { min-width: 0; width: 100%; box-sizing: border-box; }
+.chat-head { flex-wrap: wrap; gap: 8px; } .chat-head .name { font-size: 15px; white-space: nowrap; }
+.chat-head > span:last-child { display: flex; gap: 6px; } .chat-head button { white-space: nowrap; padding: 4px 8px; }
