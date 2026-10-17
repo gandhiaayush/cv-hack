@@ -1,0 +1,493 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cv-hack-demo-parts",
+  "dataset_status": "seed",
+  "retrieved_on": "2026-10-17",
+  "scope": {
+    "product_profile": "Battery-powered, non-medical environmental wearable prototype",
+    "assumptions": [
+      "Single-cell rechargeable Li-ion/Li-polymer source; pack voltage is treated as 3.0-4.2 V for candidate screening only.",
+      "A regulated 3.3 V rail is desired for the radio module and sensors.",
+      "BLE connectivity and ambient temperature, relative humidity, and light sensing are in scope.",
+      "Battery charging, cell protection, enclosure, antenna layout validation, and medical/patient-contact functions are out of scope."
+    ],
+    "not_a_design_approval": "Catalog membership is not proof of suitability, regulatory compliance, availability, or a complete design. Validate every selected component against its exact datasheet revision, schematic, layout, operating conditions, and applicable rules."
+  },
+  "data_policy": {
+    "identity": "part_id is stable and derived from manufacturer plus normalized orderable MPN. Do not use a display name as an identifier.",
+    "specs": "Only selected screening fields are included. Each field carries a source_id; omitted fields are unknown or not yet normalized, not zero.",
+    "price": "No live distributor quote was captured. unit_amount is null until a distributor, currency, quantity break, and quote timestamp are recorded.",
+    "stock": "No live distributor inventory was captured. available_qty is null and status is unknown; do not infer that a part is in stock.",
+    "substitution": "functional_groups denote a common function only. Group members are not asserted to be pin-compatible, electrically equivalent, firmware-compatible, or approved alternates.",
+    "requirement_links": "No requirement IDs or suitability links are authored here. The mother agent owns requirement IDs; only add links after requirements and selection checks are agreed."
+  },
+  "sources": [
+    {
+      "source_id": "src:espressif:esp32-c3-mini-1-ds",
+      "publisher": "Espressif Systems",
+      "document": "ESP32-C3-MINI-1 / ESP32-C3-MINI-1U datasheet",
+      "url": "https://documentation.espressif.com/esp32-c3-mini-1_datasheet_en.pdf",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:espressif:esp32-c6-mini-1-ds",
+      "publisher": "Espressif Systems",
+      "document": "ESP32-C6-MINI-1 / ESP32-C6-MINI-1U datasheet",
+      "url": "https://documentation.espressif.com/esp32-c6-mini-1_mini-1u_datasheet_en.pdf",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:tps63031",
+      "publisher": "Texas Instruments",
+      "document": "TPS6303x product information and datasheet",
+      "url": "https://www.ti.com/product/TPS63031",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:tps63070",
+      "publisher": "Texas Instruments",
+      "document": "TPS63070 product information and datasheet",
+      "url": "https://www.ti.com/product/TPS63070",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:sensirion:shtc3",
+      "publisher": "Sensirion",
+      "document": "SHTC3 product information",
+      "url": "https://sensirion.com/products/catalog/SHTC3",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:sensirion:sht4x",
+      "publisher": "Sensirion",
+      "document": "SHT4x product information",
+      "url": "https://sensirion.com/products/catalog/SHT40",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:sensirion:sht45",
+      "publisher": "Sensirion",
+      "document": "SHT45 product information",
+      "url": "https://sensirion.com/products/catalog/SHT45",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:opt3001",
+      "publisher": "Texas Instruments",
+      "document": "OPT3001 product information and datasheet",
+      "url": "https://www.ti.com/product/OPT3001",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:bq27441-g1",
+      "publisher": "Texas Instruments",
+      "document": "bq27441-G1 product information and datasheet",
+      "url": "https://www.ti.com/product/BQ27441-G1",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:bq27421-g1",
+      "publisher": "Texas Instruments",
+      "document": "bq27421-G1 product information and datasheet",
+      "url": "https://www.ti.com/product/BQ27421-G1",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:tpd1e10b06",
+      "publisher": "Texas Instruments",
+      "document": "TPD1E10B06 product information",
+      "url": "https://www.ti.com/product/TPD1E10B06",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:ti:tpd2e2u06",
+      "publisher": "Texas Instruments",
+      "document": "TPD2E2U06 product information",
+      "url": "https://www.ti.com/product/TPD2E2U06",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:jst:ph-series",
+      "publisher": "J.S.T. Mfg. Co.",
+      "document": "PH connector series catalog",
+      "url": "https://www.jst-mfg.com/product/index.php?series=199",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:jst:ph-datasheet",
+      "publisher": "J.S.T. Mfg. Co.",
+      "document": "PH connector series catalog (English PDF)",
+      "url": "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:murata:grm188-100nf",
+      "publisher": "Murata Manufacturing",
+      "document": "GRM188R71C104KA01 product information",
+      "url": "https://pim.murata.com/en-us/pim/details/?partNum=GRM188R71C104KA01%23",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:murata:grm188-4u7",
+      "publisher": "Murata Manufacturing",
+      "document": "GRM188R60J475KE19 product information",
+      "url": "https://pim.murata.com/en-us/pim/details/?partNum=GRM188R60J475KE19%23",
+      "checked_at": "2026-10-17"
+    },
+    {
+      "source_id": "src:vishay:crcw",
+      "publisher": "Vishay",
+      "document": "CRCW thick-film chip resistor series datasheet",
+      "url": "https://www.vishay.com/docs/20035/dcrcwe3.pdf",
+      "checked_at": "2026-10-17"
+    }
+  ],
+  "functional_groups": [
+    {
+      "group_id": "group:ble-module",
+      "function": "BLE-capable radio module with integrated antenna option",
+      "part_ids": [
+        "part:espressif:esp32-c3-mini-1-n4",
+        "part:espressif:esp32-c6-mini-1-n4"
+      ],
+      "substitution_warning": "Different silicon generations and capabilities; confirm module footprint, RF/layout constraints, firmware, peak current, and regulatory modular approvals before substituting."
+    },
+    {
+      "group_id": "group:battery-buck-boost",
+      "function": "Buck-boost conversion candidate for a single-cell battery-powered design",
+      "part_ids": [
+        "part:texas-instruments:tps63031dskr",
+        "part:texas-instruments:tps63070rnmr"
+      ],
+      "substitution_warning": "Not drop-in replacements. TPS63031 provides a fixed 3.3 V option; TPS63070 requires external feedback and has different input/output and layout requirements. Validate output-current and thermal limits from the datasheet."
+    },
+    {
+      "group_id": "group:temperature-humidity",
+      "function": "Digital temperature and relative-humidity sensing",
+      "part_ids": [
+        "part:sensirion:shtc3-dis-b",
+        "part:sensirion:sht40-ad1b-r2",
+        "part:sensirion:sht45-ad1b-r2"
+      ],
+      "substitution_warning": "Different packages, performance grades, ordering codes, and possibly address/configuration details; verify the exact ordering code and layout before substitution."
+    },
+    {
+      "group_id": "group:fuel-gauge",
+      "function": "Single-cell Li-ion fuel gauging",
+      "part_ids": [
+        "part:texas-instruments:bq27441drzr-g1",
+        "part:texas-instruments:bq27421yzfr-g1"
+      ],
+      "substitution_warning": "Different packages and implementation details; validate battery configuration, firmware commands, footprint, and pack connections. A fuel gauge is not a cell-protection circuit."
+    },
+    {
+      "group_id": "group:esd-protection",
+      "function": "Low-capacitance ESD protection for exposed signal interfaces",
+      "part_ids": [
+        "part:texas-instruments:tpd1e10b06dpyr",
+        "part:texas-instruments:tpd2e2u06dqar"
+      ],
+      "substitution_warning": "Different channel count, capacitance, package, and protection behavior. Select for the actual interface and test level; these parts alone do not establish system-level ESD compliance."
+    }
+  ],
+  "parts": [
+    {
+      "part_id": "part:espressif:esp32-c3-mini-1-n4",
+      "manufacturer": "Espressif Systems",
+      "mpn": "ESP32-C3-MINI-1-N4",
+      "category": "mcu",
+      "description": "ESP32-C3 module with 4 MB flash and integrated PCB antenna",
+      "package": "module; PCB antenna",
+      "specs": {
+        "supply_voltage": {"min": 3.0, "max": 3.6, "unit": "V", "source_id": "src:espressif:esp32-c3-mini-1-ds"},
+        "wireless_interfaces": {"value": ["2.4 GHz Wi-Fi", "Bluetooth LE"], "source_id": "src:espressif:esp32-c3-mini-1-ds"},
+        "flash_capacity": {"value": 4, "unit": "MB", "source_id": "src:espressif:esp32-c3-mini-1-ds"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:espressif:esp32-c3-mini-1-ds"],
+      "selection_notes": "Integrated antenna performance depends on the module keepout, board layout, enclosure, and final RF validation."
+    },
+    {
+      "part_id": "part:espressif:esp32-c6-mini-1-n4",
+      "manufacturer": "Espressif Systems",
+      "mpn": "ESP32-C6-MINI-1-N4",
+      "category": "mcu",
+      "description": "ESP32-C6 module with 4 MB flash and integrated PCB antenna",
+      "package": "module; PCB antenna",
+      "specs": {
+        "supply_voltage": {"min": 3.0, "max": 3.6, "unit": "V", "source_id": "src:espressif:esp32-c6-mini-1-ds"},
+        "wireless_interfaces": {"value": ["2.4 GHz Wi-Fi 6", "Bluetooth LE", "802.15.4"], "source_id": "src:espressif:esp32-c6-mini-1-ds"},
+        "flash_capacity": {"value": 4, "unit": "MB", "source_id": "src:espressif:esp32-c6-mini-1-ds"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:espressif:esp32-c6-mini-1-ds"],
+      "selection_notes": "Adds 802.15.4 capability but is not a drop-in firmware or RF substitute for the C3."
+    },
+    {
+      "part_id": "part:texas-instruments:tps63031dskr",
+      "manufacturer": "Texas Instruments",
+      "mpn": "TPS63031DSKR",
+      "category": "power",
+      "description": "Synchronous buck-boost converter, fixed 3.3 V output variant",
+      "package": "10-pin VSON, 2.5 mm x 2.5 mm",
+      "specs": {
+        "input_voltage": {"min": 1.8, "max": 5.5, "unit": "V", "source_id": "src:ti:tps63031"},
+        "output_voltage": {"value": 3.3, "unit": "V", "source_id": "src:ti:tps63031"},
+        "topology": {"value": "synchronous buck-boost", "source_id": "src:ti:tps63031"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:tps63031"],
+      "selection_notes": "Do not treat the family headline output-current figure as a guaranteed design current; calculate limits using input/output voltage, thermal conditions, inductor, and datasheet curves."
+    },
+    {
+      "part_id": "part:texas-instruments:tps63070rnmr",
+      "manufacturer": "Texas Instruments",
+      "mpn": "TPS63070RNMR",
+      "category": "power",
+      "description": "Synchronous buck-boost converter with adjustable output",
+      "package": "15-pin VQFN",
+      "specs": {
+        "input_voltage": {"min": 2.0, "max": 16.0, "unit": "V", "source_id": "src:ti:tps63070"},
+        "output_voltage": {"min": 2.5, "max": 9.0, "unit": "V", "source_id": "src:ti:tps63070"},
+        "switch_current_limit_typical": {"value": 3.6, "unit": "A", "source_id": "src:ti:tps63070"},
+        "topology": {"value": "synchronous buck-boost", "source_id": "src:ti:tps63070"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:tps63070"],
+      "selection_notes": "Switch current limit is not the same as load output current. Requires external feedback and power-stage design; derive achievable output current from the datasheet."
+    },
+    {
+      "part_id": "part:sensirion:shtc3-dis-b",
+      "manufacturer": "Sensirion",
+      "mpn": "SHTC3-DIS-B",
+      "category": "analog",
+      "description": "Digital relative-humidity and temperature sensor",
+      "package": "DFN, 2 mm x 2 mm x 0.75 mm",
+      "specs": {
+        "supply_voltage": {"min": 1.62, "max": 3.6, "unit": "V", "source_id": "src:sensirion:shtc3"},
+        "temperature_range": {"min": -40, "max": 125, "unit": "degC", "source_id": "src:sensirion:shtc3"},
+        "relative_humidity_range": {"min": 0, "max": 100, "unit": "%RH", "source_id": "src:sensirion:shtc3"},
+        "typical_temperature_accuracy": {"value": 0.2, "unit": "degC", "source_id": "src:sensirion:shtc3"},
+        "typical_humidity_accuracy": {"value": 2, "unit": "%RH", "source_id": "src:sensirion:shtc3"},
+        "interface": {"value": "I2C", "source_id": "src:sensirion:shtc3"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:sensirion:shtc3"],
+      "selection_notes": "Typical accuracy is not a guaranteed limit over all operating conditions; consult the datasheet accuracy curves and integration guidance."
+    },
+    {
+      "part_id": "part:sensirion:sht40-ad1b-r2",
+      "manufacturer": "Sensirion",
+      "mpn": "SHT40-AD1B-R2",
+      "category": "analog",
+      "description": "Digital relative-humidity and temperature sensor, SHT4x family",
+      "package": "DFN",
+      "specs": {
+        "supply_voltage": {"min": 1.08, "max": 3.6, "unit": "V", "source_id": "src:sensirion:sht4x"},
+        "measurements": {"value": ["relative humidity", "temperature"], "source_id": "src:sensirion:sht4x"},
+        "interface": {"value": "I2C", "source_id": "src:sensirion:sht4x"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:sensirion:sht4x"],
+      "selection_notes": "Confirm the exact ordering code, accuracy grade, package, and I2C behavior from the current SHT4x datasheet before selection."
+    },
+    {
+      "part_id": "part:sensirion:sht45-ad1b-r2",
+      "manufacturer": "Sensirion",
+      "mpn": "SHT45-AD1B-R2",
+      "category": "analog",
+      "description": "Higher-grade digital relative-humidity and temperature sensor, SHT4x family",
+      "package": "DFN",
+      "specs": {
+        "supply_voltage": {"min": 1.08, "max": 3.6, "unit": "V", "source_id": "src:sensirion:sht45"},
+        "measurements": {"value": ["relative humidity", "temperature"], "source_id": "src:sensirion:sht45"},
+        "interface": {"value": "I2C", "source_id": "src:sensirion:sht45"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:sensirion:sht45"],
+      "selection_notes": "Confirm the exact ordering code, accuracy grade, package, and I2C behavior from the current SHT4x datasheet before selection."
+    },
+    {
+      "part_id": "part:texas-instruments:opt3001dnpr",
+      "manufacturer": "Texas Instruments",
+      "mpn": "OPT3001DNPR",
+      "category": "analog",
+      "description": "Digital ambient-light sensor with human-eye-matched spectral response",
+      "package": "6-pin USON",
+      "specs": {
+        "measurement_range": {"min": 0.01, "max": 83000, "unit": "lux", "source_id": "src:ti:opt3001"},
+        "interface": {"value": ["I2C", "SMBus"], "source_id": "src:ti:opt3001"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:opt3001"],
+      "selection_notes": "Check the exact supply-voltage limits, optical window, board placement, and calibration needs in the datasheet."
+    },
+    {
+      "part_id": "part:texas-instruments:bq27441drzr-g1",
+      "manufacturer": "Texas Instruments",
+      "mpn": "BQ27441DRZR-G1",
+      "category": "analog",
+      "description": "System-side fuel gauge for single-cell Li-ion batteries",
+      "package": "12-pin SON, 2.5 mm x 4.0 mm",
+      "specs": {
+        "battery_cells": {"value": 1, "unit": "cell", "source_id": "src:ti:bq27441-g1"},
+        "battery_chemistry": {"value": "Li-ion", "source_id": "src:ti:bq27441-g1"},
+        "reported_measurements": {"value": ["remaining capacity", "state of charge", "battery voltage"], "source_id": "src:ti:bq27441-g1"},
+        "interface": {"value": "I2C", "source_id": "src:ti:bq27441-g1"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:bq27441-g1"],
+      "selection_notes": "Fuel gauging does not provide cell overcharge, overdischarge, overcurrent, or short-circuit protection."
+    },
+    {
+      "part_id": "part:texas-instruments:bq27421yzfr-g1",
+      "manufacturer": "Texas Instruments",
+      "mpn": "BQ27421YZFR-G1",
+      "category": "analog",
+      "description": "System-side fuel gauge for single-cell Li-ion batteries",
+      "package": "9-ball DSBGA, 1.62 mm x 1.58 mm",
+      "specs": {
+        "battery_cells": {"value": 1, "unit": "cell", "source_id": "src:ti:bq27421-g1"},
+        "battery_chemistry": {"value": "Li-ion", "source_id": "src:ti:bq27421-g1"},
+        "reported_measurements": {"value": ["remaining capacity", "state of charge", "battery voltage"], "source_id": "src:ti:bq27421-g1"},
+        "interface": {"value": "I2C", "source_id": "src:ti:bq27421-g1"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:bq27421-g1"],
+      "selection_notes": "DSBGA assembly and rework may be challenging. Fuel gauging does not provide cell protection."
+    },
+    {
+      "part_id": "part:texas-instruments:tpd1e10b06dpyr",
+      "manufacturer": "Texas Instruments",
+      "mpn": "TPD1E10B06DPYR",
+      "category": "protection",
+      "description": "Single-channel bidirectional ESD TVS diode",
+      "package": "0402",
+      "specs": {
+        "channels": {"value": 1, "unit": "channel", "source_id": "src:ti:tpd1e10b06"},
+        "typical_line_capacitance": {"value": 12, "unit": "pF", "source_id": "src:ti:tpd1e10b06"},
+        "iec_contact_esd_rating": {"value": 30, "unit": "kV", "source_id": "src:ti:tpd1e10b06"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:tpd1e10b06"],
+      "selection_notes": "Component-level ratings do not establish system-level IEC 61000-4-2 compliance; use the exact test conditions and layout guidance."
+    },
+    {
+      "part_id": "part:texas-instruments:tpd2e2u06dqar",
+      "manufacturer": "Texas Instruments",
+      "mpn": "TPD2E2U06DQAR",
+      "category": "protection",
+      "description": "Dual-channel low-capacitance ESD TVS diode",
+      "package": "USON",
+      "specs": {
+        "channels": {"value": 2, "unit": "channels", "source_id": "src:ti:tpd2e2u06"},
+        "typical_line_capacitance": {"value": 1.5, "unit": "pF", "source_id": "src:ti:tpd2e2u06"},
+        "iec_contact_esd_rating": {"value": 25, "unit": "kV", "source_id": "src:ti:tpd2e2u06"},
+        "iec_air_gap_esd_rating": {"value": 30, "unit": "kV", "source_id": "src:ti:tpd2e2u06"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:ti:tpd2e2u06"],
+      "selection_notes": "Confirm the chosen footprint/orderable suffix and select based on actual interface working voltage and protection requirements."
+    },
+    {
+      "part_id": "part:jst:b2b-ph-k-s-lf-sn",
+      "manufacturer": "J.S.T. Mfg. Co.",
+      "mpn": "B2B-PH-K-S(LF)(SN)",
+      "category": "connector",
+      "description": "Two-position, 2.0 mm-pitch PH-series board header",
+      "package": "Through-hole, top-entry",
+      "specs": {
+        "positions": {"value": 2, "unit": "positions", "source_id": "src:jst:ph-series"},
+        "pitch": {"value": 2.0, "unit": "mm", "source_id": "src:jst:ph-series"},
+        "series_current_rating": {"value": 2, "unit": "A", "conditions": "AWG 24 mating wire per series catalog", "source_id": "src:jst:ph-series"},
+        "series_voltage_rating": {"value": 100, "unit": "V", "source_id": "src:jst:ph-series"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:jst:ph-series", "src:jst:ph-datasheet"],
+      "selection_notes": "Verify the exact header orientation, mating housing, crimp contact, wire gauge, and mechanical retention for the intended battery."
+    },
+    {
+      "part_id": "part:murata:grm188r71c104ka01d",
+      "manufacturer": "Murata Manufacturing",
+      "mpn": "GRM188R71C104KA01D",
+      "category": "passive",
+      "description": "Multilayer ceramic capacitor candidate, 100 nF",
+      "package": "0603 metric (1608)",
+      "specs": {
+        "capacitance": {"value": 0.1, "unit": "uF", "source_id": "src:murata:grm188-100nf"},
+        "voltage_rating": {"value": 16, "unit": "V", "source_id": "src:murata:grm188-100nf"},
+        "dielectric": {"value": "X7R", "source_id": "src:murata:grm188-100nf"},
+        "tolerance": {"value": 10, "unit": "%", "source_id": "src:murata:grm188-100nf"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:murata:grm188-100nf"],
+      "selection_notes": "Effective capacitance depends on DC bias, temperature, and tolerance; check the capacitor curves and use case before assigning as a bypass or timing component."
+    },
+    {
+      "part_id": "part:murata:grm188r60j475ke19d",
+      "manufacturer": "Murata Manufacturing",
+      "mpn": "GRM188R60J475KE19D",
+      "category": "passive",
+      "description": "Multilayer ceramic capacitor candidate, 4.7 uF",
+      "package": "0603 metric (1608)",
+      "specs": {
+        "capacitance": {"value": 4.7, "unit": "uF", "source_id": "src:murata:grm188-4u7"},
+        "voltage_rating": {"value": 6.3, "unit": "V", "source_id": "src:murata:grm188-4u7"},
+        "dielectric": {"value": "X5R", "source_id": "src:murata:grm188-4u7"},
+        "tolerance": {"value": 10, "unit": "%", "source_id": "src:murata:grm188-4u7"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:murata:grm188-4u7"],
+      "selection_notes": "At a 4.2 V battery rail this capacitor operates near its rating; account for DC-bias derating and voltage margin, or select a higher-voltage alternative."
+    },
+    {
+      "part_id": "part:vishay:crcw060310k0fkea",
+      "manufacturer": "Vishay",
+      "mpn": "CRCW060310K0FKEA",
+      "category": "passive",
+      "description": "Thick-film chip resistor candidate, 10 kOhm",
+      "package": "0603 imperial",
+      "specs": {
+        "resistance": {"value": 10000, "unit": "ohm", "source_id": "src:vishay:crcw"},
+        "tolerance": {"value": 1, "unit": "%", "source_id": "src:vishay:crcw"},
+        "rated_power": {"value": 0.1, "unit": "W", "source_id": "src:vishay:crcw"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:vishay:crcw"],
+      "selection_notes": "Check power derating, pulse limits, operating voltage, and exact ordering suffix against the series datasheet."
+    },
+    {
+      "part_id": "part:vishay:crcw06031k00fkea",
+      "manufacturer": "Vishay",
+      "mpn": "CRCW06031K00FKEA",
+      "category": "passive",
+      "description": "Thick-film chip resistor candidate, 1 kOhm",
+      "package": "0603 imperial",
+      "specs": {
+        "resistance": {"value": 1000, "unit": "ohm", "source_id": "src:vishay:crcw"},
+        "tolerance": {"value": 1, "unit": "%", "source_id": "src:vishay:crcw"},
+        "rated_power": {"value": 0.1, "unit": "W", "source_id": "src:vishay:crcw"}
+      },
+      "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+      "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+      "sources": ["src:vishay:crcw"],
+      "selection_notes": "Check power derating, pulse limits, operating voltage, and exact ordering suffix against the series datasheet."
+    }
+  ]
+}

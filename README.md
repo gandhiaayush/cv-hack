@@ -71,12 +71,92 @@ subsystem agent ──► may spawn child agents (e.g. power → battery, regula
 | **B: Data and rules** | Knowledge | Parts DB (schema, seed data, stock/price fields), FDA rule set as machine-checkable rules with clause IDs, compliance agent and red-team agent, traceability matrix |
 | **C: Tooling and demo** | Ground truth and UI | KiCad/SKiDL generation, `kicad-cli` ERC/DRC wrapper, budget checks (power/cost/size), live dashboard (agent tree, requirement matrix, schematic render), scripted demo and constraint-change trigger |
 
-Interfaces to agree in the first 30 minutes (write them in `docs/interfaces.md`):
+## Shared interfaces and Part B data plan
 
-- Part record schema (B publishes, A and C consume).
-- Rule record schema: `id`, `clause`, `applies_to`, `check` (B publishes, A consumes).
-- Verifier result format: `{ok, errors:[{code, message, part/net, rule_id}]}` (all three).
-- Agent event stream format for the dashboard (A emits, C renders).
+Use these contracts as the initial integration target. Keep IDs stable across the
+parts database, agent messages, verifier results, BOM, and traceability matrix.
+Agree on any changes with the affected owners before implementation.
+
+### Part records (B publishes; A and C consume)
+
+Store one record per orderable component. Use a stable `part_id` such as
+`part:<manufacturer-slug>:<normalized-mpn>`; do not use a display name as an ID.
+Normalize by lowercasing and replacing each run of non-alphanumeric characters
+with a single hyphen, then trim hyphens at the ends.
+Keep specification values machine-readable and include units. A minimal record:
+
+```json
+{
+  "part_id": "part:<manufacturer-slug>:<normalized-mpn>",
+  "manufacturer": "<manufacturer>",
+  "mpn": "<manufacturer-part-number>",
+  "category": "<controlled-category>",
+  "description": "<short description>",
+  "package": "<package or null>",
+  "specs": {
+    "<spec-name>": {"value": 0, "unit": "<unit>"},
+    "<range-name>": {"min": 0, "max": 0, "unit": "<unit>"}
+  },
+  "price": {"unit_amount": null, "currency": "USD", "checked_at": null, "source_url": null},
+  "stock": {"available_qty": null, "status": "unknown", "checked_at": null, "source_url": null},
+  "sources": ["<source-id>"]
+}
+```
+
+`category` comes from a small controlled vocabulary (for example `power`,
+`mcu`, `analog`, `protection`, `passive`, `connector`). Use explicit units in
+`specs`; do not encode a number and its unit in a string. `stock.status` is
+`in_stock`, `out_of_stock`, or `unknown`. Use `unknown` rather than inventing
+availability; record the source and date for mutable stock and price data.
+Where a value is not known, use `null` or omit it rather than guessing. Keep
+source records in a shared registry and attach stable source IDs to parts and
+specification fields so claims can be traced to evidence.
+
+Represent requirement-to-part suitability as explicit links, not as an
+unsupported claim buried in a description:
+
+```json
+{"requirement_id": "<stable-requirement-id>", "part_id": "<part-id>", "role": "<design role>"}
+```
+
+The mother agent (A) owns requirement IDs and subsystem assignments; B should
+not create competing IDs. A and B should align the controlled category/role
+names with C's KiCad/SKiDL and budget checks.
+
+### Seed dataset (B)
+
+The initial 17-record seed is in [`data/parts.json`](./data/parts.json). It
+covers candidate BLE modules, battery converters, environmental sensors,
+fuel gauges, ESD protection, and common passives/connectors, with source IDs
+and screening notes. It assumes a non-medical environmental wearable as a
+working demo profile; confirm that scope against the actual demo spec.
+Functional groups indicate broad purpose only—not drop-in substitutions or
+verified requirement suitability.
+
+Live distributor prices and stock were not captured in this seed: these values
+are `null`/`unknown`. Keep them that way until a named distributor, quantity,
+currency, and timestamp are recorded. The stock-out demo should apply an
+explicit, labeled runtime scenario override rather than changing sourced facts
+or implying inventory was checked. An example synthetic override is in
+[`data/demo_scenarios.json`](./data/demo_scenarios.json). Do not mark a part
+suitable until its values meet the actual requirement; keep suitability links
+separate and verifiable.
+
+### Rules, verifier results, and events
+
+- Rule records use `id`, `clause`, `applies_to`, and `check`. `id` is stable;
+  `clause` identifies the cited source; `applies_to` names the relevant
+  categories, roles, or design objects; and `check` is deterministic and
+  machine-testable. B publishes the format and A consumes it.
+- All verifiers return
+  `{ "ok": true, "errors": [{ "code": "...", "message": "...", "part_id": "...", "net": "...", "rule_id": "..." }] }`.
+  Use `errors: []` on success. Include the applicable identifiers; omit fields
+  that do not apply. A failed check must not be reported as success.
+- A owns and emits the agent event stream; C consumes it for the dashboard.
+  Agree its event fields before wiring the UI.
+- The traceability matrix is built from stable requirement, part, rule, and
+  verifier-result IDs, so every coverage or failure entry can be traced to its
+  evidence.
 
 ## Setup
 

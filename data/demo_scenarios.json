@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cv-hack-demo-scenarios",
+  "scenarios": [
+    {
+      "scenario_id": "scenario:synthetic:primary-converter-stockout",
+      "label": "Synthetic primary buck-boost converter stock-out",
+      "is_synthetic": true,
+      "purpose": "Exercise stock-state handling and replanning. This is not a claim about real distributor inventory.",
+      "part_id": "part:texas-instruments:tps63031dskr",
+      "stock_override": {
+        "status": "out_of_stock",
+        "available_qty": 0,
+        "source": "synthetic demo event; not a supplier feed",
+        "event_time": null
+      },
+      "expected_behavior": [
+        "Apply the override only to this scenario/run; do not modify data/parts.json.",
+        "Do not select the overridden part while the out-of-stock state is active.",
+        "Re-evaluate remaining power candidates against the actual rail, input range, load current, thermal, footprint, and sourcing requirements.",
+        "Do not treat TPS63070 as a drop-in replacement for TPS63031; require design review and rerun affected electrical checks.",
+        "If no candidate passes the checks, report a structured failure instead of returning a success-shaped fallback."
+      ],
+      "reset_behavior": "Discard the run-local override when the scenario ends. The base catalog remains stock=unknown."
+    }
+  ]
+}
