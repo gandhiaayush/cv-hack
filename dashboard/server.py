@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import threading
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -25,7 +26,7 @@ from cvhack.events import RUNS_DIR, latest_run_id, read_events
 from cvhack.outputs import matrix_csv, matrix_rows, write_outputs
 from cvhack.parts import load_parts
 from cvhack.state import fold
-from cvhack.tooling import budgets, kicad_cli, kicad_sch
+from cvhack.tooling import budgets, kicad_cli, kicad_sch, pcb
 from cvhack.tooling.rules import RuleVerifier
 
 app = FastAPI(title="cv-hack dashboard")
@@ -71,6 +72,7 @@ def state(run_id: str):
     # agents have echoed N constraint_change events.
     cmds, _ = read_commands(rid)
     n_applied = len(s.constraint_changes)
+    data["failing_refs"] = sorted(s.failing_refs())
     data["commands"] = [{**c.payload, "ts": c.ts, "applied": i < n_applied} for i, c in enumerate(cmds)]
     d = s.design_obj()
     if d is not None:
@@ -122,6 +124,48 @@ def schematic(run_id: str):
         svg, renderer = kicad_sch.to_svg(d, parts, highlight=s.failing_refs()), "cvhack"
     return Response(svg, media_type="image/svg+xml",
                     headers={"Cache-Control": "no-store", "X-Renderer": renderer})
+
+
+_board_lock = threading.Lock()
+
+
+def _board(run_id: str):
+    d = _state(_resolve(run_id)).design_obj()
+    if d is None:
+        raise HTTPException(404, "no design yet")
+    if not pcb.available():
+        raise HTTPException(503, "KiCad (kicad-cli, its Python and footprint libraries) is needed for the 3D board")
+    with _board_lock:   # one KiCad build at a time; results are cached by design content
+        try:
+            glb, info = pcb.render_glb(d, load_parts(), RUNS_DIR / "_board")
+        except RuntimeError as exc:
+            raise HTTPException(500, str(exc))
+    if glb is None:
+        raise HTTPException(500, "GLB export failed")
+    return d, glb, info
+
+
+@app.get("/api/runs/{run_id}/board.json")
+def board_info(run_id: str):
+    d, glb, info = _board(run_id)
+    parts = load_parts()
+    nets_of: dict[str, dict[str, str]] = {}
+    for name, nodes in d.merged_nets().items():
+        for n in nodes:
+            nets_of.setdefault(n.ref, {})[n.pin] = name
+    sub = {i.ref: b.subsystem for b in d.blocks for i in b.parts}
+    mpn = {i.ref: i.mpn for i in d.all_parts()}
+    for ref, pl in info.get("placements", {}).items():
+        p = parts.get(mpn.get(ref, ""))
+        pl.update(mpn=mpn.get(ref), value=(p.value or p.mpn) if p else "", description=p.description if p else "",
+                  subsystem=sub.get(ref), nets=nets_of.get(ref, {}))
+    return {k: v for k, v in info.items() if k != "pcb"} | {"glb_version": glb.parent.name}
+
+
+@app.get("/api/runs/{run_id}/board.glb")
+def board_glb(run_id: str):
+    _, glb, _ = _board(run_id)
+    return FileResponse(glb, media_type="model/gltf-binary", headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/runs/{run_id}/bom")
