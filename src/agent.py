@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 
 from cvhack.parts import load_parts
 
-from . import completeness, gate, lessons, store, verify_design
+from . import completeness, gate, lessons, llm, store, verify_design
 from .llm import chat
 from .scheduler import SCHED
 from .spec import BUDGET, DEVICE, SUBSYSTEMS
@@ -159,7 +159,7 @@ Work in this order:
 1. get_subsystem_context: parts already placed, nets, and the design rules (by id) that apply. Respect them.
 2. search_parts: BROWSE the DB by category with no text (e.g. category="mcu", limit 15) and choose from what it lists. Do NOT search for part names you remember: the DB is a fixed ~500-part catalog and most names are absent. Valid categories for {role}: {cats}. Use find_alternates after a stock-out.
 3. run_python for any number (power, margins, cost). Each call is a fresh process; print() results.
-4. regulation tools only if a rule or clause matters; at most 2 lookups.
+4. regulation tools only if a rule or clause matters; at most 2 lookups. get_part_medical gives a part's lifecycle, datasheet medical-use statements and isolation (MOPP) evidence; use it for parts at a patient or USB barrier.
 5. Every chip you choose must be DRAWABLE on the board: it needs a pinout (search_parts needs_pins=true) that matches the baseline part's pins by function, so prefer find_alternates of the part already in your subsystem. If your subsystem's key category has only ONE suitable part, build both options around it (they may differ in supporting parts and values). Do not hunt across unrelated categories.
 6. submit_report with 2 options, within about 6 tool calls total. Cite evidence (mpn, rule id, CFR section) for every option.
 A deterministic gate checks your options. If it rejects them, read the errors, fix the cause (do not argue),
@@ -395,6 +395,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
         with SCHED.slot(ctx.run, "critic"):
             m = chat([{"role": "system", "content": critic_prompt(ctx)}, {"role": "user", "content": msg}],
                      os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
+            store.log(ctx.run, "critic", None, "llm_call", llm.last_call())
         text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
         objs = json.loads(text[text.index("{"):text.rindex("}") + 1])["objections"]
     except Exception:  # None means "no review happened", which must never read as "no objections"
@@ -403,9 +404,9 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
 
 
 # ------------------------------------------------------------------ the loop
-LEAF_TOOLS = [kg.SPEC, parts.SEARCH_SPEC, parts.ALTERNATES_SPEC, sandbox.SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC,
-              regs.CLASSIFY_SPEC, SUBMIT_SPEC]
-REG_TOOLS = [regs.CLASSIFY_SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, FINDINGS_SPEC]
+LEAF_TOOLS = [kg.SPEC, parts.SEARCH_SPEC, parts.ALTERNATES_SPEC, parts.MEDICAL_SPEC, sandbox.SPEC, regs.SEARCH_SPEC,
+              regs.SECTION_SPEC, regs.CLASSIFY_SPEC, SUBMIT_SPEC]
+REG_TOOLS = [regs.CLASSIFY_SPEC, regs.SEARCH_SPEC, regs.SECTION_SPEC, parts.MEDICAL_SPEC, FINDINGS_SPEC]
 SOURCING_TOOLS = [supply.SPEC, parts.ALTERNATES_SPEC, FINDINGS_SPEC]
 MOTHER_TOOLS = [DELEGATE_SPEC, BATCH_SPEC, kg.LIST_SPEC, FINALIZE_SPEC]
 FINISHERS = ("submit_report", "submit_findings", "finalize")
@@ -437,15 +438,17 @@ def _search_parts(a: dict) -> str:
         a["limit"] = int(a["limit"]) if a["limit"].isdigit() else 10
     if isinstance(a.get("needs_pins"), str):
         a["needs_pins"] = a["needs_pins"].lower() == "true"
+    if isinstance(a.get("mopp_at_least"), str):
+        a["mopp_at_least"] = int(a["mopp_at_least"]) if a["mopp_at_least"].isdigit() else None
     out = parts.search_parts(**a)
     from cvhack import custom_parts  # customer-supplied parts come first: the user asked for them
-    mine = custom_parts.search(a.get("category"), a.get("text"))
-    if mine:
+    mine_rows = custom_parts.search(a.get("category"), a.get("text"))
+    if mine_rows:
         try:
             rows = json.loads(out) if out.strip().startswith("[") else []
         except ValueError:
             rows = []
-        return json.dumps(mine + rows)
+        return json.dumps(mine_rows + rows)
     return out
 
 
@@ -458,6 +461,7 @@ PLAIN = {
     "search_parts": _search_parts,
     "find_alternates": lambda a: parts.find_alternates(**a),
     "check_supply": lambda a: supply.check_supply(**a),
+    "get_part_medical": lambda a: parts.get_part_medical(**a),
 }
 
 
@@ -552,6 +556,7 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                         if not kw:
                             raise
                         m = chat(msgs, model, tools=step_tools)
+                store.log(ctx.run, name, parent, "llm_call", llm.last_call())
                 break
             except Exception as e:
                 store.log(ctx.run, name, parent, "llm_error", {"attempt": attempt + 1, "error": type(e).__name__})

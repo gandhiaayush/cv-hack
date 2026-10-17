@@ -97,6 +97,7 @@ def from_catalog_record(rec: dict[str, Any]) -> dict[str, Any]:
     p["ratings"].update({
         "group": rec.get("group"), "datasheet_url": rec.get("datasheet_url"),
         "pin_source": kicad.get("pin_source"), "power_mw_known": False,
+        "medical": rec.get("medical"),
         "catalog": {"sku": offer.get("sku"), "distributor": offer.get("distributor"),
                     "price_usd": p["price_usd"], "stock": p["stock"],
                     "checked_at": (rec.get("price") or {}).get("checked_at")},

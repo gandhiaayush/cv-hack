@@ -57,3 +57,40 @@ def test_parse_report_variants():
     assert parse_report(json.dumps(REPORT))["subsystem"] == "power"
     assert parse_report("prose then " + json.dumps(REPORT) + " trailing")["conflicts"] == ["noisy rail"]
     assert parse_report("no json here") is None
+
+
+def test_gate_critic_inference_and_finalize_map_to_dashboard_events():
+    from cvhack.bridge import Row, Translator
+    from cvhack.state import fold
+    tr = Translator()
+    rows = [
+        Row(1, 1.0, "r", "mother:m", None, "start", {"task": "Begin."}),
+        Row(2, 2.0, "r", "mother:m", None, "llm_call", {"model": "nvidia/Nemotron-X", "latency_s": 2.0,
+                                                       "prompt_tokens": 100, "completion_tokens": 50}),
+        Row(3, 3.0, "r", "power:p", "mother:m", "start", {"task": "power"}),
+        Row(4, 4.0, "r", "power:p", "mother:m", "gate", {"subsystem": "power", "attempt": 1, "passed": [],
+                                                        "failed": {"A": ["RATING_EXCEEDED:J1"]}}),
+        Row(5, 5.0, "r", "power:p", "mother:m", "gate", {"subsystem": "power", "attempt": 2, "passed": ["A2"], "failed": {}}),
+        Row(6, 6.0, "r", "power:p", "mother:m", "final", {"subsystem": "power", "status": "ok", "options": [
+            {"name": "A2", "parts": [{"mpn": "X1"}], "gate_ok": True, "totals": {"cost_usd": 1.5, "power_mw": 3}}]}),
+        Row(7, 7.0, "r", "mother:m", None, "tool_call", {"tool": "finalize", "args": {
+            "selections": [{"subsystem": "power", "option": "A2"}], "rationale": "cheapest"}}),
+        Row(8, 8.0, "r", "critic", None, "llm_call", {"model": "zai-org/GLM-5.3", "latency_s": 1.0,
+                                                     "prompt_tokens": 10, "completion_tokens": 5}),
+        Row(9, 9.0, "r", "critic", "mother:m", "critique", {"round": 1, "objections": [
+            {"id": "R0-O1", "severity": "blocker", "subsystem": "power", "part": "X1", "issue": "too hot"}]}),
+        Row(10, 10.0, "r", "mother:m", None, "final", {"status": "accepted", "selections": {"power": "A2"},
+                                                     "totals": {"cost_usd": 1.5, "power_mw": 3}, "critic_rounds": 1}),
+    ]
+    evs = [e for r in rows for e in tr.translate(r)]
+    s = fold("r", evs)
+    assert s.verifiers["gate:power"]["ok"] is True                      # latest gate attempt wins
+    assert s.verifiers["critic"]["ok"] is False and s.verifiers["critic"]["errors"][0]["code"] == "CRITIC_BLOCKER"
+    rep = next(n for n in s.negotiation if n["kind"] == "report")
+    assert rep["options"][0]["cost"] == 1.5 and "X1" in rep["options"][0]["notes"]
+    dec = next(n for n in s.negotiation if n["kind"] == "decision")
+    assert dec["to"] == "power:p" and dec["chosen"] == "A2"
+    models = {m["model"]: m for m in s.to_json()["inference"]}
+    assert models["nvidia/Nemotron-X"]["calls"] == 1 and models["zai-org/GLM-5.3"]["prompt_tokens"] == 10
+    assert s.agents["critic"]["role"] == "verifier" and s.agents["critic"]["parent"] == "mother:m"
+    assert s.done["ok"] is True and "accepted" in s.done["summary"]

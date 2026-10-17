@@ -31,6 +31,9 @@ from typing import Any, Iterable
 
 from cvhack.contracts import AgentEvent
 from cvhack.events import RUNS_DIR, emit
+from cvhack.mocks import designs
+from cvhack.parts import load_parts
+from cvhack.synth import apply_selection
 
 DEFAULT_DB = RUNS_DIR / "run.db"
 
@@ -50,6 +53,30 @@ def _short(x: Any, n: int = 140) -> str:
     s = x if isinstance(x, str) else json.dumps(x, default=str)
     s = " ".join(s.split())
     return s if len(s) <= n else s[: n - 1] + "…"
+
+
+def tool_phrase(tool: str, args: dict) -> str:
+    """One short line per tool call, e.g. 'searched parts: tvs' instead of the raw arguments."""
+    a = args if isinstance(args, dict) else {}
+    if tool == "search_parts":
+        what = " ".join(str(x) for x in (a.get("category"), a.get("text"), a.get("interface")) if x)
+        return f"searched parts: {what or 'all'}"
+    if tool == "find_alternates":
+        return f"looked for alternates to {a.get('mpn', '?')}"
+    if tool == "run_python":
+        first = next((l.strip("# ").strip() for l in str(a.get("code", "")).splitlines() if l.strip().startswith("#")), "")
+        return "calculated" + (f": {first[:60]}" if first else "")
+    if tool == "get_subsystem_context":
+        return f"read {a.get('subsystem', '')} context"
+    if tool == "list_subsystems":
+        return "listed subsystems"
+    if tool in ("search_regulations", "get_regulation_section", "classify_device"):
+        return f"checked regulations: {a.get('query') or a.get('section') or a.get('device_name') or ''}".strip()
+    if tool == "submit_report":
+        n = a.get("options")
+        n = len(n) if isinstance(n, list) else "?"
+        return f"submitted {n} option(s)"
+    return tool.replace("_", " ")
 
 
 def parse_report(text: str) -> dict | None:
@@ -79,10 +106,14 @@ def report_payload(rep: dict, to: str) -> dict:
             opts.append({"name": str(o)})
             continue
         opt = {"name": o.get("name", "?")}
-        for k in ("cost", "power_mw"):
-            if isinstance(o.get(k), (int, float)):
-                opt[k] = o[k]
-        notes = "; ".join(filter(None, [o.get("summary", ""), *map(str, o.get("risks") or [])]))
+        totals = o.get("totals") or {}
+        for k, src in (("cost", ("cost", "cost_usd")), ("power_mw", ("power_mw",))):
+            val = next((x for x in (o.get(k2, totals.get(k2)) for k2 in src) if isinstance(x, (int, float))), None)
+            if val is not None:
+                opt[k] = round(val, 3)
+        parts = ", ".join(p.get("mpn", "") for p in o.get("parts") or [] if isinstance(p, dict))
+        gate = "" if o.get("gate_ok", True) else "GATE FAILED: " + ", ".join(o.get("gate_errors") or [])
+        notes = "; ".join(filter(None, [gate, o.get("summary", ""), parts, *map(str, o.get("risks") or [])]))
         if notes:
             opt["notes"] = notes
         opts.append(opt)
@@ -90,7 +121,8 @@ def report_payload(rep: dict, to: str) -> dict:
         "to": to,
         "options": opts,
         "conflicts": [str(c) for c in rep.get("conflicts") or []],
-        "cannot_meet": [str(c) for c in rep.get("cannot_meet") or []],
+        "cannot_meet": [str(c) for c in rep.get("cannot_meet") or []] +
+                       (["no option passed the gate"] if rep.get("status") == "no_valid_option" else []),
         "needs": [str(c) for c in rep.get("needs_from_others") or rep.get("needs") or []],
         "quantitative": rep.get("quantitative_constraints") or [],
         "qualitative": rep.get("qualitative_constraints") or [],
@@ -101,46 +133,50 @@ def report_payload(rep: dict, to: str) -> dict:
 class Translator:
     """Stateful: remembers each agent's parent so every event carries its tree edge."""
     parents: dict[tuple[str, str], str | None] = field(default_factory=dict)
-    options: dict[tuple[str, str], tuple[str, list]] = field(default_factory=dict)  # (run, option) -> (subsystem, parts)
     specs: dict[str, dict] = field(default_factory=dict)  # run -> its brief (budget), so meters show THIS run's limits
+    by_role: dict[tuple[str, str], str] = field(default_factory=dict)      # (run, subsystem) -> latest agent
+    roots: dict[str, str] = field(default_factory=dict)                     # run -> mother agent
+    options: dict[tuple[str, str], dict[str, list]] = field(default_factory=dict)  # (run, subsystem) -> option -> parts
+
+    def _design(self, r: Row, bom: list[dict] | None, source: str) -> list[AgentEvent]:
+        """design_updated from the reference board, or from a BOM applied to it (see cvhack.synth)."""
+        if bom is None:
+            d, notes = designs.wearable(), {"kept": [], "removed": [], "added": [], "unwired": []}
+        else:
+            d, notes = apply_selection(bom, load_parts())
+        sp = self.specs.get(r.run)
+        if sp:  # the meters show THIS run's budget, not the reference board's
+            d.budgets.cost_usd, d.budgets.power_mw = float(sp["cost_usd"]), float(sp["power_mw"])
+        return [self._ev(r, self.roots.get(r.run, r.agent), "design_updated", design=d.model_dump(),
+                         source=source, notes=notes)]
+
+    def _ensure(self, r: Row, agent: str, role: str, label: str, parent: str | None) -> list[AgentEvent]:
+        """Spawn agents A's log never `start`s (the critic, the gate)."""
+        if (r.run, agent) in self.parents:
+            return []
+        self.parents[(r.run, agent)] = parent
+        return [self._ev(r, agent, "agent_spawned", role=role, label=label)]
+
+    def learn(self, r: Row) -> None:
+        """Absorb a historical row (after a server restart) without emitting anything."""
+        if r.kind == "spec" and isinstance(r.body, dict):
+            self.specs[r.run] = r.body
+        elif r.kind == "start":
+            self.parents[(r.run, r.agent)] = r.parent
+            self.by_role[(r.run, r.agent.split(":")[0])] = r.agent
+            if not r.parent:
+                self.roots[r.run] = r.agent
+        elif r.kind == "final" and r.parent and isinstance(r.body, dict) and r.body.get("subsystem"):
+            self.options[(r.run, r.body["subsystem"])] = {
+                o.get("name"): [p for p in o.get("parts") or [] if isinstance(p, dict) and p.get("mpn")]
+                for o in r.body.get("options") or [] if isinstance(o, dict)}
 
     def _ev(self, r: Row, agent: str, kind: str, **payload) -> AgentEvent:
         return AgentEvent(run_id=r.run, agent_id=agent, parent_id=self.parents.get((r.run, agent)),
                           kind=kind, payload=payload, ts=r.ts)
 
-    def _design_events(self, r: Row, chosen: dict, label: str) -> list[AgentEvent]:
-        """Apply the agents' chosen parts to the baseline board and tell the UI (schematic, 3D, BOM, ERC)."""
-        try:
-            from cvhack.parts import load_parts
-            from cvhack.tooling.electrical import ElectricalVerifier
-            from src.design_apply import apply
-            parts = load_parts()
-            d, rep = apply(chosen, parts)
-            sp = self.specs.get(r.run)
-            if sp:
-                d.budgets.cost_usd, d.budgets.power_mw = float(sp["cost_usd"]), float(sp["power_mw"])
-            res = ElectricalVerifier(use_kicad=False).verify(d, parts)
-            msg = (f"{label}: {len(rep['swapped'])} part(s) swapped into the board, {len(rep['kept'])} already there, "
-                   f"{len(rep['unplaced'])} not drawn (" + "; ".join(f"{u['mpn']}: {u['reason']}" for u in rep["unplaced"][:3]) + ")")
-            return [self._ev(r, r.agent, "design_updated", design=d.model_dump()),
-                    self._ev(r, r.agent, "verifier_result", **res.model_dump(), target_subsystem=None),
-                    self._ev(r, r.agent, "step", message=msg)]
-        except Exception as exc:  # the bridge must never stop because a design could not be built
-            return [self._ev(r, r.agent, "step", message=f"{label}: could not build a board ({type(exc).__name__}: {exc})")]
-
     def translate(self, r: Row) -> list[AgentEvent]:
         role = r.agent.split(":")[0]
-        if r.kind == "final" and r.parent and isinstance(r.body, dict) and r.body.get("options"):
-            for o in r.body["options"]:  # remember each explorer option's parts for when the mother selects it
-                self.options[(r.run, o.get("name"))] = (r.body.get("subsystem") or role, o.get("parts") or [])
-        if r.kind == "tool_call" and isinstance(r.body, dict) and r.body.get("tool") == "finalize":
-            chosen: dict[str, list] = {}
-            for sel in (r.body.get("args") or {}).get("selections") or []:
-                ent = self.options.get((r.run, sel.get("option"))) if isinstance(sel, dict) else None
-                if ent:
-                    chosen.setdefault(ent[0], []).extend(ent[1])
-            base = [self._ev(r, r.agent, "step", message=f"finalize({_short(r.body.get('args', {}), 100)})")]
-            return base + (self._design_events(r, chosen, "Proposed design") if chosen else [])
         if r.kind == "constraint" and isinstance(r.body, dict):  # the run picked up a dashboard constraint change
             return [self._ev(r, r.agent, "constraint_change", **r.body)]
         if r.kind == "spec":  # shown in the chat column; not an agent
@@ -149,45 +185,143 @@ class Translator:
             return []
         if r.kind == "result":
             b = r.body if isinstance(r.body, dict) else {}
-            ok = bool(b.get("selections"))
-            chosen: dict[str, list] = {}
-            for x in b.get("bom") or []:
-                chosen.setdefault(x["subsystem"], []).append({"mpn": x["mpn"], "qty": x.get("qty", 1)})
-            extra = self._design_events(r, chosen, "Final design") if chosen else []
-            summary = (f"Design {b.get('status', '')}: ${(b.get('totals') or {}).get('cost_usd', '?')}" if ok
-                       else f"No accepted design ({b.get('status', 'unknown')})")
-            return extra + [self._ev(r, r.agent, "run_done", ok=ok, summary=summary)]
+            if b.get("selections"):
+                return []  # the mother's own `final` row already reported the design and run_done
+            return [self._ev(r, self.roots.get(r.run, r.agent), "run_done", ok=False,
+                             summary=f"No accepted design ({b.get('status', 'unknown')})")]
+        if r.kind == "board_check":
+            b = r.body if isinstance(r.body, dict) else {}
+            msg = ("Checked the board: " + ("it passed the design rules and electrical checks." if not b.get("problems") else
+                   f"{len(b['problems'])} problem(s) found: " + _short("; ".join(b["problems"]), 160)))
+            return [self._ev(r, r.agent, "step", message=msg)]
         if r.kind == "start":
             self.parents[(r.run, r.agent)] = r.parent
-            b0 = r.body if isinstance(r.body, dict) else {}
+            self.by_role[(r.run, role)] = r.agent
+            if not r.parent:
+                self.roots[r.run] = r.agent
+                out_ref = self._design(r, None, "reference")
+            else:
+                out_ref = []
             out = [self._ev(r, r.agent, "agent_spawned", role="subsystem" if r.parent else "mother",
-                            label=role.replace("_", " "), strategy=b0.get("strategy"), agent_type=b0.get("agent_type")),
-                   self._ev(r, r.agent, "agent_status", status="running")]
+                            label=role.replace("_", " "), strategy=(r.body or {}).get("strategy") if isinstance(r.body, dict) else None,
+                            agent_type=(r.body or {}).get("agent_type") if isinstance(r.body, dict) else None),
+                   self._ev(r, r.agent, "agent_status", status="running")] + out_ref
             if r.parent:
                 task = (r.body or {}).get("task", "") if isinstance(r.body, dict) else str(r.body)
                 out.append(self._ev(r, r.parent, "delegate", to=r.agent, subsystem=role, budget={},
                                     constraints=[_short(task, 400)] if task else []))
             return out
+        if r.kind == "llm_call":
+            b = r.body if isinstance(r.body, dict) else {}
+            if not b:
+                return []
+            out = []
+            if r.agent == "critic":
+                out += self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run))
+            return out + [self._ev(r, r.agent, "inference", provider="Crusoe", **b)]
+        if r.kind == "gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            failed = b.get("failed") or {}
+            errors = [{"code": c.split(":")[0], "message": f"{opt}: {c}", "part": (c.split(":", 1) + [""])[1] or None,
+                       "severity": "error"} for opt, codes in failed.items() for c in codes]
+            ok = bool(b.get("passed"))
+            sub = b.get("subsystem", role)
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"gate:{sub}", ok=ok, errors=errors,
+                                details={"attempt": b.get("attempt"), "passed": b.get("passed")}))
+            out.append(self._ev(r, r.agent, "step", message=(f"gate attempt {b.get('attempt')}: passed {b.get('passed')}"
+                                                            if ok else f"gate attempt {b.get('attempt')}: rejected {list(failed)}")))
+            return out
+        if r.kind == "critique":
+            b = r.body if isinstance(r.body, dict) else {}
+            objs = b.get("objections") or []
+            errors = [{"code": "CRITIC_" + str(o.get("severity", "concern")).upper(),
+                       "message": f"{o.get('id', '')} [{o.get('subsystem', '')}] {o.get('issue', '')}"
+                                  + (f" — {o.get('evidence')}" if o.get("evidence") else ""),
+                       "part": o.get("part") or None,
+                       "severity": "error" if o.get("severity") == "blocker" else "warning"} for o in objs]
+            out = self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run))
+            out.append(self._ev(r, "critic", "verifier_result", verifier="critic",
+                                ok=not any(e["severity"] == "error" for e in errors), errors=errors,
+                                details={"round": b.get("round")}))
+            return out
+        if r.kind == "critique_failed":
+            return self._ensure(r, "critic", "verifier", "Critic", self.roots.get(r.run)) + \
+                [self._ev(r, "critic", "step", message="review unavailable (not a verdict); retrying")]
+        if r.kind == "budget_check":
+            b = r.body if isinstance(r.body, dict) else {}
+            bud = b.get("budget") or {}
+            return [self._ev(r, r.agent, "step", message=f"budget check: ${b.get('cost_usd')} / ${bud.get('cost_usd')}, "
+                                                        f"{b.get('power_mw')} / {bud.get('power_mw')} mW"
+                                                        + (f", {len(b['unknown_price_parts'])} unpriced" if b.get("unknown_price_parts") else ""))]
+        if r.kind == "queue":
+            b = r.body if isinstance(r.body, dict) else {}
+            return [self._ev(r, r.agent, "step", message=f"waited {b.get('waited_s')}s in the Crusoe request queue "
+                                                        f"({b.get('running')}/{b.get('cap')} in flight)")]
+        if r.kind == "findings_gate":
+            b = r.body if isinstance(r.body, dict) else {}
+            bad = b.get("rejected") or []
+            out = self._ensure(r, "gate", "verifier", "Deterministic gate", self.roots.get(r.run))
+            out.append(self._ev(r, "gate", "verifier_result", verifier=f"findings:{b.get('type', role)}", ok=not bad,
+                                errors=[{"code": "FINDING_REJECTED", "message": str(x)[:300], "severity": "error"} for x in bad],
+                                details={"accepted": b.get("accepted"), "attempt": b.get("attempt")}))
+            return out
+        if r.kind in ("retry", "llm_error"):
+            b = r.body if isinstance(r.body, dict) else {}
+            return [self._ev(r, r.agent, "step", message=f"{r.kind}: {b.get('reason') or b.get('error') or ''}")]
         if r.kind == "tool_call":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
-            return [self._ev(r, r.agent, "step", message=f"{b.get('tool')}({_short(b.get('args', {}), 100)})")]
+            if b.get("tool") == "finalize":
+                args = b.get("args") or {}
+                sels = [s for s in args.get("selections") or [] if isinstance(s, dict)]
+                out = [self._ev(r, r.agent, "decision", to=self.by_role.get((r.run, s.get("subsystem")), s.get("subsystem")),
+                                chosen=s.get("option"), message=args.get("rationale", "")[:300])
+                       for s in sels]
+                bom = [{"subsystem": s.get("subsystem"), **p}
+                       for s in sels for p in self.options.get((r.run, s.get("subsystem")), {}).get(s.get("option"), [])]
+                if bom:
+                    out += self._design(r, bom, "selection")
+                return out + [self._ev(r, r.agent, "step", message="finalize: " + ", ".join(
+                    f"{s.get('subsystem')}={s.get('option')}" for s in args.get("selections") or [] if isinstance(s, dict)))]
+            return [self._ev(r, r.agent, "step", message=tool_phrase(b.get("tool", ""), b.get("args", {})))]
         if r.kind == "tool_result":
             b = r.body if isinstance(r.body, dict) else {}
-            if b.get("tool") == "delegate":
+            if b.get("tool") in ("delegate", "delegate_batch"):
                 return []
-            return [self._ev(r, r.agent, "step", message=f"{b.get('tool')} → {_short(b.get('result', ''))}")]
+            res = str(b.get("result", ""))
+            # Only outcomes worth reading: verdicts and errors. Search results etc. are noise in the log.
+            if b.get("tool") in ("submit_report", "finalize") or res.startswith(("ERROR", "REJECTED")) or res == "no matching parts":
+                return [self._ev(r, r.agent, "step", message=f"{b.get('tool', '').replace('_', ' ')}: {_short(res, 110)}")]
+            return []
         if r.kind == "final":
             text = r.body if isinstance(r.body, str) else json.dumps(r.body)
-            if text.strip() == "STEP LIMIT":
+            if not r.parent and isinstance(r.body, dict) and "selections" in r.body:
+                res = r.body
+                status = str(res.get("status", ""))
+                t = res.get("totals") or {}
+                summary = (f"{status}: " + ", ".join(f"{k}={v}" for k, v in (res.get("selections") or {}).items())
+                           + f" · ${t.get('cost_usd')} · {t.get('power_mw')} mW · critic rounds {res.get('critic_rounds')}"
+                           + (f" · {len(res['unresolved'])} unresolved objection(s)" if res.get("unresolved") else ""))
+                return [self._ev(r, r.agent, "step", message=summary)] + \
+                    (self._design(r, res["bom"], "final") if res.get("bom") else []) + [
+                        self._ev(r, r.agent, "agent_status", status="done"),
+                        self._ev(r, r.agent, "run_done", ok=status.startswith("accepted"), summary=summary[:400],
+                                 result=res)]
+            if text.strip() in ("STEP LIMIT", "NO_ACCEPTED_OUTPUT"):
                 out = [self._ev(r, r.agent, "step", message="hit the step limit"),
                        self._ev(r, r.agent, "agent_status", status="failed")]
                 if not r.parent:
-                    out.append(self._ev(r, r.agent, "run_done", ok=False, summary="Mother agent hit the step limit"))
+                    out.append(self._ev(r, r.agent, "run_done", ok=False,
+                                        summary="Mother agent finished without an accepted design"))
                 return out
             out = []
             rep = parse_report(text) if r.parent else None
+            if rep is not None and rep.get("subsystem"):
+                self.options[(r.run, rep["subsystem"])] = {
+                    o.get("name"): [p for p in o.get("parts") or [] if isinstance(p, dict) and p.get("mpn")]
+                    for o in rep.get("options") or [] if isinstance(o, dict)}
             if rep is not None:
                 out.append(self._ev(r, r.agent, "report", **report_payload(rep, r.parent)))
             else:
@@ -196,18 +330,6 @@ class Translator:
             if not r.parent:
                 out.append(self._ev(r, r.agent, "run_done", ok=True, summary=_short(text, 300)))
             return out
-        if r.kind == "gate" and isinstance(r.body, dict):
-            errs = [{"code": e.split(":")[0], "message": f"{n}: {e}", "part": e.split(":", 1)[1] or None}
-                    for n, es in (r.body.get("failed") or {}).items() for e in es]
-            return [self._ev(r, r.agent, "verifier_result", verifier="gate", ok=bool(r.body.get("passed")),
-                             errors=errs, details={"attempt": r.body.get("attempt")}, target_subsystem=role)]
-        if r.kind == "critique" and isinstance(r.body, dict):
-            objs = r.body.get("objections") or []
-            errs = [{"code": "CRITIC_" + (o.get("severity") or "concern").upper(), "message": (o.get("issue") or "")[:240],
-                     "part": None, "severity": "error" if o.get("severity") == "blocker" else "warning"} for o in objs]
-            return [self._ev(r, "critic", "verifier_result", verifier="critic",
-                             ok=not any(o.get("severity") == "blocker" for o in objs), errors=errs,
-                             details={"round": r.body.get("round")})]
         return [self._ev(r, r.agent, "step", message=f"{r.kind}: {_short(r.body)}")]
 
 

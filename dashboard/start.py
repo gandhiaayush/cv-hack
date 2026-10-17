@@ -314,13 +314,7 @@ def _bridge_loop():
                 saved = int(cur_file.read_text()) if cur_file.exists() else (rows[-1].id if rows else 0)
                 for r in rows:
                     if r.id <= saved:
-                        if r.kind == "spec" and isinstance(r.body, dict):
-                            tr.specs[r.run] = r.body
-                        if r.kind == "start":
-                            tr.parents[(r.run, r.agent)] = r.parent
-                        if r.kind == "final" and r.parent and isinstance(r.body, dict) and r.body.get("options"):
-                            for o in r.body["options"]:
-                                tr.options[(r.run, o.get("name"))] = (r.body.get("subsystem"), o.get("parts") or [])
+                        tr.learn(r)
                 cursor = saved
                 continue
             if rows:

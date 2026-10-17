@@ -152,6 +152,23 @@ def _pad_nets(design: Design, parts: dict[str, Part]) -> dict[str, dict[str, str
     return out
 
 
+# Standard KiCad footprints for catalogue parts that only give a package name.
+PACKAGE_FOOTPRINTS = {
+    "SOIC-8": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm", "SOP-8": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+    "SOIC-8-150MIL": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm", "SOIC-14": "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm",
+    "SOT-23-5": "Package_TO_SOT_SMD:SOT-23-5", "SOT-23-6": "Package_TO_SOT_SMD:SOT-23-6",
+    "TSSOP-8": "Package_SO:TSSOP-8_4.4x3mm_P0.65mm", "TSSOP-14": "Package_SO:TSSOP-14_4.4x5mm_P0.65mm",
+    "TSSOP-24": "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm", "SOD-323F": "Diode_SMD:D_SOD-323F",
+    "TO-252": "Package_TO_SOT_SMD:TO-252-2",
+}
+
+
+def footprint_for(p: Part) -> str:
+    if ":" in (p.footprint or ""):
+        return p.footprint
+    return PACKAGE_FOOTPRINTS.get(str(p.ratings.get("package") or "").strip().upper(), "")
+
+
 def _job(design: Design, parts: dict[str, Part], previous: dict | None) -> dict:
     from cvhack.tooling import kicad_sch
     pads = _pad_nets(design, parts)
@@ -159,10 +176,11 @@ def _job(design: Design, parts: dict[str, Part], previous: dict | None) -> dict:
     for block in design.blocks:
         for inst in block.parts:
             p = parts.get(inst.mpn)
-            if inst.ref in seen or p is None or ":" not in p.footprint:
+            fp = footprint_for(p) if p else ""
+            if inst.ref in seen or p is None or not fp:
                 continue
             seen.add(inst.ref)
-            job_parts.append({"ref": inst.ref, "footprint": p.footprint, "value": p.value or p.mpn,
+            job_parts.append({"ref": inst.ref, "footprint": fp, "value": p.value or p.mpn,
                               "subsystem": block.subsystem, "pads": pads.get(inst.ref, {})})
     power = sorted(n for n in kicad_sch.power_nets(design, parts) if n.upper() not in kicad_sch.GND_NAMES)
     return {"name": design.name, "footprint_dir": str(footprint_dir()), "gnd": "GND", "power_nets": power,

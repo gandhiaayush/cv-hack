@@ -2,6 +2,7 @@ fastapi>=0.115
 httpx>=0.27
 openai
 pydantic>=2.7
+pypdf>=4
 pytest>=8
 python-dotenv
 pywebview

@@ -204,6 +204,38 @@ and stock win everywhere. Sub-agents can query the graph with the
 `search_parts` and `find_alternates` tools. Catalog parts carry no `power_mw`
 (the distributor data has no typical power), so the power budget counts them as 0.
 
+#### Medical evidence fields
+
+Every catalog part has a `medical` block (`python -m cvhack.scrape.medical`;
+`cvhack.scrape.build` runs it too). It records evidence, not a compliance finding:
+
+| Field | Source | Coverage |
+|---|---|---|
+| `lifecycle` | TI product pages (manufacturer status); LCSC `productCycle` (distributor) | 58 manufacturer statuses (all TI); 3 parts LCSC has discontinued; the rest `unknown` (ST, ADI, Microchip and onsemi block automated lookups) |
+| `traceability` | LCSC product record and the datasheet itself | RoHS certificate for 360 parts, ECCN, HTS, packaging, datasheet SHA-256; lot/date code is `null` because it only exists at goods receipt |
+| `statements` | Text scan of each datasheet (457 of 500 readable), with the quote | IEC 60601-1 (8 parts), 60601-1-2 EMC, MOPP/MOOP, ISO 10993 (none), life-support/medical-use restrictions (62) |
+| `isolation` | Insulation tables of the 23 isolation-barrier parts, transcribed into [`data/isolation_ratings.json`](./data/isolation_ratings.json) with verbatim quotes (tests check each quote is in the datasheet) | 20 transcribed: withstand/working voltage, creepage, clearance, DTI, CTI, barrier capacitance, certifications, MOPP where stated for that package; other parts are `not_applicable` with the reason |
+| `leakage_current` | Barrier capacitance x 250 Vrms at 60 Hz | Isolation parts only; a screening estimate, not a measurement |
+| `biocompatibility` | Datasheet claims only; ISO 10993 is assessed on the finished device's patient-contacting materials | No part claims it; categories often in a skin-facing path are flagged |
+
+[`data/medical_requirements.json`](./data/medical_requirements.json) holds IEC
+60601-1 reference values (MOOP/MOPP test voltage, creepage and clearance at
+mains working voltage; patient, touch and earth leakage limits), transcribed
+from manufacturer application notes rather than the standard itself; confirm
+them against the standard before a design decision. In the graph,
+`rating_reaches` edges compare an isolation part's own ratings with those
+levels (screening only: the board layout, working voltage and the part's
+certificate decide the real means of protection), and `certified_to`,
+`datasheet_states` and `has_lifecycle_status` edges carry the evidence.
+`search_parts` accepts `mopp_at_least` and `lifecycle`, and the
+`get_part_medical` tool returns a part's full medical profile.
+
+Things the transcription turned up: the ADuM4160's IEC 60601-1 250 Vrms
+rating is for the RI-16 package (the stocked RW-16 part is 125 Vrms, 7.7 mm
+creepage); LCSC lists isolated DC-DC modules' VDC ratings as Vrms and the
+AMC1200B's 4250 V peak as 4.25 kV rms; and the H0505S module's "60601"
+references are to the EMC standard 60601-1-2, not safety isolation.
+
 ### Rules, verifier results, and events
 
 - B's initial rules are in [`data/rules.json`](./data/rules.json). They check
