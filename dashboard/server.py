@@ -33,6 +33,10 @@ from cvhack.tooling.rules import RuleVerifier
 app = FastAPI(title="cv-hack dashboard")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
+from dashboard.narration import install as install_narration  # noqa: E402
+
+install_narration(app)
+
 WEB_DIST = Path(__file__).resolve().parent / "web" / "dist"
 
 

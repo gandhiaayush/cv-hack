@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api.js";
 import Board3D from "./Board3D.jsx";
+import Narration from "./Narration.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
 
@@ -90,6 +91,8 @@ export default function App() {
       ) : (
         <main className="grid">
           <section className="panel tree">
+            <h2>Live commentary</h2>
+            <Narration />
             <h2>Agents <small>{state?.agents?.length || 0}</small></h2>
             <AgentTree agents={state?.agents || []} />
             <Verifiers verifiers={state?.verifiers || {}} />
