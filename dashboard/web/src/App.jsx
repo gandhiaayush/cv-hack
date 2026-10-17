@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api.js";
 import Board3D from "./Board3D.jsx";
-import Narration from "./Narration.jsx";
 import BomPlus from "./BomPlus.jsx";
+import { DesignNote, NegotiationBoard, Overview, clip, shortName, subLabel } from "./views.jsx";
 
 const STATUS_LABEL = { running: "running", waiting: "waiting", done: "done", failed: "failed" };
+
+const TABS = [["overview", "Overview"], ["negotiation", "Negotiation"], ["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM & Cost"]];
 
 export default function App() {
   const [runs, setRuns] = useState([]);
@@ -14,7 +16,7 @@ export default function App() {
   const [log, setLog] = useState([]);
   const [svg, setSvg] = useState(null);
   const [bom, setBom] = useState([]);
-  const [tab, setTabState] = useState(() => (["schematic", "board", "bom", "negotiation"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "schematic"));
+  const [tab, setTabState] = useState(() => (TABS.some(([t]) => t === location.hash.slice(1)) ? location.hash.slice(1) : "overview"));
   const setTab = (t) => { setTabState(t); history.replaceState(null, "", `#${t}`); };
   const [toast, setToast] = useState(null);
   const refetchTimer = useRef(null);
@@ -75,11 +77,17 @@ export default function App() {
       <header className="top">
         <div className="brand">
           <span className={`dot ${running ? "live" : state?.done?.ok ? "ok" : ""}`} />
-          <h1>Agent PCB run</h1>
+          <h1>Agent PCB designer</h1>
           <select value={runId || ""} onChange={(e) => { setFollow(false); setRunId(e.target.value); }}>
             {runs.map((r) => <option key={r.run_id} value={r.run_id}>{r.run_id}</option>)}
           </select>
           <label className="follow"><input type="checkbox" checked={follow} onChange={(e) => setFollow(e.target.checked)} /> follow latest</label>
+          {(() => {
+            const open = state?.done?.ok && (state?.verifiers?.critic?.errors || []).some((e) => e.severity === "error");
+            const cls = running ? "live" : open ? "warn" : state?.done?.ok ? "ok" : state?.done ? "bad" : "";
+            const txt = running ? "running" : open ? "accepted · blockers open" : state?.done ? (state.done.ok ? "accepted" : "failed") : "—";
+            return <span className={`hpill ${cls}`}>{txt}</span>;
+          })()}
         </div>
         <Budgets totals={state?.totals} budgets={state?.budgets} />
         <Controls bom={bom} onSend={sendControl} onExport={doExport} disabled={!runId} />
@@ -92,36 +100,38 @@ export default function App() {
       ) : (
         <main className="grid">
           <section className="panel tree">
-            <Inference models={state?.inference || []} />
-            <h2>Live commentary</h2>
-            <Narration />
             <h2>Agents <small>{state?.agents?.length || 0}</small></h2>
             <AgentTree agents={state?.agents || []} />
             <Verifiers verifiers={state?.verifiers || {}} />
+            <Inference models={state?.inference || []} />
           </section>
 
           <section className="panel center">
             <div className="tabs">
-              {[["schematic", "Schematic"], ["board", "3D Board"], ["bom", "BOM & Cost"], ["negotiation", `Negotiation${state?.negotiation?.length ? ` (${state.negotiation.length})` : ""}`]].map(([t, label]) => (
+              {TABS.map(([t, label]) => (
                 <button key={t} className={tab === t ? "on" : ""} onClick={() => setTab(t)}>{label}</button>
               ))}
               <span className="spacer" />
               {state?.design && <span className="muted">{state.design.name} · v{state.design_version}</span>}
             </div>
             <Changes commands={state?.commands || []} />
-            {tab === "schematic" ? <Schematic svg={svg} />
+            {(tab === "schematic" || tab === "board") && <DesignNote state={state} />}
+            {tab === "overview" ? <Overview state={state} />
+              : tab === "negotiation" ? <NegotiationBoard state={state} />
+              : tab === "schematic" ? <Schematic svg={svg} />
               : tab === "board" ? (state?.design ? <Board3D runId={runId} designVersion={state.design_version} failing={state.failing_refs || []} />
                                                  : <div className="empty small">Waiting for the first design…</div>)
-              : tab === "bom" ? <BomPlus runId={runId} designVersion={state?.design_version} />
-              : <Negotiation entries={state?.negotiation || []} agents={state?.agents || []} replans={state?.replans || []} />}
+              : <BomPlus runId={runId} designVersion={state?.design_version} />}
           </section>
 
           <section className="panel right">
-            <h2>Requirements
-              <small>{(state?.requirements || []).filter((r) => r.status === "pass").length}/{state?.requirements?.length || 0}</small>
-              <a className="dl" href={`/api/runs/${runId}/matrix.csv`}>csv</a>
-            </h2>
-            <div className="mwrap"><Matrix reqs={state?.requirements || []} /></div>
+            {state?.requirements?.length > 0 && (<>
+              <h2>Requirements
+                <small>{state.requirements.filter((r) => r.status === "pass").length}/{state.requirements.length}</small>
+                <a className="dl" href={`/api/runs/${runId}/matrix.csv`}>csv</a>
+              </h2>
+              <div className="mwrap"><Matrix reqs={state.requirements} /></div>
+            </>)}
             {state?.rules?.length > 0 && (
               <>
                 <h2>Design rules
@@ -135,9 +145,7 @@ export default function App() {
           </section>
         </main>
       )}
-      {state?.done && (
-        <div className={`banner ${state.done.ok ? "ok" : "bad"}`}>{state.done.ok ? "✓" : "✗"} {state.done.summary}</div>
-      )}
+
       {toast && <div className="toast">{toast}</div>}
     </div>
   );
@@ -183,15 +191,21 @@ function AgentTree({ agents }) {
     agents.forEach((a) => { (m[a.parent || "__root"] ||= []).push(a); });
     return m;
   }, [agents]);
+  // Re-delegated agents share a label; number the repeats ("Power · round 2").
+  const round = useMemo(() => {
+    const seen = {}, out = {};
+    agents.forEach((a) => { const k = `${a.parent}|${a.label}`; seen[k] = (seen[k] || 0) + 1; out[a.id] = seen[k]; });
+    return out;
+  }, [agents]);
   const render = (a, depth) => (
     <li key={a.id}>
       <div className={`agent ${a.status} role-${a.role}`}>
         <span className={`sdot ${a.status}`} title={STATUS_LABEL[a.status] || a.status} />
-        <span className="alabel">{a.label}</span>
+        <span className="alabel">{a.role === "subsystem" ? subLabel(a.label.replace(/ /g, "_")) : a.label}{round[a.id] > 1 && <span className="muted"> · round {round[a.id]}</span>}</span>
         {a.model && <span className="amodel" title={a.model}>{shortModel(a.model)}</span>}
         {a.steps > 0 && <span className="steps">{a.steps}</span>}
       </div>
-      {a.last && <div className="alast">{a.last}</div>}
+      {a.last && <div className="alast" title={a.last}>{clip(a.last, 60)}</div>}
       {children[a.id] && <ul>{children[a.id].map((c) => render(c, depth + 1))}</ul>}
     </li>
   );
@@ -203,12 +217,12 @@ function Verifiers({ verifiers }) {
   if (!vs.length) return null;
   return (
     <div className="verifiers">
-      <h2>Gate</h2>
+      <h2>Checks</h2>
       {vs.map((v) => (
-        <details key={v.verifier} className={`ver ${v.ok ? "ok" : "bad"}`} open={!v.ok}>
-          <summary><span>{v.ok ? "✓" : "✗"}</span> {v.verifier} <small>{v.errors?.length ? `${v.errors.length} issue(s)` : "pass"}</small></summary>
-          {v.errors?.slice(0, 12).map((e, i) => (
-            <div key={i} className={`err ${e.severity}`}><code>{e.code}</code> {e.message}</div>
+        <details key={v.verifier} className={`ver ${v.ok ? "ok" : "bad"}`}>
+          <summary><span>{v.ok ? "✓" : "✗"}</span> {verifierName(v.verifier)} <small>{v.errors?.length ? `${v.errors.length} issue${v.errors.length > 1 ? "s" : ""}` : "pass"}</small></summary>
+          {v.errors?.slice(0, 8).map((e, i) => (
+            <div key={i} className={`err ${e.severity}`} title={e.message}><code>{e.code.replace(/^CRITIC_/, "")}</code> {clip(e.message, 120)}</div>
           ))}
         </details>
       ))}
@@ -286,69 +300,6 @@ function Changes({ commands }) {
   );
 }
 
-function Negotiation({ entries, agents, replans }) {
-  const label = (id) => agents.find((a) => a.id === id)?.label || id;
-  const threads = useMemo(() => {
-    const m = new Map();
-    entries.forEach((e) => {
-      const key = e.kind === "report" ? e.from : e.to;
-      if (!m.has(key)) m.set(key, []);
-      m.get(key).push(e);
-    });
-    return [...m.entries()];
-  }, [entries]);
-  if (!threads.length) return <div className="empty small">No delegations yet</div>;
-  return (
-    <div className="nego">
-      {replans.length > 0 && (
-        <div className="nego-replans">
-          {replans.map((r, i) => <div key={i}><b>Re-plan:</b> {r.reason}{r.changes?.length ? <ul>{r.changes.map((c, j) => <li key={j}>{c}</li>)}</ul> : null}</div>)}
-        </div>
-      )}
-      {threads.map(([sub, es]) => (
-        <div key={sub} className="thread">
-          <h3>{label(sub)} <small>{sub}</small></h3>
-          {es.map((e, i) => <NegoEntry key={i} e={e} label={label} />)}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function NegoEntry({ e, label }) {
-  if (e.kind === "delegate") return (
-    <div className="ne delegate">
-      <span className="tag">delegate</span> from {label(e.from)}
-      {e.budget && Object.keys(e.budget).length > 0 && <span className="muted"> · budget {fmtBudget(e.budget)}</span>}
-      {e.constraints?.length > 0 && <div className="muted small">{e.constraints.join(" · ")}</div>}
-    </div>
-  );
-  if (e.kind === "report") return (
-    <div className="ne report">
-      <span className="tag">report</span> to {label(e.to)}
-      {e.options?.length > 0 && (
-        <table className="opts"><tbody>
-          {e.options.map((o, i) => (
-            <tr key={i}><td>{o.name}</td><td className="num">{o.cost != null ? `$${o.cost}` : ""}</td>
-              <td className="num">{o.power_mw != null ? `${o.power_mw} mW` : ""}</td><td className="muted">{o.notes || ""}</td></tr>
-          ))}
-        </tbody></table>
-      )}
-      {e.conflicts?.length > 0 && <div className="bad small">conflicts: {e.conflicts.join("; ")}</div>}
-      {e.cannot_meet?.length > 0 && <div className="bad small">cannot meet: {e.cannot_meet.join("; ")}</div>}
-      {e.needs?.length > 0 && <div className="muted small">needs: {e.needs.join("; ")}</div>}
-    </div>
-  );
-  return (
-    <div className="ne decision">
-      <span className="tag">decision</span> by {label(e.from)}: <b>{e.chosen || e.message || "—"}</b>
-      {e.chosen && e.message && <span className="muted"> · {e.message}</span>}
-      {e.budget_changes && <div className="muted small">budget: {fmtBudget(e.budget_changes)}</div>}
-      {e.spawn?.length > 0 && <div className="muted small">spawn: {e.spawn.join(", ")}</div>}
-    </div>
-  );
-}
-
 const shortModel = (m) => (m || "").split("/").pop().replace(/^NVIDIA-/, "").replace(/-A\d+B$/, "");
 
 function Inference({ models }) {
@@ -394,7 +345,7 @@ function Rules({ rules }) {
 }
 
 const LOG_KINDS = new Set(["step", "replan", "verifier_result", "constraint_change", "run_done",
-  "delegate", "report", "decision", "agent_spawned"]);
+  "delegate", "report", "decision"]);
 
 function Log({ events }) {
   const ref = useRef(null);
@@ -404,7 +355,7 @@ function Log({ events }) {
       {events.filter((e) => LOG_KINDS.has(e.kind)).map((e, i) => (
         <div key={i} className={`ev k-${e.kind} ${e.kind === "verifier_result" ? (e.payload.ok ? "ok" : "bad") : ""}`}>
           <span className="t">{new Date(e.ts * 1000).toLocaleTimeString([], { hour12: false })}</span>
-          <span className="who">{e.agent_id}</span>
+          <span className="who">{String(e.agent_id).split(":")[0].replace("verifier.", "")}</span>
           <span className="msg">{describe(e)}</span>
         </div>
       ))}
@@ -415,19 +366,20 @@ function Log({ events }) {
 function describe(e) {
   const p = e.payload;
   switch (e.kind) {
-    case "step": return p.message;
+    case "step": return clip(p.message, 110);
     case "agent_spawned": return `spawned ${p.label || ""}`;
-    case "replan": return `REPLAN: ${p.reason}${p.changes?.length ? " → " + p.changes.join("; ") : ""}`;
-    case "verifier_result": return p.ok ? "PASS" : `FAIL: ${[...new Set((p.errors || []).map((x) => x.code))].join(", ")}`;
+    case "replan": return `re-plan: ${clip(p.reason, 80)}`;
+    case "verifier_result": return `${verifierName(p.verifier)}: ${p.ok ? "pass" : `${(p.errors || []).length} issue(s)`}`;
     case "constraint_change": return `CONSTRAINT: ${Object.entries(p).filter(([k]) => k !== "ts").map(([k, v]) => `${k}=${v}`).join(" ")}`;
-    case "run_done": return `DONE: ${p.summary}`;
-    case "delegate": return `→ ${p.to}: delegate ${fmtBudget(p.budget)}`;
-    case "report": return `→ ${p.to}: ${p.options?.length || 0} option(s)${p.conflicts?.length ? ", conflicts: " + p.conflicts.join("; ") : ""}${p.needs?.length ? ", needs: " + p.needs.join("; ") : ""}`;
-    case "decision": return `→ ${p.to}: ${p.chosen || p.message || "decision"}${p.spawn?.length ? " (spawn " + p.spawn.join(", ") + ")" : ""}`;
+    case "run_done": return `${p.ok ? "done" : "failed"}: ${clip(p.summary, 90)}`;
+    case "delegate": return `asked ${subLabel(p.subsystem || p.to)}`;
+    case "report": return `reported ${p.options?.length || 0} option(s)`;
+    case "decision": return `chose for ${subLabel(String(p.to).split(":")[0])}: ${shortName(p.chosen || p.message || "", 40)}`;
     default: return e.kind;
   }
 }
 
+const verifierName = (v) => String(v).startsWith("gate:") ? `gate · ${subLabel(v.slice(5))}` : String(v).replace(/_/g, " ");
 const fmtBudget = (b) => (b ? Object.entries(b).map(([k, v]) => `${k}=${v}`).join(" ") : "");
 const money = (n, d) => (n == null ? <span className="muted" title="price unknown">?</span> : n.toFixed(d));
 const fmt = (n) => (n == null ? "–" : Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 }));
