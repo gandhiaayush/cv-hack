@@ -25,7 +25,7 @@ from cvhack.events import RUNS_DIR, latest_run_id, read_events
 from cvhack.outputs import matrix_csv, matrix_rows, write_outputs
 from cvhack.parts import load_parts
 from cvhack.state import fold
-from cvhack.tooling import budgets, kicad_sch
+from cvhack.tooling import budgets, kicad_cli, kicad_sch
 from cvhack.tooling.rules import RuleVerifier
 
 app = FastAPI(title="cv-hack dashboard")
@@ -115,8 +115,13 @@ def schematic(run_id: str):
     d = s.design_obj()
     if d is None:
         raise HTTPException(404, "no design yet")
-    svg = kicad_sch.to_svg(d, load_parts(), highlight=s.failing_refs())
-    return Response(svg, media_type="image/svg+xml", headers={"Cache-Control": "no-store"})
+    parts = load_parts()
+    svg = kicad_cli.render_svg(d, parts, RUNS_DIR / "_render", highlight=s.failing_refs(), crop=True)
+    renderer = "kicad"
+    if svg is None:   # no kicad-cli: our own approximation of the same layout
+        svg, renderer = kicad_sch.to_svg(d, parts, highlight=s.failing_refs()), "cvhack"
+    return Response(svg, media_type="image/svg+xml",
+                    headers={"Cache-Control": "no-store", "X-Renderer": renderer})
 
 
 @app.get("/api/runs/{run_id}/bom")

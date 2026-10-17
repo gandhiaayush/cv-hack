@@ -102,12 +102,12 @@ def run_erc(sch: Path) -> list[VerifierError]:
     return errs
 
 
-def export_svg(sch: Path, out_dir: Path) -> Path | None:
+def export_svg(sch: Path, out_dir: Path, drawing_sheet: bool = False) -> Path | None:
     """KiCad's own schematic render. Returns the SVG path, or None if it failed."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    proc = _run(["sch", "export", "svg", "--no-background-color", "--exclude-drawing-sheet",
-                 "--output", str(out_dir), str(sch)])
+    flags = [] if drawing_sheet else ["--no-background-color", "--exclude-drawing-sheet"]
+    proc = _run(["sch", "export", "svg", *flags, "--output", str(out_dir), str(sch)])
     svgs = sorted(out_dir.glob(f"{Path(sch).stem}*.svg"))
     return svgs[0] if proc.returncode == 0 and svgs else None
 
@@ -120,3 +120,51 @@ def export_netlist(sch: Path, out: Path) -> Path | None:
 def export_pdf(sch: Path, out: Path) -> Path | None:
     proc = _run(["sch", "export", "pdf", "--output", str(out), str(sch)])
     return Path(out) if proc.returncode == 0 and Path(out).exists() else None
+
+
+_RENDER_VERSION = "2"   # bump when kicad_sch output changes, to invalidate cached renders
+
+
+def render_svg(design: Design, parts: dict[str, Part], cache_dir: Path,
+               highlight: set[str] | None = None, crop: bool = False) -> str | None:
+    """KiCad's own render of the design as an SVG string (page coordinates in mm), cached by
+    content. Refs in `highlight` get a red box drawn over them. None if kicad-cli is missing
+    or fails, so callers can fall back to kicad_sch.to_svg."""
+    if not available():
+        return None
+    import hashlib
+    used = sorted({i.mpn for i in design.all_parts()})
+    key = hashlib.sha1(json.dumps([_RENDER_VERSION, design.model_dump(),
+                                   [parts[m].model_dump() for m in used if m in parts]],
+                                  sort_keys=True, default=str).encode()).hexdigest()[:16]
+    d = Path(cache_dir) / key
+    svg_path = d / "svg" / f"{design.name}.svg"
+    if not svg_path.exists():
+        try:
+            sch = write_project(design, parts, d)
+            export_svg(sch, d / "svg", drawing_sheet=True)
+        except Exception:
+            return None
+    if not svg_path.exists():
+        return None
+    svg = svg_path.read_text()
+    svg = svg[svg.find("<svg"):]                      # drop XML prolog/doctype for inline use
+    lay = kicad_sch.layout(design, parts) if (highlight or crop) else None
+    if crop:
+        # Show the drawn area, not the whole sheet (the title block stays in exports).
+        xs = [pp.x + pp.x0 for pp in lay.parts] + [t[1] for t in lay.titles]
+        x0 = max(min(xs) - 12.7, 0) if xs else 0
+        w, h = lay.width - x0, lay.height - 5
+        svg = re.sub(r'width="[\d.]+mm" height="[\d.]+mm" viewBox="[^"]*"',
+                     f'width="{w:.1f}mm" height="{h:.1f}mm" viewBox="{x0:.3f} 5 {w:.3f} {h:.3f}"', svg, count=1)
+    if highlight:
+        boxes = []
+        for pp in lay.parts:
+            if pp.ref in highlight:
+                x0, x1 = pp.x + pp.x0 - 1.27, pp.x + pp.x1 + 1.27
+                y0, y1 = pp.y + pp.top - 1.27, pp.y + pp.bottom + 1.27
+                boxes.append(f'<rect x="{x0:.3f}" y="{y0:.3f}" width="{x1 - x0:.3f}" height="{y1 - y0:.3f}" rx="1" '
+                             f'fill="rgba(220,38,38,.10)" stroke="#dc2626" stroke-width=".5">'
+                             f'<title>{pp.ref}: failing check</title></rect>')
+        svg = svg.replace("</svg>", "".join(boxes) + "</svg>")
+    return svg
