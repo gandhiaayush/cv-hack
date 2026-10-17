@@ -171,3 +171,9 @@ table { width: 100%; border-collapse: collapse; }
 .board3d-card h3 { margin: 0 0 4px; font-size: 15px; }
 .board3d-card h3 small { color: var(--muted); font-weight: 400; font-size: 11px; margin-left: 6px; }
 .board3d-card .x { position: absolute; right: 6px; top: 4px; padding: 0 6px; background: transparent; border: none; font-size: 16px; }
+.ok { color: var(--ok); }
+.warn { color: var(--warn); }
+.pulse { animation: blink 1.2s infinite; }
+.board3d-meta label { cursor: pointer; }
+.board3d-busy { position: absolute; right: 12px; bottom: 12px; font-size: 12px; color: var(--warn); background: rgba(21,27,35,.9); border: 1px solid var(--warn); padding: 3px 10px; border-radius: 12px; animation: blink 1.2s infinite; }
+.board3d-note { position: absolute; left: 50%; transform: translateX(-50%); bottom: 54px; font-size: 13px; background: rgba(21,27,35,.94); border: 1px solid var(--accent); padding: 6px 14px; border-radius: 8px; max-width: 80%; }

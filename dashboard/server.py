@@ -12,6 +12,7 @@ from __future__ import annotations
 import asyncio
 import json
 import threading
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -126,46 +127,112 @@ def schematic(run_id: str):
                     headers={"Cache-Control": "no-store", "X-Renderer": renderer})
 
 
-_board_lock = threading.Lock()
+_board_lock = threading.Lock()                 # one KiCad placement at a time
+_route_pool = ThreadPoolExecutor(max_workers=1)  # routing runs in the background
+_route_jobs: dict[str, object] = {}              # build dir -> Future
+_route_latest: dict[str, str] = {}               # run -> build dir it should route next
 
 
-def _board(run_id: str):
-    d = _state(_resolve(run_id)).design_obj()
+def _route_bg(run_id: str, b: pcb.BoardBuild):
+    key = str(b.dir)
+    _route_latest[run_id] = key
+    if key in _route_jobs or not pcb.can_route() or b.route_info is not None:
+        return
+
+    def work():
+        if _route_latest.get(run_id) != key:      # superseded by a newer edit before it started
+            _route_jobs.pop(key, None)
+            return
+        try:
+            pcb.route(b)
+        except Exception as exc:                  # surfaced through board.json
+            (b.dir / "route_error.txt").write_text(str(exc)[:2000])
+    _route_jobs[key] = _route_pool.submit(work)
+
+
+def _changes(prev: dict | None, design) -> dict:
+    now = {i.ref: i.mpn for i in design.all_parts()}
+    before = (prev or {}).get("parts", {})
+    if not before:
+        return {"added": [], "removed": [], "swapped": [], "first": True}
+    return {"added": sorted(r for r in now if r not in before),
+            "removed": sorted(r for r in before if r not in now),
+            "swapped": [{"ref": r, "from": before[r], "to": now[r]} for r in sorted(now)
+                        if r in before and before[r] != now[r]],
+            "first": False}
+
+
+def _place(run_id: str):
+    rid = _resolve(run_id)
+    d = _state(rid).design_obj()
     if d is None:
         raise HTTPException(404, "no design yet")
     if not pcb.available():
         raise HTTPException(503, "KiCad (kicad-cli, its Python and footprint libraries) is needed for the 3D board")
-    with _board_lock:   # one KiCad build at a time; results are cached by design content
+    state_f = RUNS_DIR / rid / "board_state.json"
+    with _board_lock:
+        prev = json.loads(state_f.read_text()) if state_f.exists() else None
+        same = prev and prev.get("design") == d.model_dump()
         try:
-            glb, info = pcb.render_glb(d, load_parts(), RUNS_DIR / "_board")
+            b = pcb.place(d, load_parts(), RUNS_DIR / "_board", None if not prev else prev.get("previous_of_this")
+                          if same else {k: prev[k] for k in ("width_mm", "height_mm", "placements")})
         except RuntimeError as exc:
             raise HTTPException(500, str(exc))
-    if glb is None:
-        raise HTTPException(500, "GLB export failed")
-    return d, glb, info
+        ch_f = b.dir / f"changes-{rid}.json"
+        if not same:
+            ch = _changes(prev, d)
+            ch_f.write_text(json.dumps(ch))
+            state_f.write_text(json.dumps({
+                "design": d.model_dump(), "parts": {i.ref: i.mpn for i in d.all_parts()},
+                "width_mm": b.info["width_mm"], "height_mm": b.info["height_mm"], "placements": b.info["placements"],
+                "previous_of_this": {k: prev[k] for k in ("width_mm", "height_mm", "placements")} if prev else None}))
+        changes = json.loads(ch_f.read_text()) if ch_f.exists() else {"added": [], "removed": [], "swapped": []}
+    _route_bg(rid, b)
+    return rid, d, b, changes
 
 
 @app.get("/api/runs/{run_id}/board.json")
 def board_info(run_id: str):
-    d, glb, info = _board(run_id)
+    rid, d, b, changes = _place(run_id)
     parts = load_parts()
     nets_of: dict[str, dict[str, str]] = {}
     for name, nodes in d.merged_nets().items():
         for n in nodes:
             nets_of.setdefault(n.ref, {})[n.pin] = name
-    sub = {i.ref: b.subsystem for b in d.blocks for i in b.parts}
+    sub = {i.ref: blk.subsystem for blk in d.blocks for i in blk.parts}
     mpn = {i.ref: i.mpn for i in d.all_parts()}
+    info = json.loads(json.dumps(b.info))
     for ref, pl in info.get("placements", {}).items():
         p = parts.get(mpn.get(ref, ""))
         pl.update(mpn=mpn.get(ref), value=(p.value or p.mpn) if p else "", description=p.description if p else "",
                   subsystem=sub.get(ref), nets=nets_of.get(ref, {}))
-    return {k: v for k, v in info.items() if k != "pcb"} | {"glb_version": glb.parent.name}
+    err = b.dir / "route_error.txt"
+    if b.route_info is not None and b.routed_glb.exists():
+        route = {"status": "routed", **b.route_info}
+        glb = "routed"
+    elif err.exists():
+        route, glb = {"status": "failed", "error": err.read_text()}, "placed"
+    elif not pcb.can_route():
+        route, glb = {"status": "unavailable", "error": "Freerouting not set up (demo/setup_router.sh)"}, "placed"
+    else:
+        route, glb = {"status": "routing"}, "placed"
+    return {**info, "changes": changes, "route": route, "glb": glb, "build": b.dir.name,
+            "glb_url": f"/api/runs/{rid}/board.glb?build={b.dir.name}&kind={glb}"}
 
 
 @app.get("/api/runs/{run_id}/board.glb")
-def board_glb(run_id: str):
-    _, glb, _ = _board(run_id)
-    return FileResponse(glb, media_type="model/gltf-binary", headers={"Cache-Control": "no-store"})
+def board_glb(run_id: str, build: str | None = None, kind: str = "placed"):
+    if build:
+        d = (RUNS_DIR / "_board" / build).resolve()
+        if d.parent != (RUNS_DIR / "_board").resolve():
+            raise HTTPException(404)
+        f = d / ("routed.glb" if kind == "routed" else "placed.glb")
+    else:
+        _, _, b, _ = _place(run_id)
+        f = b.routed_glb if (kind == "routed" and b.routed_glb.exists()) else b.glb
+    if not f.exists():
+        raise HTTPException(404, "board not built yet")
+    return FileResponse(f, media_type="model/gltf-binary", headers={"Cache-Control": "max-age=3600"})
 
 
 @app.get("/api/runs/{run_id}/bom")
