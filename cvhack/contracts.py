@@ -150,6 +150,7 @@ EventKind = Literal[
     "design_updated",      # payload: {design: Design.model_dump()}
     "constraint_change",   # payload: ControlCommand.payload (echoed by the mother agent when applied)
     "run_done",            # payload: {ok, summary}
+    "inference",           # one LLM call. payload: {model, provider?, latency_s, prompt_tokens, completion_tokens}
 ]
 
 

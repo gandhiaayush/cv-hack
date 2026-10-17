@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 
 from cvhack.parts import load_parts
 
-from . import gate, store
+from . import gate, llm, store
 from .llm import chat
 from .spec import BUDGET, DEVICE, SUBSYSTEMS
 from .tools import kg, parts, regs, sandbox
@@ -237,6 +237,7 @@ def _critic(ctx: RunCtx, chosen: dict, totals: dict, rationale: str) -> list:
     try:
         m = chat([{"role": "system", "content": CRITIC_PROMPT}, {"role": "user", "content": msg}],
                  os.environ.get("CRITIC_MODEL") or os.environ["SUB_MODEL"])
+        store.log(ctx.run, "critic", None, "llm_call", llm.last_call())
         text = re.sub(r"^```(?:json)?|```$", "", (m.content or "").strip(), flags=re.M).strip()
         objs = json.loads(text[text.index("{"):text.rindex("}") + 1])["objections"]
     except Exception:  # None means "no review happened", which must never read as "no objections"
@@ -280,6 +281,7 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
         for attempt in range(3):  # transient API failures (timeouts, 429s) must not kill the run
             try:
                 m = chat(msgs, model, tools=step_tools)
+                store.log(ctx.run, name, parent, "llm_call", llm.last_call())
                 break
             except Exception as e:
                 store.log(ctx.run, name, parent, "llm_error", {"attempt": attempt + 1, "error": type(e).__name__})

@@ -24,6 +24,7 @@ class RunState:
     started: float | None = None
     updated: float | None = None
     n_events: int = 0
+    inference: dict[str, dict[str, Any]] = field(default_factory=dict)   # per model: calls, tokens, latency
 
     def apply(self, e: AgentEvent) -> None:
         self.n_events += 1
@@ -62,6 +63,19 @@ class RunState:
             self.done = None
         elif e.kind == "run_done":
             self.done = {**p, "ts": e.ts}
+        elif e.kind == "inference":
+            m = self.inference.setdefault(p.get("model", "?"), {"model": p.get("model", "?"), "provider": p.get("provider", ""),
+                                                                 "calls": 0, "prompt_tokens": 0, "completion_tokens": 0,
+                                                                 "latency_s": 0.0, "agents": []})
+            m["calls"] += 1
+            m["prompt_tokens"] += p.get("prompt_tokens") or 0
+            m["completion_tokens"] += p.get("completion_tokens") or 0
+            m["latency_s"] = round(m["latency_s"] + (p.get("latency_s") or 0.0), 3)
+            role = e.agent_id.split(":")[0]
+            if role not in m["agents"]:
+                m["agents"].append(role)
+            a["calls"] = a.get("calls", 0) + 1
+            a["model"] = p.get("model")
 
     def design_obj(self) -> Design | None:
         return Design.model_validate(self.design) if self.design else None
@@ -82,6 +96,7 @@ class RunState:
             "constraint_changes": self.constraint_changes, "design": self.design,
             "design_version": self.design_version, "done": self.done,
             "started": self.started, "updated": self.updated, "n_events": self.n_events,
+            "inference": sorted(self.inference.values(), key=lambda m: -m["calls"]),
         }
 
 

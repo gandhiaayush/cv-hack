@@ -90,6 +90,7 @@ export default function App() {
       ) : (
         <main className="grid">
           <section className="panel tree">
+            <Inference models={state?.inference || []} />
             <h2>Agents <small>{state?.agents?.length || 0}</small></h2>
             <AgentTree agents={state?.agents || []} />
             <Verifiers verifiers={state?.verifiers || {}} />
@@ -183,6 +184,7 @@ function AgentTree({ agents }) {
       <div className={`agent ${a.status} role-${a.role}`}>
         <span className={`sdot ${a.status}`} title={STATUS_LABEL[a.status] || a.status} />
         <span className="alabel">{a.label}</span>
+        {a.model && <span className="amodel" title={a.model}>{shortModel(a.model)}</span>}
         {a.steps > 0 && <span className="steps">{a.steps}</span>}
       </div>
       {a.last && <div className="alast">{a.last}</div>}
@@ -342,6 +344,30 @@ function NegoEntry({ e, label }) {
     </div>
   );
 }
+
+const shortModel = (m) => (m || "").split("/").pop().replace(/^NVIDIA-/, "").replace(/-A\d+B$/, "");
+
+function Inference({ models }) {
+  if (!models.length) return null;
+  const calls = models.reduce((s, m) => s + m.calls, 0);
+  const tok = models.reduce((s, m) => s + m.prompt_tokens + m.completion_tokens, 0);
+  return (
+    <div className="inference">
+      <h2>Inference <small>{models[0].provider || "Crusoe"} · {calls} calls · {fmtTok(tok)} tokens</small></h2>
+      {models.map((m) => (
+        <div key={m.model} className="imodel">
+          <div className="iname" title={m.model}>{shortModel(m.model)}</div>
+          <div className="istats muted small">
+            {m.calls} calls · {fmtTok(m.prompt_tokens)} in / {fmtTok(m.completion_tokens)} out · avg {(m.latency_s / Math.max(m.calls, 1)).toFixed(1)}s
+          </div>
+          <div className="muted small">{m.agents.join(", ")}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const fmtTok = (n) => (n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : `${n}`);
 
 const RULE_CHIP = { pass: "pass", fail: "fail", indeterminate: "fail", not_applicable: "pending" };
 
