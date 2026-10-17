@@ -20,7 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from cvhack.contracts import ControlCommand
-from cvhack.control import send_command
+from cvhack.control import read_commands, send_command
 from cvhack.events import RUNS_DIR, latest_run_id, read_events
 from cvhack.outputs import matrix_csv, matrix_rows, write_outputs
 from cvhack.parts import load_parts
@@ -67,6 +67,11 @@ def state(run_id: str):
     rid = _resolve(run_id)
     s = _state(rid)
     data = s.to_json()
+    # Commands sent from the dashboard, in order; the first N are applied once the
+    # agents have echoed N constraint_change events.
+    cmds, _ = read_commands(rid)
+    n_applied = len(s.constraint_changes)
+    data["commands"] = [{**c.payload, "ts": c.ts, "applied": i < n_applied} for i, c in enumerate(cmds)]
     d = s.design_obj()
     if d is not None:
         parts = load_parts()
