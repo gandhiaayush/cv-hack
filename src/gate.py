@@ -9,6 +9,8 @@ from cvhack.parts import load_parts
 
 from .spec import SUBSYSTEMS
 
+# parts whose voltage figure is not a limit the rail must stay under (TVS stand-off, diode Vf, ...)
+NO_RAIL_CHECK = {"tvs", "diode", "fuse", "led", "crystal", "oscillator", "inductor", "ferrite", "resistor"}
 OUT_OF_STOCK: set[str] = set()  # set by the demo's constraint change; never touches data/parts.json
 
 
@@ -22,11 +24,19 @@ def _nums(x):
 
 
 def rated_max_v(part) -> float | None:
-    """Lowest voltage limit the DB knows for this part, or None if the DB has none."""
+    """Lowest voltage LIMIT the DB knows for this part, or None.
+
+    Only unambiguous fields count: scalar vin_max / v_rated, an explicit {"max": ...}, or fields that are
+    literally maximums (supply_voltage_max, rated_voltage). A bare {"value": ...} under supply_voltage is
+    ambiguous (nominal? minimum? maximum?) in the distributor data, so it is NOT treated as a limit."""
     r = part.ratings or {}
-    vals = [v for k in ("vin_max", "v_rated") for v in _nums(r.get(k))]
+    vals = [float(r[k]) for k in ("vin_max", "v_rated") if isinstance(r.get(k), (int, float))]
     specs = r.get("specs") or {}
     for k in ("supply_voltage", "input_voltage", "voltage_rating"):
+        v = specs.get(k)
+        if isinstance(v, dict) and isinstance(v.get("max"), (int, float)):
+            vals.append(float(v["max"]))
+    for k in ("supply_voltage_max", "rated_voltage"):
         vals += list(_nums(specs.get(k)))
     return min(vals) if vals else None
 
@@ -54,9 +64,11 @@ def check_option(subsystem: str, items: list[dict]) -> dict:
         elif p.stock is None:
             errs.append(VerifierError(code="STOCK_UNKNOWN", part=mpn, severity="warning",
                                       message=f"{mpn} stock is unknown."))
-        limit = rated_max_v(p)
-        if limit is None:
-            if p.category in {"ldo", "mcu", "power", "charger", "afe", "analog", "tvs", "protection"}:
+        limit = None if p.category in NO_RAIL_CHECK else rated_max_v(p)
+        if p.category in NO_RAIL_CHECK:
+            pass
+        elif limit is None:
+            if p.category in {"ldo", "dcdc", "mcu", "rf_module", "power", "charger", "afe", "analog", "protection"}:
                 errs.append(VerifierError(code="RATING_UNKNOWN", part=mpn, severity="warning", message=
                     f"{mpn} has no voltage rating in the DB; cannot confirm it covers {sub['max_rail_v']} V."))
         elif limit < sub["max_rail_v"]:
