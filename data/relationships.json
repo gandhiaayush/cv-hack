@@ -1,0 +1,5179 @@
+{
+  "schema_version": "1.0.0",
+  "graph_id": "cv-hack-ppg-wearable-mock",
+  "graph_status": "schematic_relationships_only",
+  "generated_from": [
+    "cvhack/mocks/design_wearable.json",
+    "cvhack/mocks/parts.json"
+  ],
+  "source_registry": [
+    {
+      "id": "source:repo:design-wearable-mock",
+      "type": "source",
+      "label": "Wearable schematic mock",
+      "attributes": {
+        "path": "cvhack/mocks/design_wearable.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Design instances, subsystem assignment, nets, and pin connections only"
+      }
+    },
+    {
+      "id": "source:repo:parts-mock",
+      "type": "source",
+      "label": "Mock parts registry",
+      "attributes": {
+        "path": "cvhack/mocks/parts.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Mock MPN descriptions, symbol pins, footprints, and placeholder ratings"
+      }
+    },
+    {
+      "id": "source:repo:demo-rules",
+      "type": "source",
+      "label": "Project-defined demo rule catalog",
+      "attributes": {
+        "path": "data/rules.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Prototype design consistency checks; not regulatory clauses"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source:repo:design-wearable-mock",
+      "type": "source",
+      "label": "Wearable schematic mock",
+      "attributes": {
+        "path": "cvhack/mocks/design_wearable.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Design instances, subsystem assignment, nets, and pin connections only"
+      }
+    },
+    {
+      "id": "source:repo:parts-mock",
+      "type": "source",
+      "label": "Mock parts registry",
+      "attributes": {
+        "path": "cvhack/mocks/parts.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Mock MPN descriptions, symbol pins, footprints, and placeholder ratings"
+      }
+    },
+    {
+      "id": "source:repo:demo-rules",
+      "type": "source",
+      "label": "Project-defined demo rule catalog",
+      "attributes": {
+        "path": "data/rules.json",
+        "evidence_kind": "repository_fixture",
+        "scope": "Prototype design consistency checks; not regulatory clauses"
+      }
+    },
+    {
+      "id": "design:ppg-wearable-class2",
+      "type": "design",
+      "label": "ppg-wearable-class2",
+      "attributes": {
+        "status": "mock",
+        "requirements_status": "pending_authoritative_requirement_ids"
+      }
+    },
+    {
+      "id": "subsystem:protection",
+      "type": "subsystem",
+      "label": "protection",
+      "attributes": {}
+    },
+    {
+      "id": "part:mock:usb4105-gf-a",
+      "type": "part",
+      "label": "USB4105-GF-A",
+      "attributes": {
+        "mpn": "USB4105-GF-A",
+        "category": "connector",
+        "description": "USB-C receptacle, power only",
+        "footprint": "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal",
+        "mock_ratings": {
+          "vin_max": 20
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J1",
+      "type": "part_instance",
+      "label": "J1",
+      "attributes": {
+        "reference_designator": "J1",
+        "subsystem": "protection"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J1:pin:a9",
+      "type": "pin",
+      "label": "VBUS",
+      "attributes": {
+        "number": "A9",
+        "name": "VBUS",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J1:pin:a12",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "A12",
+        "name": "GND",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J1:pin:a5",
+      "type": "pin",
+      "label": "CC1",
+      "attributes": {
+        "number": "A5",
+        "name": "CC1",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J1:pin:b5",
+      "type": "pin",
+      "label": "CC2",
+      "attributes": {
+        "number": "B5",
+        "name": "CC2",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:0zcj0050ff2e",
+      "type": "part",
+      "label": "0ZCJ0050FF2E",
+      "attributes": {
+        "mpn": "0ZCJ0050FF2E",
+        "category": "fuse",
+        "description": "PTC resettable fuse 500mA 1206",
+        "footprint": "Fuse:Fuse_1206_3216Metric",
+        "mock_ratings": {
+          "i_hold_a": 0.5
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:F1",
+      "type": "part_instance",
+      "label": "F1",
+      "attributes": {
+        "reference_designator": "F1",
+        "subsystem": "protection"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:F1:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:F1:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:smf5-0a",
+      "type": "part",
+      "label": "SMF5.0A",
+      "attributes": {
+        "mpn": "SMF5.0A",
+        "category": "tvs",
+        "description": "TVS diode 5V unidirectional SOD-123F",
+        "footprint": "Diode_SMD:D_SOD-123F",
+        "mock_ratings": {
+          "v_standoff": 5.0,
+          "iec_61000_4_2": true
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D1",
+      "type": "part_instance",
+      "label": "D1",
+      "attributes": {
+        "reference_designator": "D1",
+        "subsystem": "protection"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D1:pin:1",
+      "type": "pin",
+      "label": "K",
+      "attributes": {
+        "number": "1",
+        "name": "K",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D1:pin:2",
+      "type": "pin",
+      "label": "A",
+      "attributes": {
+        "number": "2",
+        "name": "A",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:rc0402fr-075k1l",
+      "type": "part",
+      "label": "RC0402FR-075K1L",
+      "attributes": {
+        "mpn": "RC0402FR-075K1L",
+        "category": "resistor",
+        "description": "5.1k 1% 0402",
+        "footprint": "Resistor_SMD:R_0402_1005Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R1",
+      "type": "part_instance",
+      "label": "R1",
+      "attributes": {
+        "reference_designator": "R1",
+        "subsystem": "protection"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R1:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R1:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R2",
+      "type": "part_instance",
+      "label": "R2",
+      "attributes": {
+        "reference_designator": "R2",
+        "subsystem": "protection"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R2:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R2:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "subsystem:power",
+      "type": "subsystem",
+      "label": "power",
+      "attributes": {}
+    },
+    {
+      "id": "part:mock:mcp73831t-2aci-ot",
+      "type": "part",
+      "label": "MCP73831T-2ACI/OT",
+      "attributes": {
+        "mpn": "MCP73831T-2ACI/OT",
+        "category": "charger",
+        "description": "Li-ion/LiPo linear charger 4.2V SOT-23-5",
+        "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+        "mock_ratings": {
+          "vin_max": 6.0,
+          "v_charge": 4.2
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1",
+      "type": "part_instance",
+      "label": "U1",
+      "attributes": {
+        "reference_designator": "U1",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1:pin:1",
+      "type": "pin",
+      "label": "STAT",
+      "attributes": {
+        "number": "1",
+        "name": "STAT",
+        "electrical_type": "output",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1:pin:2",
+      "type": "pin",
+      "label": "VSS",
+      "attributes": {
+        "number": "2",
+        "name": "VSS",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1:pin:3",
+      "type": "pin",
+      "label": "VBAT",
+      "attributes": {
+        "number": "3",
+        "name": "VBAT",
+        "electrical_type": "power_out",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1:pin:4",
+      "type": "pin",
+      "label": "VDD",
+      "attributes": {
+        "number": "4",
+        "name": "VDD",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U1:pin:5",
+      "type": "pin",
+      "label": "PROG",
+      "attributes": {
+        "number": "5",
+        "name": "PROG",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:grm188r61a475ke15d",
+      "type": "part",
+      "label": "GRM188R61A475KE15D",
+      "attributes": {
+        "mpn": "GRM188R61A475KE15D",
+        "category": "capacitor",
+        "description": "4.7uF 10V X5R 0603",
+        "footprint": "Capacitor_SMD:C_0603_1608Metric",
+        "mock_ratings": {
+          "v_rated": 10
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C1",
+      "type": "part_instance",
+      "label": "C1",
+      "attributes": {
+        "reference_designator": "C1",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C1:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C1:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C2",
+      "type": "part_instance",
+      "label": "C2",
+      "attributes": {
+        "reference_designator": "C2",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C2:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C2:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:rc0402fr-072kl",
+      "type": "part",
+      "label": "RC0402FR-072KL",
+      "attributes": {
+        "mpn": "RC0402FR-072KL",
+        "category": "resistor",
+        "description": "2k 1% 0402 (charge current 500mA)",
+        "footprint": "Resistor_SMD:R_0402_1005Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R3",
+      "type": "part_instance",
+      "label": "R3",
+      "attributes": {
+        "reference_designator": "R3",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R3:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R3:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:bm02b-pass-tbt",
+      "type": "part",
+      "label": "BM02B-PASS-TBT",
+      "attributes": {
+        "mpn": "BM02B-PASS-TBT",
+        "category": "connector",
+        "description": "JST PH 2-pin battery connector",
+        "footprint": "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:BT1",
+      "type": "part_instance",
+      "label": "BT1",
+      "attributes": {
+        "reference_designator": "BT1",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:BT1:pin:1",
+      "type": "pin",
+      "label": "BAT+",
+      "attributes": {
+        "number": "1",
+        "name": "BAT+",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:BT1:pin:2",
+      "type": "pin",
+      "label": "BAT-",
+      "attributes": {
+        "number": "2",
+        "name": "BAT-",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:ap2112k-3-3trg1",
+      "type": "part",
+      "label": "AP2112K-3.3TRG1",
+      "attributes": {
+        "mpn": "AP2112K-3.3TRG1",
+        "category": "ldo",
+        "description": "600mA LDO 3.3V SOT-23-5",
+        "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+        "mock_ratings": {
+          "vin_max": 6.0,
+          "vout": 3.3,
+          "iout_max_a": 0.6
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2",
+      "type": "part_instance",
+      "label": "U2",
+      "attributes": {
+        "reference_designator": "U2",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2:pin:1",
+      "type": "pin",
+      "label": "VIN",
+      "attributes": {
+        "number": "1",
+        "name": "VIN",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2:pin:2",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "2",
+        "name": "GND",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2:pin:3",
+      "type": "pin",
+      "label": "EN",
+      "attributes": {
+        "number": "3",
+        "name": "EN",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2:pin:4",
+      "type": "pin",
+      "label": "NC",
+      "attributes": {
+        "number": "4",
+        "name": "NC",
+        "electrical_type": "no_connect",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U2:pin:5",
+      "type": "pin",
+      "label": "VOUT",
+      "attributes": {
+        "number": "5",
+        "name": "VOUT",
+        "electrical_type": "power_out",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:grm188r61a105ka61d",
+      "type": "part",
+      "label": "GRM188R61A105KA61D",
+      "attributes": {
+        "mpn": "GRM188R61A105KA61D",
+        "category": "capacitor",
+        "description": "1uF 10V X5R 0603",
+        "footprint": "Capacitor_SMD:C_0603_1608Metric",
+        "mock_ratings": {
+          "v_rated": 10
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C3",
+      "type": "part_instance",
+      "label": "C3",
+      "attributes": {
+        "reference_designator": "C3",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C3:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C3:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C4",
+      "type": "part_instance",
+      "label": "C4",
+      "attributes": {
+        "reference_designator": "C4",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C4:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C4:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:tlv70018ddcr",
+      "type": "part",
+      "label": "TLV70018DDCR",
+      "attributes": {
+        "mpn": "TLV70018DDCR",
+        "category": "ldo",
+        "description": "200mA LDO 1.8V SOT-23-5",
+        "footprint": "Package_TO_SOT_SMD:SOT-23-5",
+        "mock_ratings": {
+          "vin_max": 5.5,
+          "vout": 1.8,
+          "iout_max_a": 0.2
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3",
+      "type": "part_instance",
+      "label": "U3",
+      "attributes": {
+        "reference_designator": "U3",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3:pin:1",
+      "type": "pin",
+      "label": "IN",
+      "attributes": {
+        "number": "1",
+        "name": "IN",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3:pin:2",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "2",
+        "name": "GND",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3:pin:3",
+      "type": "pin",
+      "label": "EN",
+      "attributes": {
+        "number": "3",
+        "name": "EN",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3:pin:4",
+      "type": "pin",
+      "label": "NC",
+      "attributes": {
+        "number": "4",
+        "name": "NC",
+        "electrical_type": "no_connect",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U3:pin:5",
+      "type": "pin",
+      "label": "OUT",
+      "attributes": {
+        "number": "5",
+        "name": "OUT",
+        "electrical_type": "power_out",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C5",
+      "type": "part_instance",
+      "label": "C5",
+      "attributes": {
+        "reference_designator": "C5",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C5:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C5:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C6",
+      "type": "part_instance",
+      "label": "C6",
+      "attributes": {
+        "reference_designator": "C6",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C6:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C6:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:rc0402fr-071kl",
+      "type": "part",
+      "label": "RC0402FR-071KL",
+      "attributes": {
+        "mpn": "RC0402FR-071KL",
+        "category": "resistor",
+        "description": "1k 1% 0402",
+        "footprint": "Resistor_SMD:R_0402_1005Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R4",
+      "type": "part_instance",
+      "label": "R4",
+      "attributes": {
+        "reference_designator": "R4",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R4:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R4:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:ltst-c191kgkt",
+      "type": "part",
+      "label": "LTST-C191KGKT",
+      "attributes": {
+        "mpn": "LTST-C191KGKT",
+        "category": "led",
+        "description": "Green LED 0603",
+        "footprint": "LED_SMD:LED_0603_1608Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D2",
+      "type": "part_instance",
+      "label": "D2",
+      "attributes": {
+        "reference_designator": "D2",
+        "subsystem": "power"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D2:pin:1",
+      "type": "pin",
+      "label": "K",
+      "attributes": {
+        "number": "1",
+        "name": "K",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:D2:pin:2",
+      "type": "pin",
+      "label": "A",
+      "attributes": {
+        "number": "2",
+        "name": "A",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "subsystem:analog_fe",
+      "type": "subsystem",
+      "label": "analog_fe",
+      "attributes": {}
+    },
+    {
+      "id": "part:mock:max30102efd-t",
+      "type": "part",
+      "label": "MAX30102EFD+T",
+      "attributes": {
+        "mpn": "MAX30102EFD+T",
+        "category": "afe",
+        "description": "Pulse oximetry and heart-rate sensor, I2C",
+        "footprint": "Package_LGA:Maxim_OLGA-14_3.3x5.6mm_P0.8mm",
+        "mock_ratings": {
+          "vdd": 1.8,
+          "vled_min": 3.1,
+          "vled_max": 5.0,
+          "patient_contact": true
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4",
+      "type": "part_instance",
+      "label": "U4",
+      "attributes": {
+        "reference_designator": "U4",
+        "subsystem": "analog_fe"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:1",
+      "type": "pin",
+      "label": "VLED+",
+      "attributes": {
+        "number": "1",
+        "name": "VLED+",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:11",
+      "type": "pin",
+      "label": "VDD",
+      "attributes": {
+        "number": "11",
+        "name": "VDD",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:12",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "12",
+        "name": "GND",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:4",
+      "type": "pin",
+      "label": "SDA",
+      "attributes": {
+        "number": "4",
+        "name": "SDA",
+        "electrical_type": "bidirectional",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:5",
+      "type": "pin",
+      "label": "SCL",
+      "attributes": {
+        "number": "5",
+        "name": "SCL",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U4:pin:13",
+      "type": "pin",
+      "label": "INT",
+      "attributes": {
+        "number": "13",
+        "name": "INT",
+        "electrical_type": "open_collector",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:grm155r71c104ka88d",
+      "type": "part",
+      "label": "GRM155R71C104KA88D",
+      "attributes": {
+        "mpn": "GRM155R71C104KA88D",
+        "category": "capacitor",
+        "description": "100nF 16V X7R 0402",
+        "footprint": "Capacitor_SMD:C_0402_1005Metric",
+        "mock_ratings": {
+          "v_rated": 16
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C7",
+      "type": "part_instance",
+      "label": "C7",
+      "attributes": {
+        "reference_designator": "C7",
+        "subsystem": "analog_fe"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C7:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C7:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C8",
+      "type": "part_instance",
+      "label": "C8",
+      "attributes": {
+        "reference_designator": "C8",
+        "subsystem": "analog_fe"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C8:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C8:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "subsystem:mcu_comms",
+      "type": "subsystem",
+      "label": "mcu_comms",
+      "attributes": {}
+    },
+    {
+      "id": "part:mock:mdbt42q-512kv2",
+      "type": "part",
+      "label": "MDBT42Q-512KV2",
+      "attributes": {
+        "mpn": "MDBT42Q-512KV2",
+        "category": "mcu",
+        "description": "nRF52832 BLE module with chip antenna",
+        "footprint": "RF_Module:Raytac_MDBT42Q",
+        "mock_ratings": {
+          "vin_min": 1.7,
+          "vin_max": 3.6,
+          "fcc_id": "SH6MDBT42Q"
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5",
+      "type": "part_instance",
+      "label": "U5",
+      "attributes": {
+        "reference_designator": "U5",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:1",
+      "type": "pin",
+      "label": "VCC",
+      "attributes": {
+        "number": "1",
+        "name": "VCC",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:2",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "2",
+        "name": "GND",
+        "electrical_type": "power_in",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:10",
+      "type": "pin",
+      "label": "P0.26/SDA",
+      "attributes": {
+        "number": "10",
+        "name": "P0.26/SDA",
+        "electrical_type": "bidirectional",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:11",
+      "type": "pin",
+      "label": "P0.27/SCL",
+      "attributes": {
+        "number": "11",
+        "name": "P0.27/SCL",
+        "electrical_type": "bidirectional",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:20",
+      "type": "pin",
+      "label": "P0.16/INT",
+      "attributes": {
+        "number": "20",
+        "name": "P0.16/INT",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:21",
+      "type": "pin",
+      "label": "P0.17/CHG",
+      "attributes": {
+        "number": "21",
+        "name": "P0.17/CHG",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:30",
+      "type": "pin",
+      "label": "SWDIO",
+      "attributes": {
+        "number": "30",
+        "name": "SWDIO",
+        "electrical_type": "bidirectional",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:31",
+      "type": "pin",
+      "label": "SWDCLK",
+      "attributes": {
+        "number": "31",
+        "name": "SWDCLK",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:U5:pin:32",
+      "type": "pin",
+      "label": "P0.21/RESET",
+      "attributes": {
+        "number": "32",
+        "name": "P0.21/RESET",
+        "electrical_type": "input",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C9",
+      "type": "part_instance",
+      "label": "C9",
+      "attributes": {
+        "reference_designator": "C9",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C9:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C9:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:grm188r61a106ke69d",
+      "type": "part",
+      "label": "GRM188R61A106KE69D",
+      "attributes": {
+        "mpn": "GRM188R61A106KE69D",
+        "category": "capacitor",
+        "description": "10uF 10V X5R 0603",
+        "footprint": "Capacitor_SMD:C_0603_1608Metric",
+        "mock_ratings": {
+          "v_rated": 10
+        },
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C10",
+      "type": "part_instance",
+      "label": "C10",
+      "attributes": {
+        "reference_designator": "C10",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C10:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:C10:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:rc0402fr-074k7l",
+      "type": "part",
+      "label": "RC0402FR-074K7L",
+      "attributes": {
+        "mpn": "RC0402FR-074K7L",
+        "category": "resistor",
+        "description": "4.7k 1% 0402",
+        "footprint": "Resistor_SMD:R_0402_1005Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R5",
+      "type": "part_instance",
+      "label": "R5",
+      "attributes": {
+        "reference_designator": "R5",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R5:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R5:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R6",
+      "type": "part_instance",
+      "label": "R6",
+      "attributes": {
+        "reference_designator": "R6",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R6:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R6:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:rc0402fr-0710kl",
+      "type": "part",
+      "label": "RC0402FR-0710KL",
+      "attributes": {
+        "mpn": "RC0402FR-0710KL",
+        "category": "resistor",
+        "description": "10k 1% 0402",
+        "footprint": "Resistor_SMD:R_0402_1005Metric",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R7",
+      "type": "part_instance",
+      "label": "R7",
+      "attributes": {
+        "reference_designator": "R7",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R7:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R7:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R8",
+      "type": "part_instance",
+      "label": "R8",
+      "attributes": {
+        "reference_designator": "R8",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R8:pin:1",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "1",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:R8:pin:2",
+      "type": "pin",
+      "label": "~",
+      "attributes": {
+        "number": "2",
+        "name": "~",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "part:mock:tc2030-idc-nl",
+      "type": "part",
+      "label": "TC2030-IDC-NL",
+      "attributes": {
+        "mpn": "TC2030-IDC-NL",
+        "category": "connector",
+        "description": "Tag-Connect SWD footprint, 5-pin",
+        "footprint": "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical",
+        "mock_ratings": {},
+        "metadata_status": "mock_only_not_manufacturer_verified"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2",
+      "type": "part_instance",
+      "label": "J2",
+      "attributes": {
+        "reference_designator": "J2",
+        "subsystem": "mcu_comms"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2:pin:1",
+      "type": "pin",
+      "label": "VCC",
+      "attributes": {
+        "number": "1",
+        "name": "VCC",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2:pin:2",
+      "type": "pin",
+      "label": "SWDIO",
+      "attributes": {
+        "number": "2",
+        "name": "SWDIO",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2:pin:3",
+      "type": "pin",
+      "label": "RESET",
+      "attributes": {
+        "number": "3",
+        "name": "RESET",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2:pin:4",
+      "type": "pin",
+      "label": "SWDCLK",
+      "attributes": {
+        "number": "4",
+        "name": "SWDCLK",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "instance:ppg-wearable-class2:J2:pin:5",
+      "type": "pin",
+      "label": "GND",
+      "attributes": {
+        "number": "5",
+        "name": "GND",
+        "electrical_type": "passive",
+        "pin_scope": "mock_registry_symbol_interface_not_verified_complete_package_pinout"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:vbus-raw",
+      "type": "net",
+      "label": "VBUS_RAW",
+      "attributes": {
+        "name": "VBUS_RAW"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:vbus",
+      "type": "net",
+      "label": "VBUS",
+      "attributes": {
+        "name": "VBUS"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:cc1",
+      "type": "net",
+      "label": "CC1",
+      "attributes": {
+        "name": "CC1"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:cc2",
+      "type": "net",
+      "label": "CC2",
+      "attributes": {
+        "name": "CC2"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:gnd",
+      "type": "net",
+      "label": "GND",
+      "attributes": {
+        "name": "GND"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:vbat",
+      "type": "net",
+      "label": "VBAT",
+      "attributes": {
+        "name": "VBAT"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:prog",
+      "type": "net",
+      "label": "PROG",
+      "attributes": {
+        "name": "PROG"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:3v3",
+      "type": "net",
+      "label": "3V3",
+      "attributes": {
+        "name": "3V3"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:1v8",
+      "type": "net",
+      "label": "1V8",
+      "attributes": {
+        "name": "1V8"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:chg-stat",
+      "type": "net",
+      "label": "CHG_STAT",
+      "attributes": {
+        "name": "CHG_STAT"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:led-a",
+      "type": "net",
+      "label": "LED_A",
+      "attributes": {
+        "name": "LED_A"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:i2c-sda",
+      "type": "net",
+      "label": "I2C_SDA",
+      "attributes": {
+        "name": "I2C_SDA"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:i2c-scl",
+      "type": "net",
+      "label": "I2C_SCL",
+      "attributes": {
+        "name": "I2C_SCL"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:ppg-int",
+      "type": "net",
+      "label": "PPG_INT",
+      "attributes": {
+        "name": "PPG_INT"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:swdio",
+      "type": "net",
+      "label": "SWDIO",
+      "attributes": {
+        "name": "SWDIO"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:swdclk",
+      "type": "net",
+      "label": "SWDCLK",
+      "attributes": {
+        "name": "SWDCLK"
+      }
+    },
+    {
+      "id": "net:ppg-wearable-class2:nreset",
+      "type": "net",
+      "label": "nRESET",
+      "attributes": {
+        "name": "nRESET"
+      }
+    },
+    {
+      "id": "rule:dr-demo-usb-001",
+      "type": "rule",
+      "label": "USB-C CC termination topology",
+      "attributes": {
+        "rule_id": "DR-DEMO-USB-001",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "interface_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "pin_on_net",
+              "ref": "J1",
+              "pin": "A5",
+              "net": "CC1"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R1",
+              "pin": "1",
+              "net": "CC1"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R1",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "part_value_is",
+              "ref": "R1",
+              "value": "5.1k"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "J1",
+              "pin": "B5",
+              "net": "CC2"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R2",
+              "pin": "1",
+              "net": "CC2"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R2",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "part_value_is",
+              "ref": "R2",
+              "value": "5.1k"
+            }
+          ]
+        },
+        "rationale": "The mock architecture models a USB-C sink using one 5.1 kOhm pull-down from each CC pin to ground. This checks the stated demo topology and mock values only.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-usb-002",
+      "type": "rule",
+      "label": "USB input fuse and TVS topology",
+      "attributes": {
+        "rule_id": "DR-DEMO-USB-002",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "protection_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "pin_on_net",
+              "ref": "J1",
+              "pin": "A9",
+              "net": "VBUS_RAW"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "F1",
+              "pin": "1",
+              "net": "VBUS_RAW"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "F1",
+              "pin": "2",
+              "net": "VBUS"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "D1",
+              "pin": "1",
+              "net": "VBUS"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "D1",
+              "pin": "2",
+              "net": "GND"
+            }
+          ]
+        },
+        "rationale": "Checks the mock's intended series-fuse and VBUS-to-ground TVS connections. It does not verify fuse coordination, TVS suitability, surge performance, creepage, or system-level ESD.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-pwr-001",
+      "type": "rule",
+      "label": "Charger input, battery, programming, and return connections",
+      "attributes": {
+        "rule_id": "DR-DEMO-PWR-001",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "power_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "instance_has_mpn",
+              "ref": "U1",
+              "mpn": "MCP73831T-2ACI/OT"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "4",
+              "net": "VBUS"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "3",
+              "net": "VBAT"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "5",
+              "net": "PROG"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R3",
+              "pin": "1",
+              "net": "PROG"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R3",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "part_value_is",
+              "ref": "R3",
+              "value": "2k"
+            }
+          ]
+        },
+        "rationale": "Checks the charger and programming-resistor topology encoded in the mock. It does not calculate charge current, validate thermal dissipation, or establish safe charging for a specific cell.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-pwr-002",
+      "type": "rule",
+      "label": "Battery connector and charger share the battery rail",
+      "attributes": {
+        "rule_id": "DR-DEMO-PWR-002",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "power_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "pin_on_net",
+              "ref": "BT1",
+              "pin": "1",
+              "net": "VBAT"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "BT1",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "3",
+              "net": "VBAT"
+            }
+          ]
+        },
+        "rationale": "Checks the battery connections in the mock. It does not assert that a cell is present, protected, correctly polarized, or safe to charge.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-pwr-003",
+      "type": "rule",
+      "label": "3.3 V regulator feeds the MCU rail",
+      "attributes": {
+        "rule_id": "DR-DEMO-PWR-003",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "power_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "instance_has_mpn",
+              "ref": "U2",
+              "mpn": "AP2112K-3.3TRG1"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U2",
+              "pin": "1",
+              "net": "VBAT"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U2",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U2",
+              "pin": "5",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "2",
+              "net": "GND"
+            }
+          ]
+        },
+        "rationale": "Checks the mock's 3.3 V rail structure using the mock pin map. Confirm the actual module pin names and electrical limits against manufacturer documentation before board release.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-pwr-004",
+      "type": "rule",
+      "label": "1.8 V sensor rail is regulator-fed and grounded",
+      "attributes": {
+        "rule_id": "DR-DEMO-PWR-004",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "power_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "instance_has_mpn",
+              "ref": "U3",
+              "mpn": "TLV70018DDCR"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U3",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U3",
+              "pin": "2",
+              "net": "GND"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U3",
+              "pin": "5",
+              "net": "1V8"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U4",
+              "pin": "11",
+              "net": "1V8"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U4",
+              "pin": "12",
+              "net": "GND"
+            }
+          ]
+        },
+        "rationale": "Checks the intended sensor-supply topology in the mock only. It does not check rail tolerance, transient behavior, dropout, current capacity, or MAX30102 manufacturer limits.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-i2c-001",
+      "type": "rule",
+      "label": "I2C pull-ups connect SDA and SCL to 3.3 V",
+      "attributes": {
+        "rule_id": "DR-DEMO-I2C-001",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "interface_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "part_value_is",
+              "ref": "R5",
+              "value": "4.7k"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R5",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R5",
+              "pin": "2",
+              "net": "I2C_SDA"
+            },
+            {
+              "operator": "part_value_is",
+              "ref": "R6",
+              "value": "4.7k"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R6",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R6",
+              "pin": "2",
+              "net": "I2C_SCL"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U4",
+              "pin": "4",
+              "net": "I2C_SDA"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U4",
+              "pin": "5",
+              "net": "I2C_SCL"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "10",
+              "net": "I2C_SDA"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "11",
+              "net": "I2C_SCL"
+            }
+          ]
+        },
+        "rationale": "Checks the mock's intended shared I2C bus and pull-up placement/value. It does not calculate rise time, bus capacitance, sink current, or compatibility with the selected devices.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-ind-001",
+      "type": "rule",
+      "label": "Charge indicator LED has a series resistor",
+      "attributes": {
+        "rule_id": "DR-DEMO-IND-001",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "indicator_topology",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "pin_on_net",
+              "ref": "R4",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "R4",
+              "pin": "2",
+              "net": "LED_A"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "D2",
+              "pin": "2",
+              "net": "LED_A"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "D2",
+              "pin": "1",
+              "net": "CHG_STAT"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U1",
+              "pin": "1",
+              "net": "CHG_STAT"
+            },
+            {
+              "operator": "part_value_is",
+              "ref": "R4",
+              "value": "1k"
+            }
+          ]
+        },
+        "rationale": "Checks the mock's current-limited charge-status LED topology. It does not validate LED current, indicator polarity, visibility, or charger STAT pin electrical limits.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    },
+    {
+      "id": "rule:dr-demo-mcu-001",
+      "type": "rule",
+      "label": "Debug header carries SWD, reset, supply, and ground",
+      "attributes": {
+        "rule_id": "DR-DEMO-MCU-001",
+        "clause": "Project-defined demo check; not a regulatory clause",
+        "category": "debug_interface",
+        "severity": "error",
+        "check": {
+          "operator": "all_of",
+          "checks": [
+            {
+              "operator": "pin_on_net",
+              "ref": "J2",
+              "pin": "1",
+              "net": "3V3"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "J2",
+              "pin": "2",
+              "net": "SWDIO"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "J2",
+              "pin": "3",
+              "net": "nRESET"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "J2",
+              "pin": "4",
+              "net": "SWDCLK"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "J2",
+              "pin": "5",
+              "net": "GND"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "30",
+              "net": "SWDIO"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "31",
+              "net": "SWDCLK"
+            },
+            {
+              "operator": "pin_on_net",
+              "ref": "U5",
+              "pin": "32",
+              "net": "nRESET"
+            }
+          ]
+        },
+        "rationale": "Checks the debug interface wiring in the mock. Confirm the actual module pin names and electrical levels against manufacturer documentation before board release.",
+        "rule_set_id": "cv-hack-ppg-demo-design-rules",
+        "scope": "project_defined_non_regulatory_demo_check"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "documented_by",
+      "target": "source:repo:design-wearable-mock",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "checked_by_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "contains_subsystem",
+      "target": "subsystem:protection",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "subsystem:protection",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:J1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1",
+      "relation": "instance_of",
+      "target": "part:mock:usb4105-gf-a",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:usb4105-gf-a",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J1:pin:a9",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J1:pin:a12",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J1:pin:a5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J1:pin:b5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:protection",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:F1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:F1",
+      "relation": "instance_of",
+      "target": "part:mock:0zcj0050ff2e",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:0zcj0050ff2e",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:F1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:F1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:F1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:F1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:protection",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:D1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D1",
+      "relation": "instance_of",
+      "target": "part:mock:smf5-0a",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:smf5-0a",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:D1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:D1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:protection",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R1",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-075k1l",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:rc0402fr-075k1l",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:protection",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R2",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-075k1l",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R2:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R2:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "contains_subsystem",
+      "target": "subsystem:power",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:U1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "instance_of",
+      "target": "part:mock:mcp73831t-2aci-ot",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:mcp73831t-2aci-ot",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U1:pin:3",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U1:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U1:pin:5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C1",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a475ke15d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:grm188r61a475ke15d",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C2",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a475ke15d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C2:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C2:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R3",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-072kl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:rc0402fr-072kl",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R3:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R3:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:BT1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:BT1",
+      "relation": "instance_of",
+      "target": "part:mock:bm02b-pass-tbt",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:bm02b-pass-tbt",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:BT1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:BT1:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:BT1",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:BT1:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:U2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "instance_of",
+      "target": "part:mock:ap2112k-3-3trg1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:ap2112k-3-3trg1",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U2:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U2:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U2:pin:3",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U2:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U2:pin:5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C3",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a105ka61d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:grm188r61a105ka61d",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C3:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C3:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C4",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a105ka61d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C4:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C4:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:U3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "instance_of",
+      "target": "part:mock:tlv70018ddcr",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:tlv70018ddcr",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U3:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U3:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U3:pin:3",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U3:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U3:pin:5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C5",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a105ka61d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C5:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C5:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C6",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C6",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a105ka61d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C6",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C6:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C6",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C6:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R4",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-071kl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:rc0402fr-071kl",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R4:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R4:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:power",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:D2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D2",
+      "relation": "instance_of",
+      "target": "part:mock:ltst-c191kgkt",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:ltst-c191kgkt",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:D2:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:D2:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "contains_subsystem",
+      "target": "subsystem:analog_fe",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "subsystem:analog_fe",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:U4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "instance_of",
+      "target": "part:mock:max30102efd-t",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:max30102efd-t",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:11",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:12",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U4:pin:13",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:analog_fe",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C7",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C7",
+      "relation": "instance_of",
+      "target": "part:mock:grm155r71c104ka88d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:grm155r71c104ka88d",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C7",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C7:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C7",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C7:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:analog_fe",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C8",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a475ke15d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C8",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C8:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C8",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C8:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "design:ppg-wearable-class2",
+      "relation": "contains_subsystem",
+      "target": "subsystem:mcu_comms",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:U5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "instance_of",
+      "target": "part:mock:mdbt42q-512kv2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:mdbt42q-512kv2",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:10",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:11",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:20",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:21",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:30",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:31",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:U5:pin:32",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C9",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C9",
+      "relation": "instance_of",
+      "target": "part:mock:grm155r71c104ka88d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C9",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C9:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C9",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C9:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:C10",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C10",
+      "relation": "instance_of",
+      "target": "part:mock:grm188r61a106ke69d",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:grm188r61a106ke69d",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C10",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C10:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C10",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:C10:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R5",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-074k7l",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:rc0402fr-074k7l",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R5:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R5",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R5:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R6",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R6",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-074k7l",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R6",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R6:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R6",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R6:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R7",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R7",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-0710kl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:rc0402fr-0710kl",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R7",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R7:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R7",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R7:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:R8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R8",
+      "relation": "instance_of",
+      "target": "part:mock:rc0402fr-0710kl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R8",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R8:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R8",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:R8:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "subsystem:mcu_comms",
+      "relation": "contains_instance",
+      "target": "instance:ppg-wearable-class2:J2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "instance_of",
+      "target": "part:mock:tc2030-idc-nl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "part:mock:tc2030-idc-nl",
+      "relation": "described_in_mock_registry",
+      "target": "source:repo:parts-mock",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J2:pin:1",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J2:pin:2",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J2:pin:3",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J2:pin:4",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2",
+      "relation": "has_pin",
+      "target": "instance:ppg-wearable-class2:J2:pin:5",
+      "evidence_source_ids": [
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1:pin:a9",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus-raw",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "A9"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:F1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus-raw",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:F1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1:pin:a5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:cc1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "A5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:cc1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1:pin:b5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:cc2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "B5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R2:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:cc2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J1:pin:a12",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "A12"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R2:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1:pin:4",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "4"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1:pin:3",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "3"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C2:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:BT1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2:pin:3",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "3"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C3:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1:pin:5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:prog",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R3:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:prog",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2:pin:5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C4:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3:pin:3",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "3"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C5:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R4:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3:pin:5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:1v8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C6:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:1v8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:chg-stat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D2:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:chg-stat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:D2:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:led-a",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R4:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:led-a",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C2:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R3:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:BT1:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C3:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C4:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C5:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C6:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:11",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:1v8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "11"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C7:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:1v8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C8:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:4",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-sda",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "4"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-scl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:13",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:ppg-int",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "13"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U4:pin:12",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "12"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C7:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C8:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C9:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C10:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R5:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R6:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R7:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R8:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2:pin:1",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "1"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:10",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-sda",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "10"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R5:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-sda",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:11",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-scl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "11"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R6:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:i2c-scl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:20",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:ppg-int",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "20"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R7:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:ppg-int",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:21",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:chg-stat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "21"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:30",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:swdio",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "30"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:swdio",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:31",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:swdclk",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "31"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2:pin:4",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:swdclk",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "4"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:32",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:nreset",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "32"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:R8:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:nreset",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2:pin:3",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:nreset",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "3"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U5:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C9:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:C10:pin:2",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "2"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:J2:pin:5",
+      "relation": "connected_to_net",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ],
+      "attributes": {
+        "pin_number": "5"
+      }
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U2:pin:4",
+      "relation": "intentionally_no_connect",
+      "target": "design:ppg-wearable-class2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "instance:ppg-wearable-class2:U3:pin:4",
+      "relation": "intentionally_no_connect",
+      "target": "design:ppg-wearable-class2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:J1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:cc1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:cc2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:J1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:F1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:D1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbus-raw",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-usb-002",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbus",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:prog",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-002",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-002",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:BT1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-002",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-002",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-002",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:vbat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-003",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:1v8",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-pwr-004",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R6",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:i2c-sda",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-i2c-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:i2c-scl",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U1",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:D2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:R4",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:led-a",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-ind-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:chg-stat",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "defined_in_rule_set",
+      "target": "source:repo:demo-rules",
+      "evidence_source_ids": [
+        "source:repo:demo-rules"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:U5",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "instance:ppg-wearable-class2:J2",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:swdio",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:swdclk",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:nreset",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:3v3",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    },
+    {
+      "source": "rule:dr-demo-mcu-001",
+      "relation": "applies_to",
+      "target": "net:ppg-wearable-class2:gnd",
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock"
+      ]
+    }
+  ],
+  "coverage": {
+    "design_part_instances": 29,
+    "unique_design_parts": 20,
+    "all_design_parts_have_mock_metadata": true,
+    "subsystems": 4,
+    "nets": 17,
+    "mock_symbol_pins": 83,
+    "connected_pins": 81,
+    "intentionally_unconnected_pins": 2,
+    "unconnected_mock_symbol_pins": 0,
+    "requirement_nodes": 0,
+    "requirement_edges": 0,
+    "rule_nodes": 9,
+    "rule_relationships": 52,
+    "verifier_result_nodes": 0,
+    "manufacturer_evidence_gaps": 20
+  },
+  "pending_relationships": [
+    {
+      "relation": "requirement_allocated_to_subsystem",
+      "blocked_by": "A must publish authoritative requirement IDs and subsystem assignments."
+    },
+    {
+      "relation": "part_candidate_for_or_selected_for_requirement",
+      "blocked_by": "Requirements and acceptance criteria are not represented in the current mock."
+    },
+    {
+      "relation": "check_result_verifies_requirement_part_or_rule",
+      "blocked_by": "Verifier results are produced per run and are not available as static design facts."
+    }
+  ],
+  "evidence_gaps": [
+    {
+      "entity_id": "part:mock:0zcj0050ff2e",
+      "mpn": "0ZCJ0050FF2E",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:ap2112k-3-3trg1",
+      "mpn": "AP2112K-3.3TRG1",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:bm02b-pass-tbt",
+      "mpn": "BM02B-PASS-TBT",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:grm155r71c104ka88d",
+      "mpn": "GRM155R71C104KA88D",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:grm188r61a105ka61d",
+      "mpn": "GRM188R61A105KA61D",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:grm188r61a106ke69d",
+      "mpn": "GRM188R61A106KE69D",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:grm188r61a475ke15d",
+      "mpn": "GRM188R61A475KE15D",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:ltst-c191kgkt",
+      "mpn": "LTST-C191KGKT",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:max30102efd-t",
+      "mpn": "MAX30102EFD+T",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:mcp73831t-2aci-ot",
+      "mpn": "MCP73831T-2ACI/OT",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:mdbt42q-512kv2",
+      "mpn": "MDBT42Q-512KV2",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:rc0402fr-0710kl",
+      "mpn": "RC0402FR-0710KL",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:rc0402fr-071kl",
+      "mpn": "RC0402FR-071KL",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:rc0402fr-072kl",
+      "mpn": "RC0402FR-072KL",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:rc0402fr-074k7l",
+      "mpn": "RC0402FR-074K7L",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:rc0402fr-075k1l",
+      "mpn": "RC0402FR-075K1L",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:smf5-0a",
+      "mpn": "SMF5.0A",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:tc2030-idc-nl",
+      "mpn": "TC2030-IDC-NL",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:tlv70018ddcr",
+      "mpn": "TLV70018DDCR",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    },
+    {
+      "entity_id": "part:mock:usb4105-gf-a",
+      "mpn": "USB4105-GF-A",
+      "missing": "manufacturer datasheet or official product documentation",
+      "note": "The linked mock registry is an implementation fixture, not manufacturer evidence."
+    }
+  ],
+  "limitations": [
+    "Connectivity and subsystem placement reflect the checked-in mock design, not a validated hardware design.",
+    "Mock part ratings and pin interfaces are not manufacturer-verified or necessarily complete.",
+    "The separate sourced data/parts.json seed currently has a different environmental-wearable profile and does not establish suitability for this PPG mock.",
+    "This graph does not establish medical-device or regulatory compliance."
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.0.0",
+  "rule_set_id": "cv-hack-ppg-demo-design-rules",
+  "rule_set_status": "prototype_design_consistency_checks",
+  "scope": {
+    "design_id": "design:ppg-wearable-class2",
+    "purpose": "Deterministic checks of selected assumptions and connections in the checked-in PPG wearable mock.",
+    "not_regulatory_advice": "These are project-defined prototype checks, not FDA, IEC 60601, IEC 62304, USB-IF certification, or medical-device compliance rules. Passing this set does not establish electrical safety, patient safety, clinical validity, regulatory compliance, or fitness for manufacture.",
+    "evidence_limit": "The design and parts inputs are repository mocks. Manufacturer evidence and the complete product requirements have not yet been reviewed for this design.",
+    "execution_policy": "Interpret only the operators listed in operator_catalog. Do not eval check strings or model-generated expressions. Missing entities or unknown values must produce an explicit indeterminate/failure result, never an implicit pass."
+  },
+  "source_registry": [
+    {
+      "source_id": "source:repo:design-wearable-mock",
+      "path": "cvhack/mocks/design_wearable.json",
+      "kind": "repository_fixture",
+      "supports": "Demo topology, component references, subsystem placement, and design net connections only."
+    },
+    {
+      "source_id": "source:repo:parts-mock",
+      "path": "cvhack/mocks/parts.json",
+      "kind": "repository_fixture",
+      "supports": "Mock MPN identity, value strings, and mock pin numbering only; not verified manufacturer specifications."
+    }
+  ],
+  "operator_catalog": {
+    "all_of": {
+      "description": "Passes only if every nested check passes.",
+      "required_fields": ["checks"],
+      "allowed_fields": ["operator", "checks"]
+    },
+    "instance_has_mpn": {
+      "description": "Checks the placed reference designator maps to the exact MPN.",
+      "required_fields": ["ref", "mpn"],
+      "allowed_fields": ["operator", "ref", "mpn"]
+    },
+    "pin_on_net": {
+      "description": "Checks that a component pin appears on the named net.",
+      "required_fields": ["ref", "pin", "net"],
+      "allowed_fields": ["operator", "ref", "pin", "net"]
+    },
+    "part_value_is": {
+      "description": "Checks the mock registry value string for the placed component's MPN.",
+      "required_fields": ["ref", "value"],
+      "allowed_fields": ["operator", "ref", "value"]
+    }
+  },
+  "rules": [
+    {
+      "id": "DR-DEMO-USB-001",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "USB-C CC termination topology",
+      "category": "interface_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "J1"},
+        {"type": "part_instance", "ref": "R1"},
+        {"type": "part_instance", "ref": "R2"},
+        {"type": "net", "name": "CC1"},
+        {"type": "net", "name": "CC2"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "pin_on_net", "ref": "J1", "pin": "A5", "net": "CC1"},
+          {"operator": "pin_on_net", "ref": "R1", "pin": "1", "net": "CC1"},
+          {"operator": "pin_on_net", "ref": "R1", "pin": "2", "net": "GND"},
+          {"operator": "part_value_is", "ref": "R1", "value": "5.1k"},
+          {"operator": "pin_on_net", "ref": "J1", "pin": "B5", "net": "CC2"},
+          {"operator": "pin_on_net", "ref": "R2", "pin": "1", "net": "CC2"},
+          {"operator": "pin_on_net", "ref": "R2", "pin": "2", "net": "GND"},
+          {"operator": "part_value_is", "ref": "R2", "value": "5.1k"}
+        ]
+      },
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ],
+      "rationale": "The mock architecture models a USB-C sink using one 5.1 kOhm pull-down from each CC pin to ground. This checks the stated demo topology and mock values only.",
+      "failure_code": "DEMO_USB_CC_TERMINATION",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-USB-002",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "USB input fuse and TVS topology",
+      "category": "protection_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "J1"},
+        {"type": "part_instance", "ref": "F1"},
+        {"type": "part_instance", "ref": "D1"},
+        {"type": "net", "name": "VBUS_RAW"},
+        {"type": "net", "name": "VBUS"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "pin_on_net", "ref": "J1", "pin": "A9", "net": "VBUS_RAW"},
+          {"operator": "pin_on_net", "ref": "F1", "pin": "1", "net": "VBUS_RAW"},
+          {"operator": "pin_on_net", "ref": "F1", "pin": "2", "net": "VBUS"},
+          {"operator": "pin_on_net", "ref": "D1", "pin": "1", "net": "VBUS"},
+          {"operator": "pin_on_net", "ref": "D1", "pin": "2", "net": "GND"}
+        ]
+      },
+      "evidence_source_ids": ["source:repo:design-wearable-mock"],
+      "rationale": "Checks the mock's intended series-fuse and VBUS-to-ground TVS connections. It does not verify fuse coordination, TVS suitability, surge performance, creepage, or system-level ESD.",
+      "failure_code": "DEMO_USB_INPUT_PROTECTION_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-PWR-001",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "Charger input, battery, programming, and return connections",
+      "category": "power_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "U1"},
+        {"type": "part_instance", "ref": "R3"},
+        {"type": "net", "name": "VBUS"},
+        {"type": "net", "name": "VBAT"},
+        {"type": "net", "name": "PROG"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "instance_has_mpn", "ref": "U1", "mpn": "MCP73831T-2ACI/OT"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "4", "net": "VBUS"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "3", "net": "VBAT"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "2", "net": "GND"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "5", "net": "PROG"},
+          {"operator": "pin_on_net", "ref": "R3", "pin": "1", "net": "PROG"},
+          {"operator": "pin_on_net", "ref": "R3", "pin": "2", "net": "GND"},
+          {"operator": "part_value_is", "ref": "R3", "value": "2k"}
+        ]
+      },
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ],
+      "rationale": "Checks the charger and programming-resistor topology encoded in the mock. It does not calculate charge current, validate thermal dissipation, or establish safe charging for a specific cell.",
+      "failure_code": "DEMO_CHARGER_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-PWR-002",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "Battery connector and charger share the battery rail",
+      "category": "power_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "BT1"},
+        {"type": "part_instance", "ref": "U1"},
+        {"type": "net", "name": "VBAT"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "pin_on_net", "ref": "BT1", "pin": "1", "net": "VBAT"},
+          {"operator": "pin_on_net", "ref": "BT1", "pin": "2", "net": "GND"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "3", "net": "VBAT"}
+        ]
+      },
+      "evidence_source_ids": ["source:repo:design-wearable-mock"],
+      "rationale": "Checks the battery connections in the mock. It does not assert that a cell is present, protected, correctly polarized, or safe to charge.",
+      "failure_code": "DEMO_BATTERY_RAIL_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-PWR-003",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "3.3 V regulator feeds the MCU rail",
+      "category": "power_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "U2"},
+        {"type": "part_instance", "ref": "U5"},
+        {"type": "net", "name": "VBAT"},
+        {"type": "net", "name": "3V3"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "instance_has_mpn", "ref": "U2", "mpn": "AP2112K-3.3TRG1"},
+          {"operator": "pin_on_net", "ref": "U2", "pin": "1", "net": "VBAT"},
+          {"operator": "pin_on_net", "ref": "U2", "pin": "2", "net": "GND"},
+          {"operator": "pin_on_net", "ref": "U2", "pin": "5", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "2", "net": "GND"}
+        ]
+      },
+      "evidence_source_ids": ["source:repo:design-wearable-mock"],
+      "rationale": "Checks the mock's 3.3 V rail structure using the mock pin map. Confirm the actual module pin names and electrical limits against manufacturer documentation before board release.",
+      "failure_code": "DEMO_MCU_RAIL_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-PWR-004",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "1.8 V sensor rail is regulator-fed and grounded",
+      "category": "power_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "U3"},
+        {"type": "part_instance", "ref": "U4"},
+        {"type": "net", "name": "3V3"},
+        {"type": "net", "name": "1V8"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "instance_has_mpn", "ref": "U3", "mpn": "TLV70018DDCR"},
+          {"operator": "pin_on_net", "ref": "U3", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "U3", "pin": "2", "net": "GND"},
+          {"operator": "pin_on_net", "ref": "U3", "pin": "5", "net": "1V8"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "11", "net": "1V8"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "12", "net": "GND"}
+        ]
+      },
+      "evidence_source_ids": ["source:repo:design-wearable-mock"],
+      "rationale": "Checks the intended sensor-supply topology in the mock only. It does not check rail tolerance, transient behavior, dropout, current capacity, or MAX30102 manufacturer limits.",
+      "failure_code": "DEMO_SENSOR_RAIL_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-I2C-001",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "I2C pull-ups connect SDA and SCL to 3.3 V",
+      "category": "interface_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "R5"},
+        {"type": "part_instance", "ref": "R6"},
+        {"type": "part_instance", "ref": "U4"},
+        {"type": "part_instance", "ref": "U5"},
+        {"type": "net", "name": "3V3"},
+        {"type": "net", "name": "I2C_SDA"},
+        {"type": "net", "name": "I2C_SCL"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "part_value_is", "ref": "R5", "value": "4.7k"},
+          {"operator": "pin_on_net", "ref": "R5", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "R5", "pin": "2", "net": "I2C_SDA"},
+          {"operator": "part_value_is", "ref": "R6", "value": "4.7k"},
+          {"operator": "pin_on_net", "ref": "R6", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "R6", "pin": "2", "net": "I2C_SCL"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "4", "net": "I2C_SDA"},
+          {"operator": "pin_on_net", "ref": "U4", "pin": "5", "net": "I2C_SCL"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "10", "net": "I2C_SDA"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "11", "net": "I2C_SCL"}
+        ]
+      },
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ],
+      "rationale": "Checks the mock's intended shared I2C bus and pull-up placement/value. It does not calculate rise time, bus capacitance, sink current, or compatibility with the selected devices.",
+      "failure_code": "DEMO_I2C_PULLUP_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-IND-001",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "Charge indicator LED has a series resistor",
+      "category": "indicator_topology",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "U1"},
+        {"type": "part_instance", "ref": "D2"},
+        {"type": "part_instance", "ref": "R4"},
+        {"type": "net", "name": "3V3"},
+        {"type": "net", "name": "LED_A"},
+        {"type": "net", "name": "CHG_STAT"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "pin_on_net", "ref": "R4", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "R4", "pin": "2", "net": "LED_A"},
+          {"operator": "pin_on_net", "ref": "D2", "pin": "2", "net": "LED_A"},
+          {"operator": "pin_on_net", "ref": "D2", "pin": "1", "net": "CHG_STAT"},
+          {"operator": "pin_on_net", "ref": "U1", "pin": "1", "net": "CHG_STAT"},
+          {"operator": "part_value_is", "ref": "R4", "value": "1k"}
+        ]
+      },
+      "evidence_source_ids": [
+        "source:repo:design-wearable-mock",
+        "source:repo:parts-mock"
+      ],
+      "rationale": "Checks the mock's current-limited charge-status LED topology. It does not validate LED current, indicator polarity, visibility, or charger STAT pin electrical limits.",
+      "failure_code": "DEMO_CHARGE_INDICATOR_TOPOLOGY",
+      "severity": "error"
+    },
+    {
+      "id": "DR-DEMO-MCU-001",
+      "clause": "Project-defined demo check; not a regulatory clause",
+      "title": "Debug header carries SWD, reset, supply, and ground",
+      "category": "debug_interface",
+      "applies_to": "design:ppg-wearable-class2",
+      "targets": [
+        {"type": "part_instance", "ref": "U5"},
+        {"type": "part_instance", "ref": "J2"},
+        {"type": "net", "name": "SWDIO"},
+        {"type": "net", "name": "SWDCLK"},
+        {"type": "net", "name": "nRESET"},
+        {"type": "net", "name": "3V3"},
+        {"type": "net", "name": "GND"}
+      ],
+      "check": {
+        "operator": "all_of",
+        "checks": [
+          {"operator": "pin_on_net", "ref": "J2", "pin": "1", "net": "3V3"},
+          {"operator": "pin_on_net", "ref": "J2", "pin": "2", "net": "SWDIO"},
+          {"operator": "pin_on_net", "ref": "J2", "pin": "3", "net": "nRESET"},
+          {"operator": "pin_on_net", "ref": "J2", "pin": "4", "net": "SWDCLK"},
+          {"operator": "pin_on_net", "ref": "J2", "pin": "5", "net": "GND"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "30", "net": "SWDIO"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "31", "net": "SWDCLK"},
+          {"operator": "pin_on_net", "ref": "U5", "pin": "32", "net": "nRESET"}
+        ]
+      },
+      "evidence_source_ids": ["source:repo:design-wearable-mock"],
+      "rationale": "Checks the debug interface wiring in the mock. Confirm the actual module pin names and electrical levels against manufacturer documentation before board release.",
+      "failure_code": "DEMO_DEBUG_HEADER_TOPOLOGY",
+      "severity": "error"
+    }
+  ]
+}

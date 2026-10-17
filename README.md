@@ -60,7 +60,7 @@ subsystem agent ──► may spawn child agents (e.g. power → battery, regula
 
 ## Scope and caveats
 
-- The regulation set is a small, hand-written demonstration rule set based on public FDA/IEC concepts. It is **not** legal or regulatory advice.
+- The current rule set contains project-defined prototype wiring checks, not FDA/IEC regulatory clauses or a regulatory assessment. It is **not** legal or regulatory advice.
 - Target is schematic + netlist + ERC. Board layout only if time allows.
 
 ## Team split (3 people)
@@ -128,10 +128,11 @@ names with C's KiCad/SKiDL and budget checks.
 The initial 17-record seed is in [`data/parts.json`](./data/parts.json). It
 covers candidate BLE modules, battery converters, environmental sensors,
 fuel gauges, ESD protection, and common passives/connectors, with source IDs
-and screening notes. It assumes a non-medical environmental wearable as a
-working demo profile; confirm that scope against the actual demo spec.
-Functional groups indicate broad purpose only—not drop-in substitutions or
-verified requirement suitability.
+and screening notes. This catalog currently assumes a non-medical
+environmental wearable and **does not match the checked-in Class II PPG mock
+BOM** in `cvhack/mocks/design_wearable.json`. Do not use it as that mock's
+approved parts list. Functional groups indicate broad purpose only—not
+drop-in substitutions or verified requirement suitability.
 
 Live distributor prices and stock were not captured in this seed: these values
 are `null`/`unknown`. Keep them that way until a named distributor, quantity,
@@ -142,12 +143,41 @@ or implying inventory was checked. An example synthetic override is in
 suitable until its values meet the actual requirement; keep suitability links
 separate and verifiable.
 
+### Relationship graph for the PPG mock
+
+[`data/relationships.json`](./data/relationships.json) is generated from the
+PPG mock design and its runtime mock parts registry. It links every placed
+reference designator to its part identity and subsystem, every mock symbol pin
+to its net or explicit no-connect, and each relationship to the repository
+fixture that supports that structural claim. Run
+`python -m cvhack.knowledge_graph --write` after changing either mock input or
+[`data/rules.json`](./data/rules.json), or `python -m cvhack.knowledge_graph
+--check` to validate that the checked-in graph is current and has no dangling
+nodes, pins, rule targets, or evidence references.
+
+The graph covers all 29 placed instances, 20 distinct MPNs, 4 subsystems, 17
+nets, and all 83 mock symbol pins (81 connected and 2 intentionally
+no-connect). The graph also includes B's project-defined demo rules and their
+links to affected mock parts/nets. The mock fixtures are not manufacturer
+datasheets: official manufacturer evidence is still missing for those 20 PPG
+MPNs. Formal requirement links remain pending A's authoritative requirement
+IDs, and per-run verifier-result links require actual verifier outputs. Do not
+interpret structural connectivity as a requirement pass or regulatory finding.
+
 ### Rules, verifier results, and events
 
-- Rule records use `id`, `clause`, `applies_to`, and `check`. `id` is stable;
-  `clause` identifies the cited source; `applies_to` names the relevant
-  categories, roles, or design objects; and `check` is deterministic and
-  machine-testable. B publishes the format and A consumes it.
+- B's initial rules are in [`data/rules.json`](./data/rules.json). They check
+  selected wiring and mock-BOM assumptions for the PPG demo using the
+  allow-listed structured operators in `operator_catalog` (no executable
+  expressions). Every rule has a stable ID, design scope, affected graph
+  targets, evidence-source IDs, rationale, severity, and failure code.
+  `clause` values are project-defined demo identifiers, **not** citations to
+  FDA/IEC regulatory clauses. These checks are not a compliance or safety
+  assessment, and their fixture-based assumptions need review against the
+  finalized requirements and manufacturer documents.
+- Treat missing inputs and unknown values as explicit indeterminate/failure
+  results, never as a pass. Implementing and running the rule evaluator is a
+  separate verifier task.
 - All verifiers return
   `{ "ok": true, "errors": [{ "code": "...", "message": "...", "part_id": "...", "net": "...", "rule_id": "..." }] }`.
   Use `errors: []` on success. Include the applicable identifiers; omit fields
