@@ -54,7 +54,8 @@ a { color: var(--accent); }
 .panel h2 small { font-weight: 400; text-transform: none; letter-spacing: 0; }
 .panel h2 .dl { margin-left: auto; font-weight: 400; text-transform: none; }
 .right { display: flex; flex-direction: column; overflow: hidden; }
-.mwrap { max-height: 48%; overflow: auto; flex: none; }
+.mwrap { max-height: 32%; overflow: auto; flex: none; }
+.mwrap.rules { max-height: 26%; }
 
 .atree, .atree ul { list-style: none; margin: 0; padding: 0; }
 .atree ul { margin-left: 10px; padding-left: 10px; border-left: 1px solid var(--line); }
@@ -137,3 +138,25 @@ table { width: 100%; border-collapse: collapse; }
   .grid { grid-template-columns: 1fr; grid-auto-rows: minmax(300px, auto); }
 }
 .trace.bad { color: var(--bad); }
+
+.changes { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+.change { font-size: 12px; padding: 3px 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-2); }
+.change.pending { border-color: var(--warn); color: var(--warn); animation: blink 1.2s infinite; }
+.change.applied { border-color: var(--accent); }
+@keyframes blink { 50% { opacity: .55; } }
+.nego { overflow: auto; height: calc(100% - 40px); display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; align-content: start; }
+.nego-replans { grid-column: 1 / -1; background: rgba(210,153,34,.1); border: 1px solid var(--warn); border-radius: 8px; padding: 8px 12px; }
+.nego-replans ul { margin: 4px 0 0; padding-left: 18px; }
+.thread { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.thread h3 { margin: 0 0 6px; font-size: 13px; }
+.thread h3 small { color: var(--muted); font-weight: 400; font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
+.ne { padding: 6px 0; border-top: 1px solid var(--line); }
+.ne .tag { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; padding: 1px 6px; border-radius: 8px; margin-right: 4px; }
+.ne.delegate .tag { background: rgba(106,168,255,.15); color: var(--accent); }
+.ne.report .tag { background: rgba(139,152,168,.2); color: var(--text); }
+.ne.decision .tag { background: rgba(63,185,80,.15); color: var(--ok); }
+.opts { width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 12px; }
+.opts td { padding: 2px 4px; border-bottom: 1px dashed var(--line); vertical-align: top; }
+.small { font-size: 11.5px; }
+.bad { color: var(--bad); }
+.opts .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }

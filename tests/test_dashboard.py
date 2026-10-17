@@ -40,6 +40,14 @@ def test_renders_and_exports(client):
 def test_control_roundtrip(client):
     r = client.post(f"/api/runs/{RID}/control", json={"type": "device_class", "value": "III"}).json()
     assert r["ok"] and r["payload"] == {"type": "device_class", "value": "III"}
+    cmds = client.get(f"/api/runs/{RID}/state").json()["commands"]
+    assert cmds[-1]["type"] == "device_class" and cmds[-1]["applied"] is False  # fake run already exited
+
+
+def test_state_has_rules_and_negotiation(client):
+    s = client.get(f"/api/runs/{RID}/state").json()
+    assert s["rules"] and all(r["status"] == "pass" for r in s["rules"])
+    assert {"delegate", "report", "decision"} <= {n["kind"] for n in s["negotiation"]}
 
 
 def test_unknown_run_404(client):

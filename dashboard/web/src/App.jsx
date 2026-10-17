@@ -11,7 +11,8 @@ export default function App() {
   const [log, setLog] = useState([]);
   const [svg, setSvg] = useState(null);
   const [bom, setBom] = useState([]);
-  const [tab, setTab] = useState("schematic");
+  const [tab, setTabState] = useState(() => (["schematic", "bom", "negotiation"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "schematic"));
+  const setTab = (t) => { setTabState(t); history.replaceState(null, "", `#${t}`); };
   const [toast, setToast] = useState(null);
   const refetchTimer = useRef(null);
   const lastDesignKey = useRef("");
@@ -95,13 +96,16 @@ export default function App() {
 
           <section className="panel center">
             <div className="tabs">
-              {["schematic", "bom"].map((t) => (
-                <button key={t} className={tab === t ? "on" : ""} onClick={() => setTab(t)}>{t === "bom" ? "BOM" : "Schematic"}</button>
+              {[["schematic", "Schematic"], ["bom", "BOM"], ["negotiation", `Negotiation${state?.negotiation?.length ? ` (${state.negotiation.length})` : ""}`]].map(([t, label]) => (
+                <button key={t} className={tab === t ? "on" : ""} onClick={() => setTab(t)}>{label}</button>
               ))}
               <span className="spacer" />
               {state?.design && <span className="muted">{state.design.name} · v{state.design_version}</span>}
             </div>
-            {tab === "schematic" ? <Schematic svg={svg} /> : <Bom rows={bom} runId={runId} />}
+            <Changes commands={state?.commands || []} />
+            {tab === "schematic" ? <Schematic svg={svg} />
+              : tab === "bom" ? <Bom rows={bom} runId={runId} />
+              : <Negotiation entries={state?.negotiation || []} agents={state?.agents || []} replans={state?.replans || []} />}
           </section>
 
           <section className="panel right">
@@ -115,7 +119,7 @@ export default function App() {
                 <h2>Design rules
                   <small>{state.rules.filter((r) => r.status === "pass").length}/{state.rules.filter((r) => r.status !== "not_applicable").length}</small>
                 </h2>
-                <div className="mwrap"><Rules rules={state.rules} /></div>
+                <div className="mwrap rules"><Rules rules={state.rules} /></div>
               </>
             )}
             <h2>Run log <small>{state?.n_events || 0} events</small></h2>
@@ -256,6 +260,83 @@ function Matrix({ reqs }) {
         ))}
       </tbody>
     </table>
+  );
+}
+
+function Changes({ commands }) {
+  if (!commands.length) return null;
+  return (
+    <div className="changes">
+      {commands.slice(-4).map((c, i) => (
+        <span key={i} className={`change ${c.applied ? "applied" : "pending"}`}>
+          <b>{c.type === "out_of_stock" ? `${c.mpn} out of stock` : c.type === "device_class" ? `Class ${c.value}` : c.type}</b>
+          {c.applied ? " · agents re-planning" : " · sent, waiting for agents"}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function Negotiation({ entries, agents, replans }) {
+  const label = (id) => agents.find((a) => a.id === id)?.label || id;
+  const threads = useMemo(() => {
+    const m = new Map();
+    entries.forEach((e) => {
+      const key = e.kind === "report" ? e.from : e.to;
+      if (!m.has(key)) m.set(key, []);
+      m.get(key).push(e);
+    });
+    return [...m.entries()];
+  }, [entries]);
+  if (!threads.length) return <div className="empty small">No delegations yet</div>;
+  return (
+    <div className="nego">
+      {replans.length > 0 && (
+        <div className="nego-replans">
+          {replans.map((r, i) => <div key={i}><b>Re-plan:</b> {r.reason}{r.changes?.length ? <ul>{r.changes.map((c, j) => <li key={j}>{c}</li>)}</ul> : null}</div>)}
+        </div>
+      )}
+      {threads.map(([sub, es]) => (
+        <div key={sub} className="thread">
+          <h3>{label(sub)} <small>{sub}</small></h3>
+          {es.map((e, i) => <NegoEntry key={i} e={e} label={label} />)}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function NegoEntry({ e, label }) {
+  if (e.kind === "delegate") return (
+    <div className="ne delegate">
+      <span className="tag">delegate</span> from {label(e.from)}
+      {e.budget && Object.keys(e.budget).length > 0 && <span className="muted"> · budget {fmtBudget(e.budget)}</span>}
+      {e.constraints?.length > 0 && <div className="muted small">{e.constraints.join(" · ")}</div>}
+    </div>
+  );
+  if (e.kind === "report") return (
+    <div className="ne report">
+      <span className="tag">report</span> to {label(e.to)}
+      {e.options?.length > 0 && (
+        <table className="opts"><tbody>
+          {e.options.map((o, i) => (
+            <tr key={i}><td>{o.name}</td><td className="num">{o.cost != null ? `$${o.cost}` : ""}</td>
+              <td className="num">{o.power_mw != null ? `${o.power_mw} mW` : ""}</td><td className="muted">{o.notes || ""}</td></tr>
+          ))}
+        </tbody></table>
+      )}
+      {e.conflicts?.length > 0 && <div className="bad small">conflicts: {e.conflicts.join("; ")}</div>}
+      {e.cannot_meet?.length > 0 && <div className="bad small">cannot meet: {e.cannot_meet.join("; ")}</div>}
+      {e.needs?.length > 0 && <div className="muted small">needs: {e.needs.join("; ")}</div>}
+    </div>
+  );
+  return (
+    <div className="ne decision">
+      <span className="tag">decision</span> by {label(e.from)}: <b>{e.chosen || e.message || "—"}</b>
+      {e.chosen && e.message && <span className="muted"> · {e.message}</span>}
+      {e.budget_changes && <div className="muted small">budget: {fmtBudget(e.budget_changes)}</div>}
+      {e.spawn?.length > 0 && <div className="muted small">spawn: {e.spawn.join(", ")}</div>}
+    </div>
   );
 }
 
