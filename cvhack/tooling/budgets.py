@@ -25,9 +25,9 @@ def bom(design: Design, parts: dict[str, Part]) -> list[dict]:
             "description": p.description if p else "UNKNOWN PART",
             "value": p.value if p else "",
             "footprint": p.footprint if p else "",
-            "unit_usd": p.price_usd if p else 0.0,
-            "ext_usd": round((p.price_usd if p else 0.0) * len(refs), 4),
-            "stock": p.stock if p else 0,
+            "unit_usd": p.price_usd if p else None,
+            "ext_usd": round(p.price_usd * len(refs), 4) if p and p.price_usd is not None else None,
+            "stock": p.stock if p else None,
         })
     return sorted(rows, key=lambda r: _ref_key(r["refs"].split()[0]))
 
@@ -50,7 +50,7 @@ def totals(design: Design, parts: dict[str, Part]) -> dict[str, float]:
         seen.add(inst.ref)
         p = parts[inst.mpn]
         t["power_mw"] += p.power_mw
-        t["cost_usd"] += p.price_usd
+        t["cost_usd"] += p.price_usd or 0.0
         t["area_mm2"] += p.area_mm2
     return {k: round(v, 3) for k, v in t.items()}
 
@@ -65,9 +65,17 @@ def check(design: Design, parts: dict[str, Part]) -> tuple[list[VerifierError], 
         if t[key] > limit:
             errs.append(VerifierError(code=code, message=f"{key} {t[key]:g} {unit} exceeds budget {limit:g} {unit}"))
     for row in bom(design, parts):
-        if row["stock"] < row["qty"]:
+        if row["mpn"] not in parts:
+            continue  # PART_UNKNOWN comes from erc.check
+        if row["stock"] is None:
+            errs.append(VerifierError(code="BOM_STOCK_UNKNOWN", part=row["mpn"], severity="warning",
+                                      message=f"{row['mpn']} ({row['refs']}): stock not checked"))
+        elif row["stock"] < row["qty"]:
             errs.append(VerifierError(code="BOM_OUT_OF_STOCK", part=row["mpn"],
                                       message=f"{row['mpn']} ({row['refs']}): stock {row['stock']} < qty {row['qty']}"))
+        if row["unit_usd"] is None:
+            errs.append(VerifierError(code="BOM_PRICE_UNKNOWN", part=row["mpn"], severity="warning",
+                                      message=f"{row['mpn']} ({row['refs']}): no price; cost total excludes it"))
     details = {"totals": t, "budgets": b.model_dump(),
                "utilization": {k: round(t[k] / getattr(b, k), 3) if getattr(b, k) else None for k in t}}
     return errs, details
