@@ -245,14 +245,14 @@ The dashboard opens at http://localhost:8000. Use **Mark out of stock** or **Rai
 
 ## Desktop app
 
-PCB Studio runs as a local desktop app (a native window around the local server; your data stays on your machine).
+Oak runs as a local desktop app (a native window around the local server; your data stays on your machine).
 
 ```
 python app.py                 # opens the window
-open "Run PCB Studio.command" # double-click version (runs in Terminal, which already has access to this folder)
-bash bin/make_app.sh          # builds "PCB Studio.app"
+open "Run Oak.command" # double-click version (runs in Terminal, which already has access to this folder)
+bash bin/make_app.sh          # builds "Oak.app"
 ```
 
-macOS note: this folder is under Desktop, which macOS protects. A Finder-launched `.app` needs Full Disk Access
-(System Settings > Privacy & Security > Full Disk Access > add "PCB Studio.app"), or keep the project outside Desktop.
+macOS note: this folder is under Desktop, which macOS protects. A Finder-launched `Oak.app` needs Full Disk Access
+(System Settings > Privacy & Security > Full Disk Access > add "Oak.app"), or keep the project outside Desktop.
 Routing needs Java 25 and Freerouting: `bash demo/setup_router.sh` (downloads into `runs/_tools`, no system install).

@@ -54,7 +54,7 @@ export default function Cad({ c }) {
       .catch((e) => setSizeNote(`Didn't Work: ${e.message}`));
   };
   const waiting = !real
-    ? <div className="empty small">Describe a device in Wood and the team will design it.</div>
+    ? <div className="empty small">Describe a device in Oak and the team will design it.</div>
     : <div className="empty small"><span className="badge prog">In Progress</span><br />The team is working on the first version…</div>;
 
   return (
@@ -68,7 +68,7 @@ export default function Cad({ c }) {
         <div className="fgroups">
           {tab === "Design" && (<>
             <div className="fg"><div className="fb">
-              <button onClick={() => document.getElementById("wood-input")?.focus()}><svg viewBox="0 0 32 32"><path d="M8 4h11l6 6v18H8z" /><path d="M19 4v6h6M16 14v8M12 18h8" /></svg>New Design</button>
+              <button onClick={() => document.getElementById("oak-input")?.focus()}><svg viewBox="0 0 32 32"><path d="M8 4h11l6 6v18H8z" /><path d="M19 4v6h6M16 14v8M12 18h8" /></svg>New Design</button>
               <button onClick={() => setCustom(true)}><svg viewBox="0 0 32 32"><rect x="9" y="9" width="14" height="14" /><path d="M13 5v4M19 5v4M13 23v4M19 23v4M5 13h4M5 19h4M23 13h4M23 19h4" /></svg>Your Own Chip</button>
             </div><span className="fl">Create ▾</span></div>
             <div className="fg"><div className="fb">

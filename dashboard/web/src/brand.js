@@ -1,5 +1,5 @@
 // One place to rename the product.
-export const BRAND = "Healthtech PCB Studio";
+export const BRAND = "Oak";
 export const TAGLINE = "Describe a medical device. A team of agents designs the board.";
 export const EXAMPLES = [
   "A battery-powered pulse oximeter wristband with Bluetooth, under $20",

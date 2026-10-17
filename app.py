@@ -1,6 +1,6 @@
-"""PCB Studio as a desktop app: a native window around the local server. Nothing leaves your machine except the model calls.
+"""Oak as a desktop app: a native window around the local server. Nothing leaves your machine except the model calls.
 
-    python app.py            (or double-click "PCB Studio.app", made by bin/make_app.sh)"""
+    python app.py            (or double-click "Oak.app", made by bin/make_app.sh)"""
 import os
 import shutil
 import socket
@@ -46,7 +46,7 @@ def main() -> None:
             break
         except Exception:
             time.sleep(0.25)
-    webview.create_window("PCB Studio", url, width=1600, height=1000, min_size=(1100, 700))
+    webview.create_window("Oak", url, width=1600, height=1000, min_size=(1100, 700))
     webview.start()
     server.should_exit = True
 
