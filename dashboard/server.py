@@ -26,6 +26,7 @@ from cvhack.outputs import matrix_csv, matrix_rows, write_outputs
 from cvhack.parts import load_parts
 from cvhack.state import fold
 from cvhack.tooling import budgets, kicad_sch
+from cvhack.tooling.rules import RuleVerifier
 
 app = FastAPI(title="cv-hack dashboard")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -71,6 +72,8 @@ def state(run_id: str):
         parts = load_parts()
         data["totals"] = budgets.totals(d, parts)
         data["budgets"] = d.budgets.model_dump()
+        # Ground truth on every design, whether or not the agents ran the rule gate.
+        data["rules"] = RuleVerifier().evaluate(d, parts)
     return data
 
 

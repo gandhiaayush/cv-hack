@@ -20,6 +20,7 @@ from cvhack.events import emit
 from cvhack.mocks import designs
 from cvhack.parts import load_parts
 from cvhack.tooling.electrical import ElectricalVerifier
+from cvhack.tooling.rules import RuleVerifier
 
 REQUIREMENTS = [
     ("REQ-01", "USB-C 5V charging input with overcurrent protection", ["J1", "F1"], ["R-ELEC-004"]),
@@ -40,6 +41,7 @@ class FakeRun:
         self.speed = speed
         self.parts: dict[str, Part] = {k: v.model_copy() for k, v in load_parts().items()}
         self.verifier = ElectricalVerifier()
+        self.rules = RuleVerifier()
         self.ctrl_offset = 0
         self.design: Design | None = None
 
@@ -75,6 +77,18 @@ class FakeRun:
         self.ev("verifier.electrical", "verifier_result", "mother", **res.model_dump())
         self.status("verifier.electrical", "done" if res.ok else "failed")
         return res
+
+    def design_rules(self, design: Design) -> VerifierResult:
+        self.status("verifier.rules", "running")
+        res = self.rules.verify(design, self.parts)
+        self.ev("verifier.rules", "verifier_result", "mother", **res.model_dump())
+        self.status("verifier.rules", "done" if res.ok else "failed")
+        return res
+
+    def gate(self, design: Design) -> VerifierResult:
+        """Electrical + design rules; returns a combined result for the replan decision."""
+        e, r = self.electrical(design), self.design_rules(design)
+        return VerifierResult(verifier="gate", ok=e.ok and r.ok, errors=e.errors + r.errors)
 
     def compliance_ok(self, extra: str = ""):
         for vid in ("verifier.compliance", "verifier.red_team"):
@@ -137,6 +151,7 @@ class FakeRun:
             self.ev("power", "delegate", "mother", to=cid, subsystem=cid, budget={}, constraints=[])
             self.wait(0.3)
         for vid, label in [("verifier.electrical", "Electrical verifier"),
+                           ("verifier.rules", "Design-rule verifier"),
                            ("verifier.compliance", "Compliance verifier"),
                            ("verifier.red_team", "Red-team verifier")]:
             self.ev(vid, "agent_spawned", "mother", role="verifier", label=label)
@@ -160,12 +175,13 @@ class FakeRun:
                                 power_flags=w.power_flags))
 
         self.ev("mother", "step", None, message="All blocks drafted; running verifiers")
-        res = self.electrical(self.design)
+        res = self.gate(self.design)
         self.wait(1)
         if not res.ok:
-            codes = sorted({e.code for e in res.errors})
-            self.ev("mother", "replan", None, reason=f"electrical gate failed: {', '.join(codes)}",
-                    changes=["MCU/comms: ESP32-C3 draws ~85 mW; swap to nRF52832 module (MDBT42Q)",
+            codes = sorted({e.code for e in res.errors if e.severity == "error"})
+            self.ev("mother", "replan", None, reason=f"gate failed: {', '.join(codes)}",
+                    changes=["MCU/comms: ESP32-C3 draws ~85 mW and lacks the SWD debug header; "
+                             "swap to nRF52832 module (MDBT42Q) + TC2030 header",
                              "Move $4 of cost budget from power to mcu_comms"])
             self.ev("mother", "decision", None, to="mcu_comms", chosen="nRF52832 module",
                     budget_changes={"mcu_comms.cost_usd": 11, "power.cost_usd": 1.5})
@@ -174,7 +190,7 @@ class FakeRun:
             self.wait(1.5)
             self.publish(w)
             self.status("mcu_comms", "waiting")
-            res = self.electrical(self.design)
+            res = self.gate(self.design)
         self.compliance_ok()
         if res.ok:
             for r in REQUIREMENTS:
