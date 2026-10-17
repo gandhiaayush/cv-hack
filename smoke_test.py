@@ -6,7 +6,7 @@ import uuid
 
 from src import llm
 from src.agent import DELEGATE_SPEC, run_agent
-from src.tools import sandbox
+from src.tools import kg, sandbox
 
 if len(sys.argv) == 1:
     print("models:", llm.list_models())
@@ -18,11 +18,11 @@ if len(sys.argv) == 1:
     print("tool call:", r.tool_calls)
 else:
     MOTHER = (
-        "You are the mother agent for a battery-powered Class II pulse-oximeter PCB. Delegate power, "
-        "analog_front_end and mcu to sub-agents (delegate calls in ONE turn, in parallel). Read their "
+        "You are the mother agent for a battery-powered Class II pulse-oximeter PCB. Call list_subsystems, then delegate power, "
+        "analog_fe, mcu_comms and protection to sub-agents (delegate calls in ONE turn, in parallel). Read their "
         "reports, find cross-subsystem conflicts, and give a final decision: chosen option per subsystem "
         "and any budget changes. Total budget: 150 mW, $12 BOM."
     )
-    out = run_agent("mother", "Begin.", os.environ["MOTHER_MODEL"], [DELEGATE_SPEC], MOTHER,
+    out = run_agent("mother", "Begin.", os.environ["MOTHER_MODEL"], [DELEGATE_SPEC, kg.LIST_SPEC], MOTHER,
                     run=uuid.uuid4().hex[:6])
     print(out)
