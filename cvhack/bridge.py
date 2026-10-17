@@ -102,6 +102,7 @@ class Translator:
     """Stateful: remembers each agent's parent so every event carries its tree edge."""
     parents: dict[tuple[str, str], str | None] = field(default_factory=dict)
     options: dict[tuple[str, str], tuple[str, list]] = field(default_factory=dict)  # (run, option) -> (subsystem, parts)
+    specs: dict[str, dict] = field(default_factory=dict)  # run -> its brief (budget), so meters show THIS run's limits
 
     def _ev(self, r: Row, agent: str, kind: str, **payload) -> AgentEvent:
         return AgentEvent(run_id=r.run, agent_id=agent, parent_id=self.parents.get((r.run, agent)),
@@ -115,6 +116,9 @@ class Translator:
             from src.design_apply import apply
             parts = load_parts()
             d, rep = apply(chosen, parts)
+            sp = self.specs.get(r.run)
+            if sp:
+                d.budgets.cost_usd, d.budgets.power_mw = float(sp["cost_usd"]), float(sp["power_mw"])
             res = ElectricalVerifier(use_kicad=False).verify(d, parts)
             msg = (f"{label}: {len(rep['swapped'])} part(s) swapped into the board, {len(rep['kept'])} already there, "
                    f"{len(rep['unplaced'])} not drawn (" + "; ".join(f"{u['mpn']}: {u['reason']}" for u in rep["unplaced"][:3]) + ")")
@@ -138,6 +142,8 @@ class Translator:
             base = [self._ev(r, r.agent, "step", message=f"finalize({_short(r.body.get('args', {}), 100)})")]
             return base + (self._design_events(r, chosen, "Proposed design") if chosen else [])
         if r.kind == "spec":  # shown in the chat column; not an agent
+            if isinstance(r.body, dict):
+                self.specs[r.run] = r.body
             return []
         if r.kind == "result":
             b = r.body if isinstance(r.body, dict) else {}

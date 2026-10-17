@@ -36,6 +36,7 @@ def start(body: StartIn):
     if len(active) >= MAX_ACTIVE:
         raise HTTPException(429, f"{len(active)} runs are already in progress; wait for one to finish.")
     run_id = uuid.uuid4().hex[:6]
+    (run_dir(run_id) / "events.jsonl").touch()  # so the UI can open the run's stream before the first event
     log = open(run_dir(run_id) / "agent.log", "w")
     _procs[run_id] = subprocess.Popen([sys.executable, "-m", "src.run_prompt", run_id, prompt], cwd=ROOT,
                                       stdout=log, stderr=subprocess.STDOUT)
@@ -107,6 +108,8 @@ def _bridge_loop():
                 saved = int(cur_file.read_text()) if cur_file.exists() else (rows[-1].id if rows else 0)
                 for r in rows:
                     if r.id <= saved:
+                        if r.kind == "spec" and isinstance(r.body, dict):
+                            tr.specs[r.run] = r.body
                         if r.kind == "start":
                             tr.parents[(r.run, r.agent)] = r.parent
                         if r.kind == "final" and r.parent and isinstance(r.body, dict) and r.body.get("options"):

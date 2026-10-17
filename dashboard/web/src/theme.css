@@ -79,3 +79,5 @@ button:hover:not(:disabled) { border-color: var(--text); }
 .work .grid { grid-template-columns: 210px minmax(0, 1fr) 270px; }
 .work .tabs button { white-space: nowrap; }
 @media (min-width: 1700px) { .work .grid { grid-template-columns: 260px minmax(0, 1fr) 380px; } }
+.sch-wrap { background: var(--panel-2); }
+.sch svg { box-shadow: 0 1px 6px rgba(0,0,0,.12); }
