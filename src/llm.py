@@ -14,6 +14,8 @@ def client() -> OpenAI:
         _client = OpenAI(
             api_key=os.environ["CRUSOE_API_KEY"],
             base_url=os.environ.get("CRUSOE_BASE_URL", "https://api.inference.crusoecloud.com/v1"),
+            max_retries=8,  # 429s are expected when the team shares one key; the SDK backs off
+            timeout=120,
         )
     return _client
 

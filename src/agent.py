@@ -92,7 +92,7 @@ FINALIZE_SPEC = {"type": "function", "function": {
 SUB_PROMPT = """You are the {role} subsystem agent for a {device}.
 Work in this order:
 1. get_subsystem_context: parts already placed, nets, and the design rules (by id) that apply. Respect them.
-2. search_parts / find_alternates: you may ONLY use parts that exist in the DB (real, in-stock LCSC parts). Never propose a part from memory.
+2. search_parts: BROWSE the DB by category with no text (e.g. category="mcu", limit 15) and choose from what it lists. Do NOT search for part names you remember: the DB is a fixed ~500-part catalog and most names are absent. Valid categories for {role}: {cats}. Use find_alternates after a stock-out.
 3. run_python for any number (power, margins, cost). Each call is a fresh process; print() results.
 4. regulation tools only if a rule or clause matters; at most 2 lookups.
 5. submit_report with 2 options, within about 6 tool calls total. Cite evidence (mpn, rule id, CFR section) for every option.
@@ -298,7 +298,8 @@ def run_agent(role, task, model, tools, system, ctx: RunCtx, parent=None, depth=
                 elif fn == "delegate":
                     ctx.delegations[args["subsystem"]] = ctx.delegations.get(args["subsystem"], 0) + 1
                     out = run_agent(args["subsystem"], args["task"], os.environ["SUB_MODEL"], LEAF_TOOLS,
-                                    SUB_PROMPT.format(role=args["subsystem"], device=DEVICE), ctx,
+                                    SUB_PROMPT.format(role=args["subsystem"], device=DEVICE,
+                                                      cats=", ".join(sorted(SUBSYSTEMS[args["subsystem"]]["allowed"]))), ctx,
                                     parent=name, depth=depth + 1)
                 elif fn == "submit_report":
                     out = _submit_report(args, ctx, a)
